@@ -1,0 +1,6 @@
+import{c as d,_ as i,a as _,b as e,d as r,t,h as l,A as p,bh as a,l as h,o as m,B as u}from"./app-CFI_DRuH.js";/**
+ * @license lucide-vue-next v1.0.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const f=d("shield-alert",[["path",{d:"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z",key:"oel41y"}],["path",{d:"M12 8v4",key:"1got3b"}],["path",{d:"M12 16h.01",key:"1drbdi"}]]),b={name:"Error403",components:{ShieldAlert:f},created(){setTimeout(function(){!UserPermissions||!p.check()?a.push("/login"):a.push("/dashboard")},2e3)}},k={class:"err-page"},g={class:"err-card"},v={class:"err-icon is-warn"},y={class:"err-title"},A={class:"err-text"},B={class:"err-redirect text-muted"};function S(s,o,V,$,x,C){const n=h("ShieldAlert"),c=u;return m(),_("div",k,[e("div",g,[e("span",v,[r(n,{size:46})]),o[0]||(o[0]=e("div",{class:"err-code"},"403",-1)),e("h1",y,t(s.__("forbidden")),1),e("p",A,t(s.__("forbidden_hint")),1),e("p",B,[r(c,{small:""}),l(" "+t(s.__("redirecting")),1)])])])}const N=i(b,[["render",S]]);export{N as default};

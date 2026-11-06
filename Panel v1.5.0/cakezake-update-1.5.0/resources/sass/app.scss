@@ -1,0 +1,14 @@
+// Instrument Sans (self-hosted, no CDN) — bundled by vite
+@use '@fontsource/instrument-sans/400.css' as is400;
+@use '@fontsource/instrument-sans/500.css' as is500;
+@use '@fontsource/instrument-sans/600.css' as is600;
+@use '@fontsource/instrument-sans/700.css' as is700;
+
+// Sweet alert - use prebuilt CSS
+@use 'sweetalert2/dist/sweetalert2.min.css';
+
+// Toastr
+@use 'toastr/build/toastr.min.css';
+
+// Dark theme
+@use 'dark-theme';

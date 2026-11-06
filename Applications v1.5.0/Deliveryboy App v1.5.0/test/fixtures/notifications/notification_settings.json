@@ -1,0 +1,52 @@
+{
+  "status": 1,
+  "message": "Notification preferences fetched successfully",
+  "total": 3,
+  "data": [
+    {
+      "category": "Order Updates",
+      "events": [
+        {
+          "key": "order_placed",
+          "label": "Order Placed",
+          "channels": { "mail": true, "push": true, "sms": false }
+        },
+        {
+          "key": "order_delivered",
+          "label": "Order Delivered",
+          "channels": { "mail": true, "push": true, "sms": true }
+        }
+      ]
+    },
+    {
+      "category": "Payments",
+      "events": [
+        {
+          "key": "payment_received",
+          "label": "Payment Received",
+          "channels": { "mail": true, "push": true, "sms": null }
+        },
+        {
+          "key": "payout_processed",
+          "label": "Payout Processed",
+          "channels": { "mail": false, "push": true, "sms": null }
+        }
+      ]
+    },
+    {
+      "category": "Promotions",
+      "events": [
+        {
+          "key": "promo_offer",
+          "label": "Promo Offer",
+          "channels": { "mail": true, "push": false, "sms": null }
+        },
+        {
+          "key": "promo_flash_sale",
+          "label": "Flash Sale Alert",
+          "channels": { "mail": true, "push": false, "sms": null }
+        }
+      ]
+    }
+  ]
+}

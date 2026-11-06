@@ -1,0 +1,41 @@
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Secrets & credentials (never commit)
+.env
+.env.*
+!.env.example
+ADMIN_LOGIN.txt
+**/key.properties
+**/*.jks
+**/*.keystore
+Applications v1.5.0/keystore/
+**/google-services.json
+**/GoogleService-Info.plist
+**/config/firebase.json
+**/storage/oauth-*.key
+**/oauth-*.key
+**/*.pem
+
+# Dependencies & build output
+node_modules/
+vendor/
+.next/
+**/build/
+!**/public/build/
+.dart_tool/
+.gradle/
+.pub-cache/
+*.apk
+APK/
+**/storage/logs/
+**/storage/framework/
+**/storage/app/
+**/storage/debugbar/
+**/bootstrap/cache/*
+!**/bootstrap/cache/.gitignore
+Documentation/
+*.log
+*.bak

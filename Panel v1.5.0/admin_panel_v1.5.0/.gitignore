@@ -1,0 +1,33 @@
+/node_modules
+/public/hot
+/public/storage
+public/build/
+public/sw.js
+/storage/*.key
+/vendor
+.env
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+.vscode
+/public/my-logs
+storage
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/testing/*
+storage/framework/views/*
+storage/logs/*
+.DS_Store
+**/.DS_Store
+
+# Snyk Security Extension - AI Rules (auto-generated)
+.cursor/rules/snyk_rules.mdc
+
+# app/Modules holds the plugins WE build — Shiprocket and PayU — so it IS tracked.
+# Ignoring it cost the Shiprocket source twice: uninstalling deletes the folder, and an
+# untracked folder has no copy to come back from. Keeping plugins out of CLIENT builds
+# is the packaging scripts' job, which they do explicitly (and the client script asserts
+# it), so git tracking leaks nothing. A plugin bought from someone else and installed on
+# a dev machine is the one thing not to commit here.

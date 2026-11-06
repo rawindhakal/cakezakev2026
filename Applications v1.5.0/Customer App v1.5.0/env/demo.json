@@ -1,0 +1,9 @@
+{
+  "APPLICATION_ID": "com.cakezake",
+  "APP_NAME": "CakeZake",
+  "BASE_URL": "https://admin.cakezake.com/customer/",
+  "WEB_URL": "https://cakezake.com",
+  "SOCKET_BASE_URL": "wss://admin.cakezake.com/app/2226d654dde1eac564d7",
+  "DEEPLINK_SCHEME": "cakezake",
+  "DEEPLINK_HOST": "cakezake.com"
+}

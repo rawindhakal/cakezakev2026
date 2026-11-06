@@ -1,0 +1,28 @@
+{
+  "status": "1",
+  "message": "Faqs found",
+  "total": "3",
+  "data": [
+    {
+      "id": "1",
+      "question": "How do I track my order?",
+      "answer": "Open Orders from your profile and tap any order to see its live status.",
+      "lang": "en",
+      "is_expanded": false
+    },
+    {
+      "id": "2",
+      "question": "What payment methods are supported?",
+      "answer": "Cards, UPI, wallet balance, and cash on delivery where available.",
+      "lang": "en",
+      "is_expanded": false
+    },
+    {
+      "id": "3",
+      "question": "How do I request a refund?",
+      "answer": "Go to the order's detail screen and tap Request Refund within the return window.",
+      "lang": "en",
+      "is_expanded": false
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "status": 1,
+  "message": "Conversation started",
+  "data": {
+    "id": 7,
+    "type": "admin_customer",
+    "order_id": null,
+    "user_id": 88,
+    "delivery_boy_id": 12,
+    "title": "Support",
+    "last_message": "How can we help?",
+    "last_sender_type": "admin",
+    "last_message_at": "2026-08-18 17:04:10",
+    "last_time": "05:04 PM",
+    "unread_count": 0
+  }
+}

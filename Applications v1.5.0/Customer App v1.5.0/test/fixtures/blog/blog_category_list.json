@@ -1,0 +1,28 @@
+{
+  "status": "1",
+  "message": "Blog categories found",
+  "data": [
+    {
+      "id": "2",
+      "name": "Delivery",
+      "slug": "delivery",
+      "meta_title": "Delivery",
+      "meta_keywords": "delivery",
+      "meta_description": "Delivery related posts",
+      "status": "1",
+      "active_blogs_count": "4",
+      "lang": "en"
+    },
+    {
+      "id": "3",
+      "name": "Groceries",
+      "slug": "groceries",
+      "meta_title": "Groceries",
+      "meta_keywords": "groceries",
+      "meta_description": "Grocery related posts",
+      "status": "1",
+      "active_blogs_count": "7",
+      "lang": "en"
+    }
+  ]
+}

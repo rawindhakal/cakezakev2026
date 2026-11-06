@@ -1,0 +1,143 @@
+﻿CakeZake 1.5.0 — Update Guide
+
+
+CakeZake 1.5.0 now runs on PHP 8.3, 8.4 and 8.5.
+
+
+This update has two parts:
+
+
+1. Apply the update zip in the panel, as usual.
+2. Replace the `vendor` folder by hand.
+
+
+Part 2 is needed because `vendor` is around 220 MB — too large to upload through the
+panel. You get it as `vendor.zip` with this release. You only do this when we tell you to;
+a normal update is the zip alone.
+
+
+Before you start
+
+
+- Take a backup of your files and your database.
+- Your server's PHP must be 8.3, 8.4 or 8.5. Check in cPanel → Select PHP Version.
+ PHP 8.2 is no longer supported.
+- Do not switch to PHP 8.5 yet. Do it at the end, after Step 2.
+- Keep your purchase code handy.
+- Allow about 15 minutes. The panel will be down for a few of them.
+
+
+Files you need: `cakezake-update-1.5.0.zip` and `vendor.zip`
+
+
+Step 1 — Apply the update
+
+
+1. Log in to the panel as super admin.
+2. Go to Settings → System Updater.
+3. Upload `cakezake-update-1.5.0.zip`. Do not rename the file.
+4. Enter your purchase code and start the update.
+5. Wait until it finishes. The panel goes offline, updates itself and comes back on its own.
+
+
+After this step the panel may show an error. That is normal. Continue to Step 2 and it
+will go away.
+
+
+Step 2 — Replace the `vendor` folder
+
+
+With cPanel File Manager
+
+
+1. Open File Manager and go to your CakeZake folder — the one containing `app`,
+  `config`, `public` and `vendor`.
+2. Right-click the `vendor` folder → Rename → name it `vendor_old`.
+  Do not delete it. It is your backup.
+3. Upload `vendor.zip` into the same folder.
+4. Right-click `vendor.zip` → Extract.
+  You should now see a new `vendor` folder next to `vendor_old`.
+5. Delete `vendor.zip`.
+6. Open the panel. If it works, delete `vendor_old`.
+
+
+With SSH
+
+
+```
+cd /path/to/cakezake
+mv vendor vendor_old
+unzip -q vendor.zip
+php artisan optimize:clear
+```
+
+
+Open the panel, then remove `vendor_old`.
+
+
+> Important: always rename the old folder first. Never extract `vendor.zip` on top of
+> the existing `vendor` folder.
+
+
+Step 3 — Finish
+
+
+1. Clear the cache from the panel, or run `php artisan optimize:clear`.
+2. If you run a queue worker, restart it: `php artisan queue:restart`.
+3. In cPanel, switch the PHP version off and back on so the server reloads the new files.
+4. If you want PHP 8.5, switch to it now.
+
+
+Check it worked
+
+
+- The panel opens and you can log in.
+- Settings → System Updater shows version 1.5.0.
+- A product page and an order page open normally.
+
+
+If something goes wrong
+
+
+| Problem | Fix |
+|---|---|
+| Blank page or "Class not found" | `vendor` was merged instead of replaced. Rename it away and extract `vendor.zip` again. |
+| Error mentioning a PHP version | Set PHP to 8.3, 8.4 or 8.5. |
+| Broke right after switching to PHP 8.5 | Step 2 was not completed. Replace the `vendor` folder. |
+| "Permission denied" during the update | Fix the file permissions for the paths shown in the message, then run the update again. |
+| "Invalid update package name" | The file was renamed, often to `...(1).zip`. Rename it back to `cakezake-update-1.5.0.zip`. |
+| Background jobs acting strange | Restart your queue worker. |
+
+
+To go back: restore your backup, and rename `vendor_old` back to `vendor`.
+
+
+Do not
+
+
+- Do not extract `vendor.zip` over the existing `vendor` folder.
+- Do not run `composer update`.
+- Do not delete `.env`, `storage`, or `public/storage`.
+- Do not switch to PHP 8.5 before Step 2.
+
+
+Common questions
+
+
+Do I need Step 2 if I stay on PHP 8.3?
+Yes. Version 1.5.0 needs the new `vendor` folder on every PHP version.
+
+
+Will I lose data, settings or images?
+No. `vendor` holds program libraries only. Your database, settings, uploads and plugins
+stay as they are.
+
+
+Can I do Step 2 before Step 1?
+Please don't. If the panel stops opening in between, you will not be able to upload the
+update. Keep the order.
+
+
+I have Composer on my server.
+Then you can skip `vendor.zip` and run `composer install --no-dev --optimize-autoloader`
+instead. The result is the same.

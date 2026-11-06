@@ -1,0 +1,162 @@
+{
+  "status": 1,
+  "message": "Success",
+  "data": {
+    "profile": {
+      "id": 2,
+      "name": "Alex Johnson",
+      "profile_url": "https://cakezake.com/storage/delivery_boy/profile/profile-image.webp",
+      "status": 1,
+      "country": "India",
+      "currency": "₹",
+      "currency_code": "INR",
+      "bonus_type": 1
+    },
+    "today": {
+      "earnings": 96.7,
+      "delivered": 2,
+      "cash": 706.5,
+      "orders": 2
+    },
+    "wallet": {
+      "balance": 462.95,
+      "total_earned": 20862.95,
+      "total_debited": 400,
+      "pending_withdrawal": 310,
+      "total_withdrawn": 400,
+      "available": 152.95
+    },
+    "cash": {
+      "in_hand": 16703.34,
+      "total_collected": 315360.49,
+      "total_deposited": 298657.15,
+      "total_settled": 298657.15
+    },
+    "salary": {
+      "total_paid": 20000,
+      "last_paid_on": "2026-08-10",
+      "last_amount": 20000
+    },
+    "orders": {
+      "total": 31,
+      "active": 6,
+      "delivered": 25,
+      "cancelled": 0,
+      "quick": 26,
+      "ecommerce": 5
+    },
+    "status_breakdown": [
+      { "status_id": 5, "name": "Out For Delivery", "count": 5 },
+      { "status_id": 6, "name": "Delivered", "count": 25 },
+      { "status_id": 11, "name": "Picked Up", "count": 0 }
+    ],
+    "returns": {
+      "total": 0,
+      "completed": 0,
+      "pending": 0,
+      "breakdown": [
+        { "status_id": 5, "name": "Out for Pickup", "count": 0 },
+        { "status_id": 6, "name": "Received from Customer", "count": 0 },
+        { "status_id": 7, "name": "Return to Store", "count": 0 }
+      ]
+    },
+    "earnings_trend": {
+      "labels": ["11 Aug", "12 Aug", "13 Aug", "14 Aug", "15 Aug", "16 Aug", "17 Aug"],
+      "data": [526.25, 80, 0, 80, 40, 40, 96.7],
+      "trend": "7",
+      "total": 862.95
+    },
+    "recent_settlements": [
+      {
+        "id": "W-34",
+        "entry_type": "delivery_commission",
+        "type": "credit",
+        "amount": 56.7,
+        "message": "",
+        "date": "2026-08-17 07:43:06"
+      },
+      {
+        "id": "W-33",
+        "entry_type": "delivery_commission",
+        "type": "credit",
+        "amount": 40,
+        "message": "",
+        "date": "2026-08-17 06:55:43"
+      },
+      {
+        "id": "W-32",
+        "entry_type": "delivery_commission",
+        "type": "credit",
+        "amount": 40,
+        "message": "",
+        "date": "2026-08-16 11:51:50"
+      },
+      {
+        "id": "W-31",
+        "entry_type": "delivery_commission",
+        "type": "credit",
+        "amount": 40,
+        "message": "",
+        "date": "2026-08-15 16:11:23"
+      },
+      {
+        "id": "W-30",
+        "entry_type": "delivery_commission",
+        "type": "credit",
+        "amount": 40,
+        "message": "",
+        "date": "2026-08-14 08:36:15"
+      }
+    ],
+    "recent_cash": [
+      {
+        "id": 35,
+        "order_id": 187,
+        "order_number": "SB-ORD-00187",
+        "type": "COD",
+        "amount": 567,
+        "date": "2026-08-17 07:43:17"
+      },
+      {
+        "id": 34,
+        "order_id": 186,
+        "order_number": "SB-ORD-00186",
+        "type": "COD",
+        "amount": 139.5,
+        "date": "2026-08-17 06:55:50"
+      },
+      {
+        "id": 33,
+        "order_id": 177,
+        "order_number": "SB-ORD-00177",
+        "type": "COD",
+        "amount": 3793,
+        "date": "2026-08-16 11:52:01"
+      },
+      {
+        "id": 32,
+        "order_id": 170,
+        "order_number": "SB-ORD-00170",
+        "type": "COD",
+        "amount": 272.05,
+        "date": "2026-08-15 16:11:34"
+      },
+      {
+        "id": 31,
+        "order_id": 155,
+        "order_number": "SB-ORD-00155",
+        "type": "COD",
+        "amount": 33,
+        "date": "2026-08-14 08:36:28"
+      }
+    ],
+    "recent_withdrawals": [
+      { "id": 5, "amount": 200, "status": 0, "date": "2026-08-16 09:54:15" },
+      { "id": 4, "amount": 10, "status": 0, "date": "2026-08-14 13:50:10" },
+      { "id": 3, "amount": 100, "status": 0, "date": "2026-08-13 13:52:09" },
+      { "id": 2, "amount": 100, "status": 1, "date": "2026-08-11 10:17:39" },
+      { "id": 1, "amount": 300, "status": 1, "date": "2026-08-11 10:15:25" }
+    ]
+  },
+  "total": 1
+}

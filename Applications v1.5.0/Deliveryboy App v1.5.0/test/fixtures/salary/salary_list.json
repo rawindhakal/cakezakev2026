@@ -1,0 +1,28 @@
+{
+  "status": 1,
+  "message": "Salary payments fetched successfully",
+  "total": 3,
+  "data": [
+    {
+      "id": 701,
+      "amount": 25000.00,
+      "note": "August 2026 salary",
+      "paid_on": "2026-08-01",
+      "currency": "₹"
+    },
+    {
+      "id": 702,
+      "amount": 25000.00,
+      "note": "",
+      "paid_on": "2026-07-01",
+      "currency": "₹"
+    },
+    {
+      "id": 703,
+      "amount": 24500.50,
+      "note": "July 2026 salary, prorated for 2 leave days",
+      "paid_on": "2026-06-01",
+      "currency": "₹"
+    }
+  ]
+}

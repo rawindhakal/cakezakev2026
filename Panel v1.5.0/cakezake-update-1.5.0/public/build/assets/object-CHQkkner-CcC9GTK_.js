@@ -1,0 +1,1 @@
+var c=(e,i)=>[...i].reduce((r,n)=>(r[n]=e[n],r),{}),o=(e,i,r)=>{const n=i.split(/[.[\]]/g);let t=e;for(const s of n){if(t===null||t===void 0)return r;s.trim()!==""&&(t=t[s])}return t===void 0?r:t};export{o as g,c as p};

@@ -1,0 +1,28 @@
+{
+  "status": 1,
+  "message": "Salary transactions fetched successfully",
+  "total": 3,
+  "data": [
+    {
+      "id": 301,
+      "amount": "15000.00",
+      "note": "August salary",
+      "paid_on": "2026-08-01",
+      "currency": "₹"
+    },
+    {
+      "id": 302,
+      "amount": 15000,
+      "note": "",
+      "paid_on": "2026-07-01",
+      "currency": "₹"
+    },
+    {
+      "id": 303,
+      "amount": "15000.00",
+      "note": null,
+      "paid_on": "2026-06-01",
+      "currency": "₹"
+    }
+  ]
+}

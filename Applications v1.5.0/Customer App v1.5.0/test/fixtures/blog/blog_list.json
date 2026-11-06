@@ -1,0 +1,69 @@
+{
+  "status": "1",
+  "message": "Blogs found",
+  "total": "2",
+  "data": [
+    {
+      "id": "1",
+      "title": "5 Tips for Faster Delivery",
+      "slug": "5-tips-for-faster-delivery",
+      "category_id": "2",
+      "image": "blogs/delivery-tips.jpg",
+      "description": "<p>Here is how to get your orders faster.</p>",
+      "short_description": "Simple habits that shave minutes off every delivery.",
+      "tags": "delivery,tips",
+      "tag_names": ["delivery", "tips"],
+      "meta_title": "5 Tips for Faster Delivery",
+      "meta_keywords": "delivery, tips, speed",
+      "meta_description": "Learn how to get faster delivery.",
+      "status": "1",
+      "image_url": "https://example.com/blogs/delivery-tips.jpg",
+      "category": {
+        "id": "2",
+        "name": "Delivery",
+        "slug": "delivery",
+        "meta_title": "Delivery",
+        "meta_keywords": "delivery",
+        "meta_description": "Delivery related posts",
+        "status": "1",
+        "active_blogs_count": "4",
+        "lang": "en"
+      },
+      "views_count": "120",
+      "created_at": "2026-08-01 10:00:00",
+      "read_time": "3",
+      "lang": "en"
+    },
+    {
+      "id": "2",
+      "title": "Seasonal Produce Guide",
+      "slug": "seasonal-produce-guide",
+      "category_id": "3",
+      "image": "blogs/produce-guide.jpg",
+      "description": "<p>What to buy this month.</p>",
+      "short_description": "A quick guide to what's in season right now.",
+      "tags": "produce,guide",
+      "tag_names": ["produce", "guide"],
+      "meta_title": "Seasonal Produce Guide",
+      "meta_keywords": "produce, guide, season",
+      "meta_description": "Seasonal produce buying guide.",
+      "status": "1",
+      "image_url": "https://example.com/blogs/produce-guide.jpg",
+      "category": {
+        "id": "3",
+        "name": "Groceries",
+        "slug": "groceries",
+        "meta_title": "Groceries",
+        "meta_keywords": "groceries",
+        "meta_description": "Grocery related posts",
+        "status": "1",
+        "active_blogs_count": "7",
+        "lang": "en"
+      },
+      "views_count": "88",
+      "created_at": "2026-07-20 09:30:00",
+      "read_time": "5",
+      "lang": "en"
+    }
+  ]
+}

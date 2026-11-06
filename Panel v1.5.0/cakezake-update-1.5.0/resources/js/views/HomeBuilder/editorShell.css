@@ -1,0 +1,154 @@
+/* Shared 3-column builder shell: top bar, section list, preview column, config
+   panel, loading skeleton. Used by HomeBuilderEditor and PageBuilderEditor. */
+
+.hb-editor {
+    padding: .5rem;
+}
+/* Publish/save bar sticks just under the app header while the page scrolls. */
+.hb-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    background: var(--app-card-bg);
+    border: 1px solid var(--app-card-border);
+    border-radius: .6rem;
+    padding: .55rem .75rem;
+    margin-bottom: .75rem;
+    flex-wrap: wrap;
+    position: sticky;
+    top: var(--app-header-h, 64px);
+    z-index: 7;
+}
+/* Editing note + category tabs stick right below the top bar (header + topbar
+   height), so they don't slide under the app header. */
+.hb-subhead {
+    background: var(--app-surface);
+    padding-top: .35rem;
+}
+.hb-name-input {
+    width: 240px;
+    font-weight: 600;
+}
+
+.hb-sections {
+    min-height: 80px;
+}
+.hb-plat-toggles { display: inline-flex; gap: 2px; }
+.hb-plat-btn {
+    font-size: .64rem; line-height: 1; padding: 4px 7px;
+    border: 1px solid var(--app-card-border); background: var(--app-card-bg);
+    color: var(--app-muted); border-radius: .3rem; cursor: pointer;
+}
+.hb-plat-btn.on { border-color: var(--bs-primary); background: rgba(var(--bs-primary-rgb), .12); color: var(--bs-primary); font-weight: 600; }
+.hb-plat-btn:disabled { cursor: default; opacity: .9; }
+/* Row menu button only tints on hover; the caret would crowd a 15px icon. */
+.hb-row-menu .dropdown-toggle::after {
+    display: none;
+}
+.hb-row-menu .btn:hover {
+    color: var(--bs-body-color) !important;
+}
+.hb-drag-ghost {
+    opacity: .5;
+}
+
+.hb-preview-sticky {
+    position: sticky;
+    /* Stick below the homelayout top bar (app header + top bar height), so the
+       preview lines up with the builder's note/tabs, not the system header. */
+    top: calc(var(--app-header-h, 64px) + 3.4rem);
+}
+
+.hb-page-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+}
+/* Loading skeleton shaped like the builder. */
+.hb-skel-row {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .7rem .85rem;
+    border: 1px solid var(--app-card-border);
+    border-radius: .6rem;
+    margin-bottom: .5rem;
+    background: var(--app-card-bg);
+}
+.hb-skel-grip { width: 14px; height: 18px; border-radius: 3px; flex: none; }
+.hb-skel-dot { width: 18px; height: 18px; border-radius: 50%; flex: none; }
+.hb-skel-add { height: 44px; border-radius: .6rem; margin-top: .25rem; }
+.hb-skel-preview { height: 560px; border-radius: 1.2rem; }
+.hb-skel-config {
+    background: var(--app-card-bg);
+    border: 1px solid var(--app-card-border);
+    border-radius: .7rem;
+    padding: 1rem;
+}
+.hb-skel-field { margin-bottom: 1rem; }
+.hb-skel-input { height: 40px; border-radius: .4rem; }
+
+.hb-sec-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: .45rem .5rem; margin-bottom: .4rem;
+    border: 1px solid var(--app-card-border); border-radius: .5rem;
+    background: var(--app-card-bg, #fff); cursor: pointer;
+    transition: border-color .15s, box-shadow .15s;
+}
+.hb-sec-row:hover { border-color: var(--bs-primary); }
+.hb-sec-row.active { border-color: var(--bs-primary); box-shadow: 0 0 0 2px rgba(var(--bs-primary-rgb), .15); }
+.hb-sec-row.inactive { opacity: .55; }
+.hb-row-grip { cursor: grab; color: var(--app-muted); display: inline-flex; flex: 0 0 auto; }
+.hb-sec-row-icon { color: var(--bs-primary); display: inline-flex; flex: 0 0 auto; }
+.hb-sec-row-title { font-size: .82rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+
+.hb-config-panel {
+    border: 1px solid var(--app-card-border); border-radius: .6rem;
+    background: var(--app-card-bg, #fff); padding: .75rem;
+    position: sticky; top: calc(var(--app-header-h, 64px) + 4rem);
+    max-height: calc(100vh - var(--app-header-h, 64px) - 5rem); overflow: auto;
+}
+.hb-config-head { display: flex; align-items: center; gap: .5rem; padding-bottom: .5rem; margin-bottom: .5rem; border-bottom: 1px solid var(--app-card-border); }
+.hb-config-empty {
+    padding: 3rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+@media (max-width: 1199.98px) {
+    .hb-config-panel { position: static; max-height: none; }
+    .hb-preview-sticky { position: static !important; }
+}
+/* Responsive top bar: the two groups stack full-width and wrap their buttons. */
+@media (max-width: 767.98px) {
+    .hb-topbar { gap: .5rem; }
+    .hb-topbar > div { width: 100%; flex-wrap: wrap; }
+    .hb-topbar .btn, .hb-topbar .btn-group { flex: 0 1 auto; }
+    .hb-name-input { width: auto !important; flex: 1 1 140px; }
+    .hb-subhead { position: static; }
+}
+
+/* Flex 3-column canvas: preview hugs the device, config fills the rest. */
+.hb-grid { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; }
+.hb-col-list { flex: 0 0 300px; width: 300px; min-width: 0; }
+.hb-col-preview { flex: 0 0 auto; }
+.hb-col-config { flex: 1 1 320px; min-width: 0; }
+/* 700–1199px: sections + preview side by side, config full-width below. */
+@media (min-width: 700px) and (max-width: 1199.98px) {
+    .hb-grid { flex-direction: row; flex-wrap: wrap; }
+    .hb-col-list { flex: 0 0 280px; width: 280px; }
+    .hb-col-preview { flex: 1 1 auto; align-self: flex-start; }
+    .hb-col-config { flex: 1 1 100%; width: 100%; min-width: 100%; }
+}
+/* < 700px: everything stacked. */
+@media (max-width: 699.98px) {
+    .hb-grid { flex-direction: column; flex-wrap: nowrap; }
+    .hb-col { flex: 1 1 auto !important; width: 100% !important; }
+    .hb-col-preview { align-self: stretch; }
+}
+

@@ -1,0 +1,1 @@
+enum SignInMode { email, phone }

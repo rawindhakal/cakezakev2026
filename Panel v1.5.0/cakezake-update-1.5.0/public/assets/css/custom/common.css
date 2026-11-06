@@ -1,0 +1,5776 @@
+.bm-suggestions,
+.place-suggestions {
+    background-color: var(--app-card-bg) !important;
+}
+.bm-suggestions .list-group-item,
+.place-suggestions .list-group-item {
+    background-color: var(--app-card-bg) !important;
+    color: var(--app-ink) !important;
+    border-color: var(--app-card-border) !important;
+}
+.bm-suggestions .list-group-item-action:hover,
+.bm-suggestions .list-group-item-action:focus,
+.place-suggestions .list-group-item-action:hover,
+.place-suggestions .list-group-item-action:focus {
+    background-color: var(--app-hover) !important;
+    color: var(--app-ink) !important;
+}
+
+/* Demo badge in the header (left, next to the sidebar toggle). Amber pill with a
+   soft pulsing dot so it reads as a live "you're in demo" indicator. */
+.hdr-demo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.22rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #92400e;
+    background: #fff4e0;
+    border: 1px solid #f6c77a;
+    white-space: nowrap;
+}
+.hdr-demo-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #f59e0b;
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.6);
+    animation: hdr-demo-pulse 1.8s ease-out infinite;
+}
+@keyframes hdr-demo-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.55); }
+    70% { box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+}
+body.theme-dark .hdr-demo-badge {
+    color: #fcd9a3;
+    background: rgba(245, 158, 11, 0.14);
+    border-color: rgba(245, 158, 11, 0.4);
+}
+@media (prefers-reduced-motion: reduce) {
+    .hdr-demo-dot { animation: none; }
+}
+
+/* Phone header: one row, never wraps. Tighter buttons so the toolbar still fits
+   next to the demo badge and the avatar. */
+@media (max-width: 575.98px) {
+    .app-header .navbar { padding: 0 0.75rem; }
+    .app-header .container-fluid { gap: 0.5rem; }
+    .app-header .navbar-collapse > .d-flex,
+    .app-header .navbar-nav { flex-wrap: nowrap !important; gap: 0.25rem !important; }
+    .app-header .hdr-icon-btn { width: 34px; height: 34px; border-radius: 9px; }
+    .app-header .hdr-icon-btn svg { width: 18px; height: 18px; }
+    .app-header .user-chip { padding: 0.15rem; }
+    .app-header .user-chip img { width: 32px; height: 32px; }
+    .hdr-demo-badge { padding: 0.2rem 0.5rem; font-size: 0.62rem; }
+}
+
+/* ============================================================================
+   Demo-mode "Buy Now" — floating, bottom-right. Visible but calm: a soft glow +
+   a slow one-off shine, collapsible to a compact pill so it never blocks the UI.
+   ============================================================================ */
+.demo-buy {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1035;
+    display: flex;
+    align-items: stretch;
+    border-radius: 14px;
+    background: var(--bs-primary);
+    box-shadow: 0 10px 26px rgba(var(--bs-primary-rgb), 0.38), 0 2px 6px rgba(0, 0, 0, 0.18);
+    overflow: hidden;
+    animation: demo-buy-in 0.4s var(--app-ease) both, demo-buy-pulse 3.2s ease-in-out 1s infinite;
+}
+.demo-buy-main {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.6rem 0.5rem 0.6rem 0.85rem;
+    color: #fff;
+    text-decoration: none;
+    position: relative;
+    min-width: 0;
+}
+/* White on the primary fill in BOTH themes: the dark theme repaints link and text
+   colours globally, which left this text unreadable against the coloured pill. */
+.demo-buy .demo-buy-main,
+.demo-buy .demo-buy-main:hover,
+.demo-buy .demo-buy-main:focus,
+.demo-buy .demo-buy-title,
+.demo-buy .demo-buy-sub,
+.demo-buy .demo-buy-toggle,
+body.theme-dark .demo-buy .demo-buy-main,
+body.theme-dark .demo-buy .demo-buy-main:hover,
+body.theme-dark .demo-buy .demo-buy-title,
+body.theme-dark .demo-buy .demo-buy-sub,
+body.theme-dark .demo-buy .demo-buy-toggle { color: #fff; }
+.demo-buy-ic { flex: none; }
+.demo-buy-body {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+    overflow: hidden;
+    max-width: 210px;
+    transition: max-width 0.28s var(--app-ease), opacity 0.2s;
+}
+.demo-buy-title { font-weight: 700; font-size: 0.9rem; white-space: nowrap; }
+.demo-buy-sub { font-size: 0.68rem; opacity: 0.85; white-space: nowrap; }
+/* Collapse toggle sits on the right edge. */
+.demo-buy-toggle {
+    border: none;
+    background: rgba(255, 255, 255, 0.16);
+    color: #fff;
+    padding: 0 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.demo-buy-toggle:hover { background: rgba(255, 255, 255, 0.3); }
+/* Minimized: hide the text, keep the icon + toggle as a compact pill. */
+.demo-buy.is-min .demo-buy-body {
+    max-width: 0;
+    opacity: 0;
+}
+.demo-buy.is-min .demo-buy-main { padding-right: 0.35rem; }
+/* Moving shine sweep — a subtle highlight, not a flashing banner. */
+.demo-buy-shine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 40%;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    transform: skewX(-18deg) translateX(-260%);
+    animation: demo-buy-shine 4.5s ease-in-out 1.2s infinite;
+    pointer-events: none;
+}
+@keyframes demo-buy-in {
+    from { transform: translateY(16px) scale(0.96); opacity: 0; }
+    to { transform: none; opacity: 1; }
+}
+@keyframes demo-buy-pulse {
+    0%, 100% { box-shadow: 0 10px 26px rgba(var(--bs-primary-rgb), 0.32), 0 2px 6px rgba(0, 0, 0, 0.18); }
+    50% { box-shadow: 0 12px 32px rgba(var(--bs-primary-rgb), 0.55), 0 2px 6px rgba(0, 0, 0, 0.18); }
+}
+@keyframes demo-buy-shine {
+    0% { transform: skewX(-18deg) translateX(-260%); }
+    18%, 100% { transform: skewX(-18deg) translateX(360%); }
+}
+@media (max-width: 575.98px) {
+    .demo-buy { right: 12px; bottom: 12px; }
+    .demo-buy-sub { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .demo-buy, .demo-buy-shine { animation: none; }
+}
+
+.leaflet-container:focus,
+.leaflet-container:focus-visible {
+    outline: none !important;
+}
+
+/* ---- Skeleton loaders (reusable) ----
+   Shimmering placeholder blocks. Use .skel on any element for the base shimmer;
+   .skel-line for a text-row height. Theme-token driven so it works in dark. */
+.skel {
+    position: relative;
+    overflow: hidden;
+    background: var(--app-skel-bg);
+    border-radius: 6px;
+}
+.skel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+    animation: skel-shimmer 1.3s ease-in-out infinite;
+}
+body.theme-dark .skel::after {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.09), transparent);
+}
+@keyframes skel-shimmer {
+    100% { transform: translateX(100%); }
+}
+.skel-line {
+    height: 0.72rem;
+    border-radius: 4px;
+    margin-bottom: 0.55rem;
+}
+.skel-title {
+    height: 0.95rem;
+    width: 85%;
+    margin-bottom: 0.8rem;
+}
+.skel-actions {
+    height: 1.7rem;
+    width: 55%;
+    margin-bottom: 0;
+    margin-top: 0.2rem;
+}
+/* Datatable busy state: one full-width bar per row, roomy row height. */
+.skel-tr td {
+    padding-top: 1.15rem;
+    padding-bottom: 1.15rem;
+    vertical-align: middle;
+    border-bottom: 0;
+}
+.skel-row {
+    display: block;
+    width: 85%;
+    height: 1.7rem;
+    border-radius: 7px;
+}
+/* Alternate rows: full width, then half — reads more like real data. */
+.skel-tr:nth-child(even) .skel-row {
+    width: 55%;
+}
+.entity-card.is-skeleton {
+    pointer-events: none;
+}
+.entity-card.is-skeleton .entity-card-media.skel {
+    border-radius: 0;
+}
+
+/* Cards: solid surface + hairline border so they read as separate from the
+   tinted page background. Colours come from the shell tokens, so dark mode
+   swaps them without touching the geometry. */
+.card {
+    background-color: var(--app-card-bg) !important;
+    --bs-card-bg: var(--app-card-bg) !important;
+    border: 1px solid var(--app-card-border) !important;
+}
+
+/* Sub-sections inherit the card surface — several Mazer/Bootstrap defaults tint
+   these grey, which is what made cards look off-white. */
+.card>.card-header,
+.card>.card-body,
+.card>.card-footer,
+.card>.card-group {
+    background-color: transparent !important;
+}
+
+.card>.card-header {
+    border-bottom: 1px solid var(--app-card-border) !important;
+}
+
+.card>.card-footer {
+    border-top: 1px solid var(--app-card-border) !important;
+}
+
+.table {
+    --bs-table-bg: var(--app-card-bg) !important;
+    background-color: var(--app-card-bg) !important;
+}
+
+.form-control,
+.form-select,
+textarea.form-control,
+input.form-control {
+    background-color: var(--app-card-bg) !important;
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+    background-color: #e9ecef !important;
+}
+
+.modal-content {
+    background-color: var(--app-card-bg) !important;
+    --bs-modal-bg: #fff !important;
+}
+
+:root {
+    --bs-body-bg: #f2f7ff !important;
+    --bs-body-bg-rgb: 242, 247, 255 !important;
+}
+
+body {
+    background-color: #f2f7ff !important;
+}
+
+/* Chat thread open on a phone: the pane is fixed, so the page behind must not scroll. */
+body.chat-lock { overflow: hidden; }
+
+/* Phones: the panel is sized in rem almost everywhere, so one smaller root step
+   (16 → 14px) scales every heading, label, figure and control down together. */
+@media (max-width: 575.98px) {
+    html { font-size: 14px; }
+    /* Page titles a notch further — they are the one thing that still reads large. */
+    .page-head-title, .welcome-h { font-size: 1.1rem !important; }
+    h3, .h3 { font-size: 1.2rem; }
+}
+
+/*Scrollbar style start*/
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: rgba(var(--bs-primary-rgb), 0.15);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    height: 9px;
+    background: rgba(var(--bs-primary-rgb), 0.5);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: var(--bs-primary);
+}
+
+/*Scrollbar style end*/
+
+/* Navbar geometry lives in the APP SHELL section at the bottom of this file. */
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+select.form-select:not([multiple]):not([size]) {
+    background-position: right 0.75rem center !important;
+    padding-right: 1.75rem !important;
+    padding-left: 0.75rem !important;
+}
+
+body.rtl select.form-select:not([multiple]):not([size]) {
+    background-position: left 0.75rem center !important;
+    padding-left: 1.75rem !important;
+    padding-right: 0.75rem !important;
+}
+
+.dropdown-toggle:after {
+    margin-inline-start: 0.255em !important;
+}
+
+.font-size-13 {
+    font-size: 13px;
+}
+
+.text-primary {
+    color: #607080 !important;
+}
+
+/* toast-style start */
+.toast-header {
+    background-color: var(--bs-primary) !important;
+    color: #ffffff !important;
+}
+
+.update_btn {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+
+.update_btn:hover {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+
+#update_description {
+    color: var(--bs-primary);
+}
+
+.toast-body {
+    background-color: #ffff;
+}
+
+#update_version {
+    background-color: var(--bs-primary) !important;
+    color: #ffffff !important;
+}
+
+.body.theme-dark .swal2-styled.swal2-confirm {
+    background-color: var(--bs-primary) !important;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.custom-image {
+    margin-top: 15px;
+    border-radius: 15px;
+    width: 225px;
+    height: 225px;
+}
+
+.custom-row-image {
+    margin-top: 25px;
+    border-radius: 15px;
+    height: 130px;
+    width: auto;
+    max-width: 470px;
+}
+
+.custom-slider-image {
+    margin-top: 15px;
+    border-radius: 15px;
+    width: 470px;
+    height: 200px;
+}
+
+.image-container {
+    position: relative;
+}
+
+.btn-remove {
+    border-radius: 100px;
+    border: 7px solid #ffffff;
+    background: #f06548;
+    color: #ffffff;
+    font-size: 16px;
+    position: absolute;
+    top: 10px;
+    right: 0;
+}
+
+.btn_refresh {
+    margin-top: 25px;
+}
+
+.btn_tool {
+    margin-top: 25px;
+}
+
+.dropdownOverflow {
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+/* Column toggle dropdown items (table column visibility checkboxes) */
+.column-toggle-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 180px;
+    padding: 4px 8px;
+}
+
+.column-toggle-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 16px;
+    margin: 0 !important;
+    padding: 0 !important;
+    float: none !important;
+    position: static !important;
+    opacity: 1 !important;
+    pointer-events: auto;
+}
+
+.column-toggle-item label {
+    margin: 0 !important;
+    padding: 0 !important;
+    cursor: pointer;
+    user-select: none;
+    position: static !important;
+}
+
+.column-toggle-item label::before,
+.column-toggle-item label::after {
+    content: none !important;
+}
+
+#auth #auth-right {
+    background: url(../../images/bg/4853433.jpg),
+        linear-gradient(90deg, var(--bs-primary), #3f5491);
+    height: 100%;
+}
+
+.vue-daterange-picker {
+    max-width: 100%;
+}
+
+select.form-select optgroup {
+    background-color: var(--bs-primary);
+    color: #bdbdbd;
+}
+
+select.form-select option,
+select.monthselect option {
+    background-color: var(--bs-primary);
+    color: #ffffff;
+}
+
+.primary-toggal {
+    color: var(--bs-primary);
+}
+
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #25396f;
+}
+
+a:hover {
+    color: var(--bs-primary);
+}
+
+.badge:hover {
+    color: #ffffff;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+    background-color: var(--bs-primary);
+    color: #fff;
+}
+
+.sidebar-wrapper .menu .sidebar-item.active>.sidebar-link {
+    background-color: var(--bs-primary);
+}
+
+.sidebar-wrapper .menu .submenu .submenu-item.active>a {
+    color: var(--bs-primary);
+}
+
+.form-check-input:checked {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+
+nav-pills .nav-link.active {
+    box-shadow: 0 2px 10px rgb(60, 153, 110 / 50%);
+}
+
+.swal2-confirm .swal2-styled {
+    background-color: var(--bs-primary);
+}
+
+ul .pagination.pagination-primary li .page-item.active .page-link {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+    color: #fff;
+    z-index: 99;
+}
+
+/*pagination start*/
+.pagination .page-item .page-link:hover {
+    -webkit-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+    border-radius: 0.125rem;
+    background-color: #eee;
+}
+
+.pagination .page-item.active .page-link:hover {
+    background-color: var(--bs-primary);
+}
+
+.pagination .page-item.active .page-link {
+    -webkit-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+    border-radius: 0.125rem;
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+    color: #fff;
+}
+
+.pagination .page-item .page-link {
+    -webkit-transition: all 0.3s linear;
+    background-color: transparent;
+    color: #999;
+}
+
+.pagination .page-item.active .page-link {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16),
+        0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.btn.btn-light-primary {
+    background-color: #ebf3ff;
+    color: var(--bs-primary);
+}
+
+.swal2-styled.swal2-confirm {
+    background-color: var(--bs-primary);
+}
+
+.btn-primary {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+    color: #fff !important;
+}
+
+.btn-check:focus+.btn-primary,
+.btn-primary:focus,
+.btn-primary:hover {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+    color: #fff !important;
+}
+
+.btn-check:focus+.btn-primary,
+.btn-primary:focus {
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.5) !important;
+}
+
+.btn-check:active+.btn-primary,
+.btn-check:checked+.btn-primary,
+.btn-primary.active,
+.btn-primary:active,
+.show>.btn-primary.dropdown-toggle {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+    color: #fff !important;
+}
+
+.btn-check:active+.btn-primary:focus,
+.btn-check:checked+.btn-primary:focus,
+.btn-primary.active:focus,
+.btn-primary:active:focus,
+.show>.btn-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.5) !important;
+}
+
+.btn-primary.disabled,
+.btn-primary:disabled {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+    color: #fff !important;
+}
+
+.btn-outline-primary {
+    border-color: var(--bs-primary) !important;
+    color: var(--bs-primary) !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+    color: #fff !important;
+}
+
+.btn-check:focus+.btn-outline-primary,
+.btn-outline-primary:focus {
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.5) !important;
+}
+
+.btn-check:active+.btn-outline-primary,
+.btn-check:checked+.btn-outline-primary,
+.btn-outline-primary.active,
+.btn-outline-primary.dropdown-toggle.show,
+.btn-outline-primary:active {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+    color: #fff !important;
+}
+
+.btn-check:active+.btn-outline-primary:focus,
+.btn-check:checked+.btn-outline-primary:focus,
+.btn-outline-primary.active:focus,
+.btn-outline-primary.dropdown-toggle.show:focus,
+.btn-outline-primary:active:focus {
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.5) !important;
+}
+
+.btn-outline-primary.disabled,
+.btn-outline-primary:disabled {
+    background-color: transparent !important;
+    color: var(--bs-primary) !important;
+}
+
+input[type="radio"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    border: 2px solid #e1e3ea;
+    border-radius: 50%;
+    color-adjust: exact;
+    height: 1.2em;
+    width: 1.2em;
+    margin: 0 3px 0 0;
+    position: relative;
+    transition: background-color 0.15s ease-in-out,
+        background-position 0.15s ease-in-out, border-color 0.15s ease-in-out,
+        box-shadow 0.15s ease-in-out;
+    vertical-align: baseline;
+    flex-shrink: 0;
+}
+
+.form-control {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-clip: padding-box;
+    background-color: #fff;
+    border: 1px solid #dce7f1;
+    border-radius: 0.4rem;
+    display: block;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    width: 100%;
+}
+
+input[type="radio"]:checked:before {
+    background: var(--bs-primary);
+}
+
+input[type="radio"]:checked {
+    background-color: #fff;
+    background-image: radial-gradient(circle, var(--bs-primary) 50%, #fff 54%);
+    border-color: #fff;
+}
+
+.file-input {
+    display: none;
+}
+
+.file-input-div {
+    width: auto;
+    max-height: 300px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    font-weight: 600;
+    font-size: 20px;
+    cursor: pointer;
+    color: #607080;
+    border: 2px dashed #9aa4ae;
+    border-radius: 10px;
+}
+
+.file-input-div label {
+    color: #607080;
+    word-wrap: break-word;
+    max-width: 100%;
+}
+
+.bg-gray-100 {
+    background-color: #f7fafc;
+}
+
+.bg-green-300 {
+    background-color: #9ae6b4;
+    border: 2px solid var(--bs-primary);
+}
+
+.vue-daterange-picker[data-v-1ebd09d2] {
+    min-width: 80%;
+}
+
+@media only screen and (min-width: 600px) {
+    .vue-daterange-picker[data-v-1ebd09d2] {
+        min-width: 90%;
+    }
+}
+
+.form-check-input[class*="bg-"] {
+    border: 0;
+}
+
+.form-check .form-check-input:focus {
+    box-shadow: none;
+}
+
+.form-check .form-check-input.form-check-primary {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+
+.form-check .form-check-input.form-check-primary:not(:checked) {
+    background-color: transparent;
+    border: 1px solid #ced4da;
+}
+
+.form-check .form-check-input.form-check-primary.form-check-glow {
+    box-shadow: 0 0 5px #488f8f;
+}
+
+.form-check .form-check-input.form-check-primary.form-check-glow:not(:checked) {
+    box-shadow: none;
+}
+
+.form-check.form-check-sm .form-check-input {
+    height: 0.9rem;
+    margin-top: 0.3em;
+    width: 0.9rem;
+}
+
+.form-check.form-check-sm label {
+    font-size: 0.7rem;
+}
+
+.form-check.form-check-lg .form-check-input {
+    height: 1.5rem;
+    margin-top: 0.3em;
+    width: 1.5rem;
+}
+
+.form-check.form-check-lg label {
+    font-size: 1rem;
+}
+
+.form-check.form-check-primary .form-check-input {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+
+/*login style*/
+.auth {
+    background-image: url("../../../images/panel_login_background_img.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: left bottom;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.login-wrapper {
+    min-height: 100vh;
+    min-width: auto;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 50px 200px;
+    overflow: hidden;
+}
+
+.auth-section {
+    background-color: #ffffff;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+
+.auth-logo {
+    padding-bottom: 40px;
+}
+
+.auth-copyright {
+    padding-top: 20px;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--app-muted);
+}
+
+.auth-btn {
+    display: flex;
+    justify-content: center;
+    place-items: center;
+}
+
+.auth-btn>span {
+    margin-left: 7px;
+}
+
+.auth-back {
+    margin-top: 15px;
+    margin-left: 20px;
+}
+
+.auth-card {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    padding: 40px 50px 20px;
+}
+
+.detail-card {
+    background-color: #ffffff;
+    max-width: 60%;
+    overflow-x: hidden;
+    padding: 20px;
+    margin: 0 20px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+
+.content {
+    max-height: 500px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+}
+
+@media (max-width: 600px) {
+    .detail-card {
+        min-width: 280px;
+    }
+
+    .content {
+        max-height: 380px;
+        overflow-y: scroll;
+    }
+}
+
+/*Dashboard*/
+.dashboard-counter {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.dashboard-counter .card {
+    padding: 20px;
+}
+
+.products_sold {
+    gap: 0% 4%;
+    display: grid;
+    grid-template-columns: auto;
+}
+
+.products_sold .card .card-body {
+    padding-bottom: 0px;
+    padding-top: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.products_sold .card .card-body h1 {
+    font-size: 100px;
+}
+
+.stats-icon-big {
+    align-items: center;
+    background-color: #000;
+    display: flex;
+    float: top;
+    border-radius: 50%;
+    height: 6rem;
+    justify-content: center;
+    width: 6rem;
+}
+
+.stats-icon-big i {
+    color: #fff;
+    font-size: 3rem;
+}
+
+.stats-icon-big.blue {
+    background-color: #406fc6;
+}
+
+.stats-icon-big.orange {
+    background-color: #fe9670;
+}
+
+.stats-icon-big.sky {
+    background-color: #56d8f0;
+}
+
+.stats-icon-big.lightgreen {
+    background-color: #64c77a;
+}
+
+.stats-icon {
+    border-radius: 50%;
+    height: 3.5rem;
+    width: 3.5rem;
+}
+
+.stats-icon.payment_pending {
+    background-color: #ff6d91;
+}
+
+.stats-icon.received {
+    background-color: #b47bff;
+}
+
+.stats-icon.processed {
+    background-color: #45bd86;
+}
+
+.stats-icon.shipped {
+    background-color: #e5c646;
+}
+
+.stats-icon.outForDelivery {
+    background-color: #494949;
+}
+
+.stats-icon.delivered {
+    background-color: #ff7f60;
+}
+
+.stats-icon.cancelled {
+    background-color: #308ceb;
+}
+
+.stats-icon.returned {
+    background-color: #f060f0;
+}
+
+/*custom .custom-slider-image*/
+.error {
+    color: red;
+}
+
+.h-95 {
+    height: 95%;
+}
+
+.product_category_count h4 {
+    float: none !important;
+}
+
+.mobile input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.mobile input[type="number"]::-webkit-inner-spin-button,
+.mobile input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.card {
+    border-radius: 12px !important;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04),
+        0 1px 3px rgba(16, 24, 40, 0.06);
+}
+
+.sidebar-wrapper {
+    box-shadow: none;
+}
+
+/* `.align-items-center` is a Bootstrap FLEX utility — it must not touch text
+   alignment. The old `text-align: center` here silently centred text in every
+   flex row that used it (attribute cards, etc.). Removed. */
+table img {
+    cursor: pointer;
+}
+
+.rtl {
+    direction: rtl;
+}
+
+.vertical-tabs-container {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+}
+
+.vertical-tabs-container .tab-buttons {
+    display: flex;
+    flex-direction: column;
+    /* Set the direction to column for vertical tabs */
+    width: 20%;
+    flex-shrink: 0;
+}
+
+.vertical-tabs-container .tab-buttons button {
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border: none;
+    background-color: #fff;
+    border: 1px solid var(--bs-primary);
+    border-radius: 10px;
+    font-weight: 600;
+    color: rgba(35, 28, 99, 0.7);
+}
+
+.vertical-tabs-container .tab-buttons button:hover {
+    background-color: #ddd;
+}
+
+.vertical-tabs-container .tab-buttons button.active {
+    background-color: var(--bs-primary);
+    color: #fff;
+}
+
+.vertical-tabs-container>.tab-content {
+    margin-left: 20px;
+    flex: 1;
+    min-width: 0;
+}
+
+.vertical-tabs-container .tab-content .card {
+    min-height: 590px;
+    width: 100%;
+}
+
+.vertical-tabs-container form button {
+    margin-top: 10px;
+    padding: 7px 30px;
+}
+
+.website_maitenance_mode {
+    display: flex;
+    align-items: baseline;
+}
+
+.social_media option {
+    font-family: "FontAwesome", "sans-serif";
+}
+
+.all_parents {
+    position: absolute;
+    right: 40px;
+}
+
+/* Tooltip container */
+.tooltip-icon {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* Tooltip text */
+.tooltip-icon .tooltip-text {
+    visibility: hidden;
+    width: 220px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -110px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-weight: normal;
+    font-size: 13px;
+}
+
+/* Tooltip arrow */
+.tooltip-icon .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+/* Show the tooltip when hovering over the icon */
+.tooltip-icon:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+.btn {
+    margin-bottom: 5px;
+}
+
+.vue-daterange-picker[data-v-1ebd09d2][data-v-9dd554bc] {
+    min-width: 73% !important;
+    max-width: 90% !important;
+    width: 90% !important;
+}
+
+/*Featured section CSS*/
+.style_image {
+    width: 100%;
+    filter: grayscale(50%);
+}
+
+.radio-img>.style_image {
+    cursor: pointer;
+}
+
+.radio-img {
+    background: #eff2f5;
+    height: 330px;
+    display: flex !important;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.radio-img>input {
+    opacity: 0;
+    position: absolute;
+}
+
+.radio-img>input:checked+.style_image {
+    border: 2px solid var(--bs-primary);
+    filter: grayscale(0%) !important;
+}
+
+.modal-dialog-scrollable .modal-body {
+    overflow-x: hidden;
+}
+
+.input-group-append .btn {
+    margin-bottom: 0px;
+}
+
+.view_order .th-width {
+    width: 30% !important;
+}
+
+.b-table-stacked-md th {
+    width: 118px;
+}
+
+.sidebar-wrapper .menu .sidebar-link i,
+.sidebar-wrapper .menu .sidebar-link svg {
+    width: 16px;
+    text-align: center;
+}
+
+/*Tablet*/
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+
+    .dashboard-counter img,
+    .dashboard-counter i {
+        width: 25px;
+        font-size: 23px;
+    }
+
+    .dashboard-counter .stats-icon-big {
+        padding: 5px;
+        height: 3rem;
+    }
+
+    .dashboard-counter .py-4-5 {
+        padding-bottom: 0rem !important;
+        padding-top: 0rem !important;
+    }
+
+    .dashboard-counter h5 {
+        font-size: 13px;
+    }
+
+    .product_category_count .card {
+        min-height: 350px !important;
+    }
+
+    .products_sold .card-header {
+        padding: 1.5rem 0px !important;
+    }
+
+    .products_sold h1 {
+        font-size: 50px !important;
+    }
+
+    .products_sold .card .card-body {
+        padding: 10px;
+    }
+
+    .radio-img {
+        height: 170px;
+    }
+}
+
+/*mobile*/
+@media only screen and (max-width: 880px) {
+    .vertical-tabs-container .tab-buttons {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .vertical-tabs-container {
+        display: block;
+    }
+
+    .vertical-tabs-container .tab-content {
+        margin-left: 0px;
+        width: 100%;
+    }
+
+    .login-wrapper {
+        display: flex;
+        justify-content: right;
+        padding: 30px;
+    }
+
+    .auth-card {
+        padding: 20px 20px 20px;
+    }
+
+    .col-md-3:has(.radio-img) {
+        width: 25% !important;
+    }
+
+    .radio-img {
+        height: 170px;
+    }
+}
+
+/* ============================================
+   RTL (Right-to-Left) Sidebar Support
+   When body has .rtl class (e.g. Arabic language),
+sidebar moves to right side and icon-text spacing is adjusted.
+   ============================================ */
+
+/* Sidebar on right side for RTL */
+body.rtl #sidebar.active .sidebar-wrapper {
+    left: auto;
+    right: 0;
+}
+
+/* RTL sidebar/content offsets are owned by the APP SHELL section at the bottom
+   of this file (they key off --app-sidebar-w). */
+
+/* Extra spacing between icon and text in RTL sidebar menu */
+body.rtl .sidebar-wrapper .menu .sidebar-link {
+    gap: 0.5rem;
+}
+
+body.rtl .sidebar-wrapper .menu .sidebar-link span {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* RTL: Chevron/dropdown arrow on left side for submenu items */
+body.rtl .sidebar-wrapper .menu .sidebar-item.has-sub .sidebar-link:after {
+    right: auto;
+    left: 15px;
+}
+
+/* RTL: Submenu item hover margin */
+body.rtl .sidebar-wrapper .menu .submenu .submenu-item a:hover {
+    margin-left: 0;
+    margin-right: 0.3rem;
+}
+
+/* In RTL: remove right-push from nav items */
+body.rtl .navbar .navbar-nav.ms-auto {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+/* In RTL: flex-end = left side (logical end in RTL is visual left) */
+body.rtl .navbar .navbar-collapse {
+    justify-content: flex-end;
+}
+
+/* In RTL: container - flex-end puts content on visual left */
+body.rtl .navbar .container-fluid {
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+/* RTL + mobile (≤768px): hamburger on right, ellipsis on left, space between */
+@media screen and (max-width: 768px) {
+    body.rtl .navbar .container-fluid {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    /* burger-btn (hamburger) first in order = right side in RTL */
+    body.rtl .navbar .container-fluid .burger-btn {
+        order: 1;
+    }
+
+    /* d-flex (ellipsis) and navbar-collapse = left side in RTL */
+    body.rtl .navbar .container-fluid>.d-flex,
+    body.rtl .navbar .container-fluid>.navbar-collapse {
+        order: 2;
+    }
+}
+
+/* In RTL: dropdown menu alignment - open towards left (override component styles) */
+body.rtl .navbar .dropdown-menu {
+    right: auto !important;
+    left: 0 !important;
+}
+
+/* RTL: swap columns - page numbers on left,
+per page dropdown on right */
+body.rtl .row:has(.b-pagination) {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+
+/* RTL: remove offset so columns align correctly after swap */
+body.rtl .row:has(.b-pagination) [class*="offset-md"] {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+/* ============================================
+   Sidebar full height on small screens
+   Sidebar should fill viewport height when open on mobile/tablet
+   ============================================ */
+@media screen and (max-width: 1199px) {
+
+    .sidebar-wrapper,
+    body.theme-dark .sidebar-wrapper {
+        height: 100vh !important;
+        min-height: 100vh;
+        top: 0;
+        bottom: 0;
+    }
+}
+
+/* ============================================
+   Sidebar backdrop - click outside to close on small screens
+   Shown when sidebar is open on mobile/tablet (< 1200px)
+   ============================================ */
+.sidebar-backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 21;
+}
+
+/* ============================================
+   Breadcrumb: Align right on tablet and above
+   (float-lg-end only kicks in at 992px; extend to 768px)
+   ============================================ */
+@media (min-width: 768px) {
+    .breadcrumb-header.float-lg-end {
+        float: right !important;
+    }
+}
+
+/* ============================================
+   Pagination: Allow wrapping to prevent cut-off
+   ============================================ */
+.b-pagination {
+    flex-wrap: wrap;
+}
+
+@media (max-width: 1200px) {
+    .b-pagination {
+        justify-content: flex-end;
+    }
+}
+
+/* ============================================
+   Table: Fix last column overflow outside card
+   ============================================ */
+.card-body .table-responsive,
+.card-body>div>.table-responsive {
+    overflow-x: auto;
+}
+
+/* Ensure b-table without explicit responsive wrapper also scrolls */
+.card-body>table.table,
+.card-body>.b-table-outer-wrapper {
+    overflow-x: auto;
+}
+
+/* ============================================
+   Dropdown / Select: Prevent cut-off on tablet
+   ============================================ */
+@media (max-width: 1200px) {
+
+    .form-select,
+    select.form-control {
+        max-width: 100%;
+    }
+}
+
+/* ============================================
+   Filter inputs: Gap between stacked inputs on mobile
+   ============================================ */
+@media (max-width: 767px) {
+
+    .card-body .row.mb-2>[class*="col"],
+    .card-body .row.mb-2>.b-col {
+        margin-bottom: 12px;
+    }
+
+    /* Gap between date picker and filter inputs */
+    .card-body b-col,
+    .card-body .col-md-3,
+    .card-body .col-md-2,
+    .card-body .col-md-1 {
+        margin-bottom: 10px;
+    }
+}
+
+/* ============================================
+   Modal close button: red color
+   ============================================ */
+.modal-header .close,
+.modal .close,
+button.close {
+    color: #dc3545 !important;
+    opacity: 1 !important;
+}
+
+.modal-header .btn-close {
+    filter: invert(22%) sepia(96%) saturate(2400%) hue-rotate(337deg) brightness(95%) contrast(105%);
+}
+
+/* RTL: modal header – close (X) on the left,
+title on the right */
+body.rtl .modal-header,
+html.rtl .modal-header {
+    display: flex !important;
+    /* flex-direction: row-reverse !important; */
+    justify-content: space-between !important;
+}
+
+body.rtl .modal-header .close,
+body.rtl .modal .close,
+body.rtl .modal-header .btn-close,
+html.rtl .modal-header .close,
+html.rtl .modal .close,
+html.rtl .modal-header .btn-close {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    order: 0;
+    flex-shrink: 0;
+}
+
+body.rtl .modal-header .modal-title,
+html.rtl .modal-header .modal-title {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    text-align: right !important;
+    order: 0;
+    flex: 1 1 auto !important;
+    width: auto !important;
+}
+
+/* ============================================
+   Status / Product Status cards: Fix overflow on tablet/mobile
+   (Cards that appear outside main card layout)
+   ============================================ */
+@media (max-width: 992px) {
+
+    .col-md-4>.card,
+    .col-md-3>.card {
+        margin-bottom: 15px;
+    }
+}
+
+/* ============================================
+   Store Settings: 2x2 grid layout on tablet
+   ============================================ */
+@media (min-width: 768px) and (max-width: 1199px) {
+    .vertical-tabs-container .tab-content .card .row>[class*="col-md-"] {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+/* ============================================
+   Header right menu: Fix spacing on mobile
+   ============================================ */
+@media (max-width: 991px) {
+    .navbar-nav.ms-auto {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 4px;
+        align-items: center;
+    }
+
+    .navbar-nav.ms-auto .nav-item {
+        margin-right: 4px !important;
+    }
+
+    .navbar-nav.ms-auto .nav-link {
+        padding: 0.25rem 0.4rem;
+    }
+}
+
+/* ============================================
+   Sidebar: Toggle icon rotation for expanded state
+   ============================================ */
+.sidebar-wrapper .menu .sidebar-item.has-sub .sidebar-link:after {
+    transition: transform 0.3s ease;
+}
+
+.sidebar-wrapper .menu .sidebar-item.has-sub.open>.sidebar-link:after {
+    transform: rotate(90deg);
+}
+
+/* ============================================
+   Subscription Plans: Input placeholder cut-off fix
+   ============================================ */
+@media (min-width: 768px) and (max-width: 1199px) {
+
+    .b-form-input,
+    input.form-control {
+        min-width: 0;
+        text-overflow: ellipsis;
+    }
+}
+
+/* ============================================
+   Language tabs: Active tab underline in primary color
+   Applies to all forms with b-tabs (Edit Product, Units, Category, etc.)
+   Replaces default blue underline with primary (var(--bs-primary))
+   ============================================ */
+.nav-tabs .nav-link {
+    /* Token, not the literal navy: identical in light mode, readable in dark.
+       The !important here outranks every dark-mode rule, so a literal pinned
+       inactive tabs to near-black text on the dark sheet. */
+    color: var(--app-ink) !important;
+    border: none !important;
+}
+
+.nav-tabs .nav-link:hover {
+    color: var(--bs-primary) !important;
+}
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-link.active:hover,
+.nav-tabs .nav-link.active:focus {
+    background-color: transparent !important;
+    color: var(--bs-primary) !important;
+    border-bottom-color: transparent !important;
+    position: relative;
+}
+
+.nav-tabs .nav-link.active:after {
+    background-color: var(--bs-primary);
+    border-radius: 0 0 4px 4px;
+    bottom: 0;
+    box-shadow: 0 2px 5px rgba(var(--bs-primary-rgb), 0.5);
+    content: "";
+    height: 3px;
+    left: 0;
+    position: absolute;
+    width: 100%;
+}
+
+/* ============================================
+   Tab gap: Space between nav tabs and input fields
+   ============================================ */
+.nav-tabs+.tab-content {
+    margin-top: 15px;
+}
+
+.tab-content .form-group:first-child,
+.tab-content .mb-3:first-child {
+    margin-top: 10px;
+}
+
+/* ============================================
+   Labels overlapping with inputs on tablet: Fix
+   ============================================ */
+@media (min-width: 768px) and (max-width: 1199px) {
+
+    .form-label,
+    label.form-label,
+    .col-form-label {
+        word-break: break-word;
+        overflow-wrap: break-word;
+    }
+}
+
+/* ============================================
+   Order Categories: Last card border fix
+   ============================================ */
+.card-group .card:last-child {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125) !important;
+}
+
+/* ============================================
+   View Order / Self Pickup Order: Cards full width on tablet
+   ============================================ */
+@media (min-width: 768px) and (max-width: 991px) {
+    .view_order .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+/* ============================================
+   Orders / Reports Filter section alignment
+   ============================================ */
+@media (min-width: 768px) {
+    .card-body .row.mb-2 {
+        align-items: flex-end;
+    }
+
+    .card-body .row.mb-2 h6.box-title {
+        margin-bottom: 4px;
+    }
+}
+
+/* ============================================
+   POS: Exit button should be danger color
+   ============================================ */
+.fullscreen-header .btn-primary.exit-pos-btn {
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+}
+
+/* POS: Hold bill tab close button should NOT be danger */
+.pos-tab .pos-tab-close {
+    color: #6c757d;
+    background-color: transparent;
+    border: none;
+}
+
+/* ============================================
+   POS: Mobile layout - search box fix
+   ============================================ */
+@media (max-width: 767px) {
+    .card-header .d-flex {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .card-header .input-group {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .card-header .me-2 {
+        width: 100%;
+    }
+
+    .card-header .me-2 select {
+        width: 100%;
+    }
+}
+
+/* ============================================
+   Login: Keep card on right (align-items center for vertical centering only)
+   ============================================ */
+.auth .login-wrapper {
+    align-items: center;
+}
+
+/* ============================================
+   Withdrawal Requests: Table border on mobile
+   ============================================ */
+@media (max-width: 767px) {
+
+    .table-bordered,
+    .table-bordered td,
+    .table-bordered th {
+        border: 1px solid #dee2e6 !important;
+    }
+}
+
+/* ============================================
+   Return Requests: Long status text overflow fix
+   ============================================ */
+@media (max-width: 767px) {
+
+    .table td .badge,
+    .table td span.badge {
+        white-space: normal;
+        word-break: break-word;
+        max-width: 120px;
+        display: inline-block;
+        text-align: center;
+    }
+}
+
+/* ============================================
+   Dashboard: Order Out Lines - center alignment
+   Cards should be center aligned in all views
+   ============================================ */
+.row>[class*="col-12"][class*="col-sm-4"],
+.row>[class*="col-12"][class*="col-sm-6"] {
+    display: flex;
+}
+
+.row>[class*="col-12"][class*="col-sm-4"]>.card,
+.row>[class*="col-12"][class*="col-sm-6"]>.card {
+    width: 100%;
+}
+
+/* ============================================
+   Seller Dashboard: Rounded icon stretch fix on tablet
+   Prevent stats-icon-big from stretching
+   ============================================ */
+@media (min-width: 768px) and (max-width: 1199px) {
+    .stats-icon-big {
+        flex-shrink: 0;
+        min-width: 3rem;
+        min-height: 3rem;
+    }
+
+    .stats-icon-big img {
+        max-width: 30px;
+        max-height: 30px;
+    }
+}
+
+/* ============================================
+   Sidebar Header: Logo centered, close button at far right
+   HTML: .sidebar-header > .d-flex[position:relative] > .logo + .toggler[position:absolute;right:0]
+   ============================================ */
+@media (max-width: 1199px) {
+
+    /* Ensure the d-flex wrapper fills the full sidebar width */
+    .sidebar-header .d-flex {
+        width: 100% !important;
+        min-height: 60px;
+    }
+
+    /* Logo: take all the flex space and center its content within it */
+    .sidebar-header .logo {
+        flex: 1 1 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* DO NOT override the toggler's position - keep position:absolute;right:0 from inline style */
+}
+
+.card-body .row .form-group {
+    margin-bottom: 0.75rem;
+}
+
+/* ============================================
+   Toggle button vs Radio button fix
+   Ensure form-switch renders as toggle, not radio
+   ============================================ */
+.form-switch .form-check-input {
+    width: 2.5em !important;
+    height: 1.25em !important;
+    border-radius: 2em !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba%280%2c0%2c0%2c0.25%29'/%3e%3c/svg%3e") !important;
+    background-position: left center !important;
+    transition: background-position 0.15s ease-in-out !important;
+    cursor: pointer;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    border: 2px solid rgba(0, 0, 0, 0.25) !important;
+    background-color: #e9ecef !important;
+}
+
+.form-switch .form-check-input:checked {
+    background-position: right center !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e") !important;
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+}
+
+/* A label beside a switch started flush against the track and sat a few pixels below its
+   centre: the track is forced to 2.5em above, which is exactly the padding Bootstrap
+   reserves for it, and the default .25em nudge assumes a 1em box, not a 1.25em one.
+   Fixed here rather than per view — every switch in the panel uses this same markup.
+
+   The gap goes on the LABEL, not on the wrapper's padding: the input carries
+   `margin-left: -2.5em`, exactly its own width, so widening the padding slides the track
+   along with it and the two stay touching.
+
+   `.form-check.form-switch` rather than `.form-switch`: the Vite bundle ships its own
+   copy of Bootstrap and loads after this file, so the one-class form would tie and lose. */
+.form-check.form-switch {
+    min-height: 1.5em;
+    display: flex;
+    align-items: center;
+}
+
+.form-check.form-switch .form-check-input {
+    margin-top: 0 !important;
+}
+
+.form-check.form-switch .form-check-label {
+    margin-left: 0.5rem;
+    cursor: pointer;
+}
+
+/* Override the incorrect radio style for form-switch */
+.form-switch input[type="radio"] {
+    border-radius: 2em !important;
+    background-position: left center !important;
+    width: 2.5em !important;
+    height: 1.25em !important;
+    background-color: #e9ecef !important;
+    border: 2px solid rgba(0, 0, 0, 0.25) !important;
+}
+
+.form-switch input[type="radio"]:checked {
+    background-position: right center !important;
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+}
+
+/* ============================================
+   Web Settings: Android/iOS store logo overflow fix
+   ============================================ */
+@media (max-width: 1199px) {
+
+    img[alt*="Android"],
+    img[alt*="iOS"],
+    img[alt*="play store"],
+    img[alt*="app store"] {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+
+    td img,
+    .table td img {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}
+
+/* ============================================
+   POS: Pagination fix on all views
+   ============================================ */
+#pos-section .b-pagination {
+    flex-wrap: wrap;
+}
+
+@media (max-width: 1199px) {
+    .b-pagination {
+        flex-wrap: wrap !important;
+        justify-content: flex-end;
+    }
+
+    /* Ensure POS table pagination is always visible */
+    .card-body .row>[class*="col"]:has(.b-pagination) {
+        overflow: visible;
+    }
+}
+
+/* ============================================
+   FrontEnd Home Setting: Input placeholder alignment
+   Placeholder text appears above input - fix vertical alignment
+   ============================================ */
+.form-control::placeholder {
+    line-height: normal;
+    vertical-align: middle;
+}
+
+input.form-control {
+    line-height: 1.5;
+}
+
+/* ============================================
+   Forgot Password: Remove extra whitespace
+   The page had double nested .auth divs
+   ============================================ */
+.auth>.auth {
+    min-height: 0;
+    background-image: none !important;
+    padding: 0;
+}
+
+.auth .auth-section {
+    max-width: 420px;
+    width: 100%;
+}
+
+.auth .login-wrapper {
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/* ============================================
+   BREADCRUMB: Remove extra right-side spacing on tablet
+   The float-lg-end only kicks in at 992px; force it at 768px+
+   ============================================ */
+@media (min-width: 768px) and (max-width: 1199px) {
+    .page-heading .breadcrumb-header {
+        float: right !important;
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    /* Remove any auto margin that pushes breadcrumb right */
+    .page-heading .row {
+        align-items: center;
+    }
+
+    .page-heading .col-12.col-md-6.order-md-2 {
+        padding-right: 0 !important;
+    }
+}
+
+/* ============================================
+   TABLE OVERFLOW: All tables - last column stays inside card
+   Covers categories, offer images, features sections, 
+   withdrawal requests, return requests, stock management
+   ============================================ */
+.card .card-body {
+    overflow: hidden;
+}
+
+.card .card-body .table-responsive {
+    overflow-x: auto !important;
+}
+
+@media (max-width: 1199px) {
+
+    /* Data tables inside a scroll wrapper keep a usable width and scroll. */
+    .card-body .table-responsive table,
+    .card-body .table-responsive .b-table {
+        min-width: 600px;
+    }
+
+    /* But tables with stacked="md" on mobile should be exempt */
+    .card-body .b-table[aria-colcount] {
+        min-width: unset;
+    }
+}
+
+/* ============================================
+   ORDERS VIEW DETAILS / SELF PICKUP ORDER DETAILS:
+   Cards full-width on tablet (768px-991px)
+   ============================================ */
+@media (min-width: 768px) and (max-width: 991px) {
+
+    .view_order .col-md-6,
+    .view_order .col-md-4,
+    .view_order .col-md-8 {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+/* ============================================
+   STORE SETTINGS (ALL TABS): Stronger 2x2 grid on tablet
+   Covers: Store Settings, Address, Other, Delivery Boy,
+   App Settings, SMTP, Seller, Login, Card, Refer & Earn
+   ============================================ */
+@media (min-width: 768px) and (max-width: 1199px) {
+
+    /* All form columns inside store settings tabs become 2-col */
+    .vertical-tabs-container .tab-content .card .row>[class*="col-md-"] {
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+    }
+
+    /* Third Party API credentials: 1x1 (full width) */
+    .tab-content .third-party-api .col-md-6,
+    .tab-content .third-party-api .col-md-4,
+    .tab-content .third-party-api .col-md-3 {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Prevent tiny 1/4 columns from staying small */
+    .vertical-tabs-container .tab-content .card .row>.col-md-3 {
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+    }
+
+    /* Full-width for col-12 */
+    .vertical-tabs-container .tab-content .card .row>.col-md-12,
+    .vertical-tabs-container .tab-content .card .row>.col-12 {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+/* Hide asterisk-note paragraphs that contain "Required fields" text */
+p:has(> span.text-danger:first-child):not(.keep-required) {
+    display: none !important;
+}
+
+/* ============================================
+   DROPDOWN CUTOFF: Force visible overflow on filter rows
+   (Covers Orders "Drop Down Box" cut-off on tablet)
+   ============================================ */
+.card-body .row.mb-2 {
+    overflow: visible !important;
+}
+
+.card-body .row.mb-2>[class*="col"] {
+    overflow: visible !important;
+}
+
+/* ============================================
+   MOBILE FILTER GAP: Better gap between stacked filter inputs
+   Works for b-col (Vue components) too
+   ============================================ */
+@media (max-width: 767px) {
+
+    .card-body .row>div[class*="col"],
+    .card-body .row>.b-col {
+        margin-bottom: 0.75rem;
+    }
+
+    .card-body .row>div[class*="col"]:last-child,
+    .card-body .row>.b-col:last-child {
+        margin-bottom: 0;
+    }
+}
+
+/* ============================================
+   EMAIL TEMPLATES EDIT / BLOGS: Tab-to-input gap
+   ============================================ */
+.card-body .nav-tabs {
+    margin-bottom: 1rem;
+}
+
+.card-body .nav-tabs+* {
+    margin-top: 0.75rem;
+}
+
+/* ============================================
+   PRODUCT EDIT/ADD: Labels overlapping on tablet
+   Prevent label text from sitting on top of input
+   ============================================ */
+@media (min-width: 768px) and (max-width: 1199px) {
+
+    .form-group>label,
+    .mb-3>label,
+    .col-form-label {
+        display: block;
+        margin-bottom: 0.35rem;
+        line-height: 1.3;
+        word-break: break-word;
+    }
+}
+
+/* ============================================
+   SIDEBAR: Logo centered, Close button on far right
+   TheContainer.vue HTML structure:
+     .sidebar-header
+       .d-flex.justify-content-center [position:relative]  ← flex container
+         .logo                                              ← flex child
+         .toggler [position:absolute; right:0]              ← abs positioned
+   Fix: make .logo fill all space and center its content
+   ============================================ */
+@media (max-width: 1199px) {
+
+    /* The inner d-flex wrapper - ensure it fills full width */
+    .sidebar-header .d-flex {
+        width: 100% !important;
+        min-height: 60px;
+        padding: 0 10px;
+    }
+
+    /* Logo fills the available width and centers its content */
+    .sidebar-header .d-flex .logo {
+        flex: 1 1 auto !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        min-width: 0;
+    }
+
+    /* Toggler stays absolutely positioned at right (keep inline style working) */
+    .sidebar-header .d-flex .toggler {
+        /* Keep position:absolute from inline style - do NOT override */
+        /* Just ensure the icon is large enough to tap */
+        z-index: 1;
+    }
+
+    .sidebar-header .d-flex .toggler a,
+    .sidebar-header .d-flex .sidebar-hide {
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        font-size: 1.4rem;
+    }
+}
+
+/* ============================================
+   MANAGE EMAIL / COUNTRY / CUSTOMER WALLET /
+   MANAGE TRANSACTIONS / FAQ: Pagination not cut off
+   ============================================ */
+@media (max-width: 1199px) {
+
+    /* Row that wraps pagination must not clip */
+    .card-body>.row:has(.b-pagination),
+    .card-body>.b-row:has(.b-pagination) {
+        overflow: visible !important;
+    }
+
+    /* The column holding pagination extends full width */
+    .card-body .b-pagination {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+}
+
+/* ============================================
+   HEADER RIGHT MENU: Better spacing on both mobile AND tablet
+   ============================================ */
+@media (max-width: 1199px) {
+    .navbar-nav.ms-auto {
+        flex-direction: row !important;
+        flex-wrap: wrap;
+        gap: 2px 4px;
+        align-items: center;
+    }
+
+    .navbar-nav.ms-auto>.nav-item {
+        margin-right: 2px !important;
+    }
+
+    .navbar-nav.ms-auto>.nav-item>.nav-link {
+        padding: 0.3rem 0.45rem !important;
+    }
+}
+
+/* ============================================
+   HEADER (VERTICAL HEADER) – RTL spacing fixes
+   Bell badge + user menu alignment in RTL
+   ============================================ */
+body.rtl .navbar .nav-item .bi.bi-bell+.badge {
+    /* Move notification bubble closer to bell icon in RTL */
+    left: auto !important;
+    right: 6px !important;
+}
+
+body.rtl .navbar .user-menu .user-name {
+    /* Flip text alignment for username/role in RTL */
+    text-align: left !important;
+    margin-left: 0 !important;
+    margin-right: 0.5rem !important;
+}
+
+body.rtl .navbar .navbar-nav>.nav-item {
+    /* Ensure consistent, tighter horizontal spacing between header icons in RTL */
+    margin-right: 0.35rem !important;
+    margin-left: 0 !important;
+}
+
+/* Slightly pull theme toggle closer to neighbors in RTL */
+body.rtl .navbar .theme-toggle {
+    margin-right: 0.15rem !important;
+}
+
+/* RTL: remove extra padding around dark mode label + switch */
+body.rtl .navbar .theme-toggle label,
+body.rtl .navbar .theme-toggle .form-check {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* ============================================
+   ORDER CATEGORIES: Table row borders visible
+   Last card border should show
+   ============================================ */
+.list-group-item {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125) !important;
+}
+
+.list-group-item:last-child {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125) !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+/* ============================================
+   STOCK MANAGEMENT / CATEGORIES:
+   Last Action column overflow fix (stronger)
+   ============================================ */
+@media (max-width: 1199px) {
+
+    /* Table wrapper must scroll */
+    .card-body .b-table-outer-wrapper,
+    .card-body .table-responsive,
+    .card-body>.row>[class*="col"]>.table-responsive {
+        overflow-x: auto !important;
+        max-width: 100%;
+    }
+
+    /* All b-tables scroll horizontally */
+    .b-table {
+        display: table !important;
+    }
+}
+
+/* ============================================
+   POS REPORT: Filter section alignment on mobile/tablet
+   ============================================ */
+@media (max-width: 1199px) {
+    #pos-report .card-body .row.mb-2 {
+        align-items: flex-end;
+    }
+}
+
+@media (max-width: 767px) {
+    #pos-report .card-body .row.mb-2>[class*="col"] {
+        margin-bottom: 0.75rem;
+    }
+}
+
+/* ============================================
+   SUBSCRIPTION FAQ TOGGLE: Full-width label
+   ============================================ */
+.faq-form .form-check-label {
+    display: inline-block;
+    width: 100%;
+}
+
+/* ============================================
+   TABLE BORDERS: Mobile - ensure borders show on all tables
+   ============================================ */
+@media (max-width: 767px) {
+
+    .b-table td,
+    .b-table th,
+    table.table td,
+    table.table th {
+        border: 1px solid #dee2e6 !important;
+    }
+}
+
+/* ============================================
+   PANEL LOGIN BACKGROUND TABLE: Overflow fix on tablet
+   (Store Settings -> Store Settings tab)
+   ============================================ */
+@media (max-width: 1199px) {
+    .vertical-tabs-container .tab-content table {
+        max-width: 100%;
+        overflow-x: auto;
+        display: block;
+    }
+
+    .vertical-tabs-container .tab-content td,
+    .vertical-tabs-container .tab-content th {
+        white-space: nowrap;
+    }
+
+    .vertical-tabs-container .tab-content td img {
+        max-width: 150px;
+        height: auto;
+    }
+}
+
+/* ============================================
+   WITHDRAWAL REQUESTS: stacked table mobile fix
+   Scoped to .withdrawal-table wrapper only —
+   no impact on any other table in the project.
+   ============================================ */
+@media (max-width: 767.98px) {
+
+    /* Label column (left side) */
+    .withdrawal-table .table.b-table.b-table-stacked-md>tbody>tr>[data-label]::before {
+        width: 40% !important;
+        text-align: left !important;
+        padding-right: 0.5rem;
+        white-space: normal;
+        word-break: break-word;
+    }
+
+    /* Value column (right side) — override field-level text-center */
+    .withdrawal-table .table.b-table.b-table-stacked-md>tbody>tr>[data-label] {
+        text-align: left !important;
+    }
+}
+
+/* ===== Global overrides ===== */
+
+/* Kill underline on all anchor states */
+a,
+a:hover,
+a:focus,
+a:active,
+a:visited {
+    text-decoration: none !important;
+}
+
+/* Breadcrumb — no background, no padding box */
+.breadcrumb,
+.breadcrumb-header .breadcrumb {
+    background: transparent !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+    margin-bottom: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+/* ---- Global font override (Instrument Sans) ---- */
+html,
+body,
+.page-heading,
+.page-title,
+.main,
+#main,
+.sidebar-wrapper,
+.menu,
+.sidebar-item,
+.sidebar-link,
+.sidebar-title,
+.submenu,
+.submenu-item,
+.card,
+.card-header,
+.card-title,
+.card-body,
+.btn,
+.form-control,
+.form-select,
+.form-label,
+.input-group,
+.modal,
+.modal-header,
+.modal-body,
+.modal-footer,
+.table,
+.dataTable-table,
+.dataTable-wrapper,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+a,
+label,
+input,
+select,
+textarea,
+button {
+    font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+}
+
+/* ============================================================================
+   APP SHELL — sidebar + sticky header + content column
+   ----------------------------------------------------------------------------
+   The header markup lives INSIDE #main (see TheContainer.vue), so it inherits
+   the content column's offset and slides with it when the sidebar collapses.
+   #sidebar.active is the open state; the burger toggles it at every width.
+   ============================================================================ */
+:root {
+    --app-sidebar-w: 276px;
+    --app-header-h: 64px;
+    /* Taller than the header so the logo has room to breathe. */
+    --app-brand-h: 88px;
+    --app-surface: #ffffff;
+    --app-border: #e9edf5;
+    --app-card-bg: #ffffff;
+    --app-card-border: #e6eaf2;
+    --app-footer-ink: #212529;
+    --app-thead-bg: #f7f9fc;
+    --app-muted: #67748e;
+    --app-ink: #25396f;
+    --app-hover: rgba(var(--bs-primary-rgb), 0.08);
+    --app-control-border: #d9dde3;
+    /* Sidebar tree trunk/elbows: --app-border is too faint to read as a line. */
+    --app-tree-line: #c2cbdb;
+    /* Skeleton block colour — deliberately more contrasty than --app-thead-bg so
+       placeholders are visible over both cards and white table rows. */
+    --app-skel-bg: #dfe3ec;
+    --app-ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.theme-dark {
+    --app-surface: #1e1e2d;
+    --app-border: #2f2f45;
+    /* Matches the sidebar colour (#1e1e2d) so cards read as the same surface;
+       still lighter than the page bg (#14141f), so they sit above it. */
+    --app-card-bg: #1e1e2d;
+    --app-card-border: #383850;
+    /* Black is unreadable on the dark page — this is the dark-mode equivalent of "default text". */
+    --app-footer-ink: #c2c2d9;
+    --app-thead-bg: #23233a;
+    --app-muted: #9a9ab5;
+    --app-ink: #e6e6f0;
+    --app-hover: rgba(255, 255, 255, 0.07);
+    /* On the dark sheet --app-card-border (#383850) is nearly invisible against
+       the card, so controls get a brighter edge of their own. */
+    --app-control-border: rgba(255, 255, 255, 0.28);
+    --app-tree-line: #4d4d68;
+    --app-skel-bg: rgba(255, 255, 255, 0.11);
+}
+
+body {
+    padding-top: 0 !important;
+}
+
+/* --- Sidebar --- */
+.sidebar-wrapper {
+    width: var(--app-sidebar-w) !important;
+    border-right: 1px solid var(--app-border);
+    transition: left 0.28s var(--app-ease), right 0.28s var(--app-ease);
+    /* The theme ships z-index 10, which is under the sticky header (20): hovering the
+       collapsed rail expands it over the content but *behind* the header, so its top
+       disappears under the header bar. The sidebar overlays, so it goes above — still
+       below the backdrop-free overlays (global search 1035+, modals, toasts). */
+    z-index: 25;
+}
+
+#sidebar.active .sidebar-wrapper {
+    left: 0;
+}
+
+#sidebar:not(.active) .sidebar-wrapper {
+    left: calc(var(--app-sidebar-w) * -1);
+}
+
+/* --- Content column --- */
+#main {
+    margin-left: var(--app-sidebar-w);
+    padding: 0 !important;
+    min-height: 100vh;
+    /* Column so .main-content can absorb the slack and the footer sits flush at
+       the bottom even when the page is shorter than the viewport. */
+    display: flex;
+    flex-direction: column;
+    transition: margin-left 0.28s var(--app-ease);
+}
+
+#main>.main-content {
+    flex: 1 0 auto;
+}
+
+/* Collapsed sidebar: content reclaims the full width. Mazer ships this rule but
+   the old `#main { margin-left: 260px !important }
+
+` outranked it, so the desktop
+   toggle appeared dead. */
+#sidebar:not(.active)~#main {
+    margin-left: 0;
+}
+
+.main-content {
+    padding: 1.25rem 1.25rem;
+}
+
+@media (max-width: 1023.98px) {
+
+    /* Below 1024 the sidebar overlays the content instead of pushing it.*/
+    #main,
+    #sidebar:not(.active)~#main,
+    #sidebar.active~#main {
+        margin-left: 0;
+    }
+
+    .main-content {
+        padding: 1rem;
+    }
+}
+
+/* Sidebar brand area — deliberately taller than the header so wide/tall logos
+   render at full size instead of being squeezed. */
+.sidebar-wrapper .sidebar-header {
+    height: var(--app-brand-h);
+    min-height: var(--app-brand-h);
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem !important;
+    border-bottom: 1px solid var(--app-border);
+}
+
+.sidebar-wrapper .sidebar-header .logo,
+.sidebar-wrapper .sidebar-header .d-flex {
+    width: 100%;
+}
+
+.sidebar-wrapper .sidebar-header .logo a {
+    width: 100%;
+}
+
+/* Fit the logo inside the brand box without distorting it — never upscale a
+   small logo, never let a big one overflow. */
+.logo .container-logo {
+    height: auto !important;
+    width: auto;
+    max-height: calc(var(--app-brand-h) - 1.5rem);
+    max-width: 100%;
+    padding: 0 !important;
+    object-fit: contain;
+}
+
+/* The in-sidebar close (X) is only needed while the sidebar overlays content. */
+@media (min-width: 1200px) {
+    .sidebar-header .toggler {
+        display: none;
+    }
+}
+
+/* --- Header --- */
+.vh-root {
+    display: contents;
+}
+
+.app-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: var(--app-surface);
+    border-bottom: 1px solid var(--app-border);
+}
+
+.app-header .navbar {
+    height: var(--app-header-h);
+    min-height: var(--app-header-h);
+    padding: 0 1.25rem;
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.app-header .container-fluid {
+    padding: 0;
+    gap: 0.75rem;
+}
+
+.app-header .navbar-collapse {
+    display: flex !important;
+    flex-basis: auto;
+}
+
+.app-header .btn {
+    margin-bottom: 0 !important;
+}
+
+/* Icon buttons in the header: square hit area, circular hover, muted stroke. */
+.app-header .hdr-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: 1px solid var(--app-card-border);
+    border-radius: 10px;
+    background-color: var(--app-thead-bg);
+    color: var(--app-muted);
+    transition: background-color 0.15s var(--app-ease), color 0.15s var(--app-ease),
+        border-color 0.15s var(--app-ease);
+}
+
+.app-header .hdr-icon-btn:hover,
+.app-header .hdr-icon-btn:focus-visible {
+    background-color: rgba(var(--bs-primary-rgb), 0.1);
+    border-color: rgba(var(--bs-primary-rgb), 0.35);
+    color: var(--bs-primary);
+}
+
+.app-header .hdr-icon-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 1.75px;
+}
+
+.app-header .hdr-icon-btn.dropdown-toggle::after {
+    display: none;
+}
+
+/* The burger. Mazer hides it above 1200px — we want it at every width. */
+.burger-btn {
+    display: inline-flex !important;
+}
+
+/* Thin divider between tool groups. */
+.app-header .hdr-divider {
+    width: 1px;
+    height: 24px;
+    background-color: var(--app-border);
+    flex-shrink: 0;
+}
+
+/* User chip */
+.app-header .user-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.5rem 0.25rem 0.25rem;
+    border-radius: 999px;
+    transition: background-color 0.15s var(--app-ease);
+}
+
+.app-header .user-chip:hover {
+    background-color: var(--app-hover);
+}
+
+.app-header .user-chip img {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.app-header .user-chip-name {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--app-ink);
+}
+
+.app-header .user-chip-role {
+    font-size: 0.6875rem;
+    line-height: 1.2;
+    color: var(--app-muted);
+}
+
+/* Header dropdowns */
+.app-header .dropdown-menu {
+    border: 1px solid var(--app-border);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(16, 24, 40, 0.12);
+    padding: 0.4rem;
+    margin-top: 0.5rem;
+}
+
+.app-header .dropdown-menu .dropdown-item {
+    border-radius: 8px;
+    font-size: 0.8125rem;
+    padding: 0.5rem 0.65rem;
+}
+
+.app-header .dropdown-menu .dropdown-item svg {
+    width: 16px;
+    height: 16px;
+    stroke-width: 1.75px;
+}
+
+.app-header .dropdown-header {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--app-muted);
+}
+
+/* ============================================================================
+   LIST PAGE — the standard shape for every listing page.
+   No card chrome: the page title and the primary action sit together in a plain
+   flex row, and the table gets its own surface below.
+   Piloted on Manage Categories — reusable as-is on the other list pages.
+   ============================================================================ */
+.page-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.page-head-title {
+    margin: 0;
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+    color: var(--app-ink);
+}
+
+/* The table surface — a bordered panel, not a .card. */
+.list-surface {
+    background-color: var(--app-card-bg);
+    border: 1px solid var(--app-card-border);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* Toolbar bar on the surface, directly above the table. Filters (if the page has
+   any) sit on the left; search + refresh stay right. */
+.list-surface>.list-toolbar {
+    justify-content: flex-end;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--app-card-border);
+}
+
+.list-toolbar-start {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-inline-end: auto;
+}
+
+/* Selects / date pickers living in a list toolbar. */
+.list-select,
+.list-toolbar .form-select,
+.list-toolbar select.form-control {
+    width: auto;
+    min-width: 140px;
+    max-width: 220px;
+    height: 36px;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-radius: 8px;
+    border-color: var(--app-card-border);
+}
+
+/* Secondary (non-primary) toolbar buttons: same height as the rest of the row. */
+.list-toolbar .btn:not(.list-add-btn) {
+    min-height: 36px;
+    margin-bottom: 0 !important;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    white-space: nowrap;
+}
+
+/* A second row under the toolbar for pages with an expandable filter panel. */
+.list-filters {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--app-card-border);
+    background-color: var(--app-thead-bg);
+}
+
+/* Round close button for the order/return detail sliders. Theme-tokenized so it
+   doesn't render as a white circle on the dark header (btn-light did). */
+.slider-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: 50%;
+    background-color: var(--app-thead-bg);
+    border: 1px solid var(--app-card-border);
+    color: var(--app-ink);
+    transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+.slider-close:hover {
+    background-color: var(--app-hover);
+    color: var(--app-ink);
+    border-color: var(--app-control-border);
+}
+.slider-close svg { display: block; }
+
+/* Filter panels (Orders, Products, Delivery-boy Orders) reveal top -> down when
+   the Filters button is toggled. max-height drives the collapse; translate/opacity
+   add the slide-in. Shared by .list-filters and .filter-panel. */
+.filter-slide-enter-active,
+.filter-slide-leave-active {
+    overflow: hidden;
+    transition: max-height 0.28s var(--app-ease), opacity 0.22s var(--app-ease), transform 0.28s var(--app-ease);
+}
+.filter-slide-enter-from,
+.filter-slide-leave-to {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-12px);
+}
+.filter-slide-enter-to,
+.filter-slide-leave-from {
+    max-height: 400px;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Extra actions that belong beside the page title (export, bulk, column toggle). */
+.page-head-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.list-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* Search with a leading icon — the icon sits inside the field rather than above
+   it, which is what the old `h6 + input` stack was doing. */
+.list-search {
+    position: relative;
+}
+
+.list-search .list-search-icon {
+    position: absolute;
+    top: 50%;
+    inset-inline-start: 0.65rem;
+    transform: translateY(-50%);
+    width: 15px;
+    height: 15px;
+    color: var(--app-muted);
+    pointer-events: none;
+}
+
+.list-search .form-control {
+    width: 220px;
+    height: 36px;
+    padding-inline-start: 2rem;
+    border-radius: 8px;
+}
+
+.list-search .form-control::-webkit-search-cancel-button {
+    cursor: pointer;
+}
+
+.list-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    padding: 0;
+    border: 1px solid var(--app-card-border);
+    border-radius: 8px;
+    background-color: transparent;
+    color: var(--app-muted);
+    transition: background-color 0.15s var(--app-ease), color 0.15s var(--app-ease),
+        border-color 0.15s var(--app-ease);
+}
+
+.list-icon-btn:hover {
+    border-color: var(--bs-primary);
+    background-color: var(--app-hover);
+    color: var(--bs-primary);
+}
+
+.list-icon-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.list-icon-btn .is-spinning {
+    animation: listSpin 0.8s linear infinite;
+}
+
+@keyframes listSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.list-add-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row !important;
+    flex-shrink: 0;
+    gap: 0.4rem;
+    width: auto;
+    min-height: 36px;
+    padding: 0.45rem 0.9rem;
+    border-radius: 8px;
+    margin-bottom: 0 !important;
+    /* Never let the label wrap under the icon — that was the broken pill. */
+    white-space: nowrap !important;
+    line-height: 1.2;
+}
+
+.list-add-btn svg {
+    flex-shrink: 0;
+}
+
+/* The table draws its own separators and fills the surface edge to edge. */
+.list-surface .table {
+    margin-bottom: 0;
+}
+
+.list-surface .table thead th {
+    padding: 0.8rem 1rem;
+    background-color: var(--app-thead-bg) !important;
+    color: var(--app-ink) !important;
+    font-size: 0.8125rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    border-bottom: 1px solid var(--app-card-border) !important;
+    white-space: nowrap;
+}
+
+.list-surface .table tbody td {
+    padding: 0.75rem 1rem !important;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--app-card-border);
+    background-color: transparent;
+}
+
+.list-surface .table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.list-surface .table tbody tr:hover>td {
+    background-color: var(--app-hover);
+}
+
+/* Zebra striping fights the hover state and the flat surface — drop it. */
+.list-surface .table.table-striped>tbody>tr:nth-of-type(odd)>* {
+    background-color: transparent;
+    box-shadow: none;
+    --bs-table-accent-bg: transparent;
+}
+
+/* Row thumbnail */
+.list-thumb {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid var(--app-card-border);
+    background-color: var(--app-thead-bg);
+}
+
+/* ============================================================================
+   BUTTONS WITH ICONS
+   style.css ships a global `svg, video { display: block }`. Inside a Bootstrap
+   .btn (inline-block, text-align:center) that pushes a lucide icon onto its own
+   line, so icon+label buttons render stacked and clipped. Making the button a
+   flex row puts the icon back beside the label and centres the pair.
+   ============================================================================ */
+/* !important because several vendor sheets (bootstrap.css, app.css, style.css)
+   also declare `.btn { display: inline-block }` at equal specificity. */
+.btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    vertical-align: middle;
+}
+
+.btn svg {
+    flex-shrink: 0;
+    display: inline-block;
+}
+
+/* Full-width buttons still need to fill their container. */
+.btn.btn-block,
+.btn.w-100,
+.btn.d-block {
+    display: flex !important;
+    width: 100%;
+}
+
+/* Any lucide icon sitting inline inside body text / links / table cells. */
+.dropdown-item svg,
+.nav-link svg,
+td svg,
+label svg {
+    vertical-align: middle;
+}
+
+/* ============================================================================
+   BADGES — one global design.
+   Bootstrap ships solid, saturated badges that read as heavy and shouty in a
+   dense admin table. Every `.badge` in the panel now uses the same soft-tint
+   pill: a 12% wash of the semantic colour with the solid colour as text.
+   Classes stay Bootstrap's (bg-success / bg-danger / …), so pages that build
+   their badge class in JS pick this up with no markup change.
+   Opt out of the tint on a one-off with `.badge.badge-solid`.
+   ============================================================================ */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.1px;
+    white-space: nowrap;
+}
+
+/* Compact variant for badges sitting inside dense rows (e.g. order-item lines). */
+.badge.badge-sm {
+    padding: 4px 10px;
+    font-size: 0.75rem;
+}
+
+/* Soft fill + a matching outline, so the badge reads as a defined chip rather
+   than a floating wash. */
+.badge.bg-success {
+    background-color: rgba(25, 135, 84, 0.1) !important;
+    border-color: rgba(25, 135, 84, 0.35) !important;
+    color: #198754 !important;
+}
+
+.badge.bg-danger {
+    background-color: rgba(220, 53, 69, 0.1) !important;
+    border-color: rgba(220, 53, 69, 0.35) !important;
+    color: #dc3545 !important;
+}
+
+.badge.bg-warning {
+    background-color: rgba(255, 193, 7, 0.15) !important;
+    border-color: rgba(255, 193, 7, 0.5) !important;
+    color: #9a6f00 !important;
+}
+
+.badge.bg-info {
+    background-color: rgba(13, 110, 253, 0.08) !important;
+    border-color: rgba(13, 110, 253, 0.3) !important;
+    color: #2c7be5 !important;
+}
+
+.badge.bg-primary {
+    background-color: rgba(var(--bs-primary-rgb), 0.1) !important;
+    border-color: rgba(var(--bs-primary-rgb), 0.35) !important;
+    color: var(--bs-primary) !important;
+}
+
+.badge.bg-secondary,
+.badge.bg-dark,
+.badge.bg-black,
+.badge.bg-light {
+    background-color: rgba(103, 116, 142, 0.1) !important;
+    border-color: rgba(103, 116, 142, 0.3) !important;
+    color: var(--app-muted) !important;
+}
+
+/* Escape hatch: keeps Bootstrap's solid fill where contrast demands it. */
+.badge.badge-solid {
+    color: #fff !important;
+}
+
+.badge.badge-solid.bg-success {
+    background-color: #198754 !important;
+}
+
+.badge.badge-solid.bg-danger {
+    background-color: #dc3545 !important;
+}
+
+.badge.badge-solid.bg-primary {
+    background-color: var(--bs-primary) !important;
+}
+
+body.theme-dark .badge.bg-success {
+    background-color: rgba(25, 135, 84, 0.22) !important;
+    color: #4ade80 !important;
+}
+
+body.theme-dark .badge.bg-danger {
+    background-color: rgba(220, 53, 69, 0.22) !important;
+    color: #fca5a5 !important;
+}
+
+body.theme-dark .badge.bg-warning {
+    background-color: rgba(255, 193, 7, 0.22) !important;
+    color: #fcd34d !important;
+}
+
+body.theme-dark .badge.bg-info {
+    background-color: rgba(13, 202, 240, 0.22) !important;
+    color: #67e8f9 !important;
+}
+
+/* Order mode chip (quick / ecommerce). Defined here so the Orders list and the
+   dashboard's recent-orders table render it identically. */
+.mode-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 600;
+    font-size: 0.75rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    background-color: var(--app-card-bg);
+    border: 1px solid var(--app-card-border);
+    color: var(--app-ink);
+    white-space: nowrap;
+}
+
+.mode-chip svg {
+    flex-shrink: 0;
+}
+
+/* Status pill — the explicit two-state variant used by the list pages. */
+/* Same chip as .badge — outlined, no dot — so the two never look different when
+   they sit in adjacent columns. */
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 9px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+.status-pill.is-active {
+    background-color: rgba(25, 135, 84, 0.1);
+    border-color: rgba(25, 135, 84, 0.35);
+    color: #198754;
+}
+
+.status-pill.is-inactive {
+    background-color: rgba(220, 53, 69, 0.1);
+    border-color: rgba(220, 53, 69, 0.35);
+    color: #dc3545;
+}
+
+/* Extra variants for columns that carry more than two states (order status,
+   settlement entry type, ...) — active/inactive alone would misread those as
+   good/bad. */
+.status-pill.is-info {
+    background-color: rgba(13, 110, 253, 0.08);
+    border-color: rgba(13, 110, 253, 0.3);
+    color: #2c7be5;
+}
+
+.status-pill.is-warning {
+    background-color: rgba(255, 193, 7, 0.15);
+    border-color: rgba(255, 193, 7, 0.5);
+    color: #9a6f00;
+}
+
+.status-pill.is-neutral {
+    background-color: rgba(103, 116, 142, 0.1);
+    border-color: rgba(103, 116, 142, 0.3);
+    color: var(--app-muted);
+}
+
+/* ============================================================================
+   CARD GRID — reusable listing as cards instead of a table.
+   Use on any page whose records read better as cards (Categories, Stores, …).
+   Structure:
+     .list-page
+       .page-head (title + Add)
+       .card-toolbar        ← search / filters / refresh (optional)
+       .card-grid           ← the cards
+         .entity-card
+           .entity-card-media   (optional image/banner)
+           .entity-card-body
+             .entity-card-title
+             .entity-card-meta / .entity-meta-row
+           .entity-card-foot     (status + .list-actions)
+       .card-pager          ← pagination (optional)
+   Colours come from the shell tokens, so cards track dark mode.
+   ============================================================================ */
+.card-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.card-toolbar .list-toolbar-start {
+    margin-inline-end: auto;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+}
+
+.entity-card {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--app-card-bg);
+    border: 1px solid var(--app-card-border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: box-shadow 0.18s var(--app-ease), transform 0.18s var(--app-ease),
+        border-color 0.18s var(--app-ease);
+}
+
+.entity-card:hover {
+    border-color: rgba(var(--bs-primary-rgb), 0.35);
+    box-shadow: 0 6px 20px rgba(16, 24, 40, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Media band — image or a tinted placeholder. */
+.entity-card-media {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background-color: var(--app-thead-bg);
+    overflow: hidden;
+}
+
+.entity-card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.entity-card-media .entity-card-ph {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--app-muted);
+    opacity: 0.5;
+}
+
+/* A status pill can float on the media corner. */
+.entity-card-media .status-pill {
+    position: absolute;
+    top: 8px;
+    inset-inline-end: 8px;
+    background-color: var(--app-card-bg);
+    box-shadow: 0 1px 3px rgba(16, 24, 40, 0.15);
+}
+
+/* Second badge on the opposite (start) corner. */
+.entity-card-media .status-pill.is-start {
+    inset-inline-start: 8px;
+    inset-inline-end: auto;
+}
+
+/* Rating badge on a product card — top-left, over the image. */
+.entity-card-media .rating-badge {
+    position: absolute;
+    inset-block-start: 8px;
+    inset-inline-start: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: .72rem;
+    font-weight: 700;
+    color: #b45309;
+    background: rgba(255, 255, 255, .92);
+    box-shadow: 0 1px 4px rgba(16, 24, 40, .18);
+}
+
+/* When the product is a draft the pill already owns the top-left slot. */
+.entity-card-media .rating-badge.is-below {
+    inset-block-start: 38px;
+}
+
+.entity-card-media .rating-badge.is-link {
+    cursor: pointer;
+}
+
+.entity-card-media .rating-badge.is-link:hover {
+    background: #fff;
+    color: #92400e;
+}
+
+/* Two stacked stars: a grey outline, clipped gold copy on top. */
+.rating-badge-star {
+    position: relative;
+    display: inline-flex;
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+}
+
+.rating-badge-star svg {
+    width: 12px;
+    height: 12px;
+    display: block;
+}
+
+.rating-badge-star-bg {
+    color: #d0d5dd;
+    fill: #d0d5dd;
+}
+
+.rating-badge-star-fill {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    overflow: hidden;
+    color: #f59e0b;
+    fill: #f59e0b;
+    display: block;
+}
+
+/* Products / logos read better contained than cropped, and get a taller, near-
+   square frame so the image reads properly. */
+.entity-card-media.is-contain {
+    aspect-ratio: 1 / 1;
+}
+
+.entity-card-media.is-contain img {
+    object-fit: contain;
+    padding: 10px;
+}
+
+.entity-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0.85rem 0.9rem;
+    flex: 1;
+}
+
+.entity-card-title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--app-ink);
+    line-height: 1.3;
+    margin: 0;
+    word-break: break-word;
+}
+
+.entity-card-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.entity-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    color: var(--app-muted);
+    min-width: 0;
+}
+
+.entity-meta-row svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    opacity: 0.8;
+}
+
+.entity-meta-row > span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.entity-meta-row b {
+    color: var(--app-ink);
+    font-weight: 600;
+}
+
+/* Footer: status on the left, actions on the right. */
+.entity-card-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--app-card-border);
+}
+
+/* When the footer holds only the action row, spread the buttons evenly. */
+.entity-card-foot>.list-actions:only-child {
+    width: 100%;
+    justify-content: space-between;
+    gap: 0.4rem;
+}
+
+.entity-card-foot>.list-actions:only-child>.list-action-btn {
+    flex: 1;
+}
+
+/* Pagination row under the grid (mirrors .list-footer). */
+.card-pager {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+}
+
+.card-pager .pagination {
+    margin-bottom: 0;
+    gap: 4px;
+}
+
+.card-pager .pagination .page-item .page-link {
+    min-width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+    border: 1px solid var(--app-card-border);
+    border-radius: 8px;
+    background-color: transparent;
+    color: var(--app-muted);
+    font-size: 0.8125rem;
+    box-shadow: none;
+}
+
+.card-pager .pagination .page-item .page-link:hover {
+    border-color: var(--bs-primary);
+    background-color: var(--app-hover);
+    color: var(--bs-primary);
+    border-radius: 8px;
+}
+
+.card-pager .pagination .page-item.active .page-link {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: none;
+}
+
+.card-pager .pagination .page-item.disabled .page-link {
+    opacity: 0.45;
+}
+
+/* Segmented tabs (Published / Drafts style pill toggle). Reusable. */
+.seg-tabs {
+    display: inline-flex;
+    padding: 4px;
+    gap: 4px;
+    background-color: var(--app-thead-bg);
+    border: 1px solid var(--app-card-border);
+    border-radius: 10px;
+}
+
+.seg-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.4rem 0.9rem;
+    border: 0;
+    border-radius: 7px;
+    background-color: transparent;
+    color: var(--app-muted);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s var(--app-ease), color 0.15s var(--app-ease);
+}
+
+.seg-tab:hover {
+    color: var(--app-ink);
+}
+
+.seg-tab.active {
+    background-color: var(--app-card-bg);
+    color: var(--bs-primary);
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.08);
+}
+
+.seg-tab .seg-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 18px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background-color: rgba(103, 116, 142, 0.14);
+    color: var(--app-muted);
+    font-size: 0.6875rem;
+}
+
+.seg-tab.active .seg-count {
+    background-color: rgba(var(--bs-primary-rgb), 0.14);
+    color: var(--bs-primary);
+}
+
+/* Collapsible filter panel above a grid/table. Reusable. */
+.filter-panel {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: var(--app-card-bg);
+    border: 1px solid var(--app-card-border);
+    border-radius: 12px;
+}
+
+/* Padded body inside a .list-surface panel that wraps a grid/tree. */
+.list-panel-body {
+    padding: 1rem;
+}
+
+/* Rounded ends on a segmented button-group sitting in a toolbar.
+   !important because Bootstrap's `.btn-group > .btn` rules zero these corners. */
+.list-toolbar .btn-group>.btn:first-child,
+.card-toolbar .btn-group>.btn:first-child {
+    border-top-left-radius: 8px !important;
+    border-bottom-left-radius: 8px !important;
+}
+
+.list-toolbar .btn-group>.btn:last-child,
+.card-toolbar .btn-group>.btn:last-child {
+    border-top-right-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
+}
+
+/* ---- Category tree view ---- */
+.cat-tree {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.cat-tree-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.6rem;
+    border-radius: 9px;
+    transition: background-color 0.12s var(--app-ease);
+}
+
+.cat-tree-row:hover {
+    background-color: var(--app-hover);
+}
+
+.cat-tree-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--app-muted);
+    cursor: pointer;
+}
+
+.cat-tree-toggle:hover {
+    background-color: rgba(var(--bs-primary-rgb), 0.1);
+    color: var(--bs-primary);
+}
+
+.cat-tree-toggle.is-leaf {
+    visibility: hidden;
+}
+
+.cat-tree-thumb {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border-radius: 7px;
+    object-fit: cover;
+    border: 1px solid var(--app-card-border);
+    background: var(--app-thead-bg);
+}
+
+.cat-tree-thumb-ph {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--app-muted);
+    opacity: 0.6;
+}
+
+.cat-tree-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--app-ink);
+}
+
+.cat-tree-badge {
+    font-size: 0.7rem;
+    color: var(--app-muted);
+    background: var(--app-thead-bg);
+    border: 1px solid var(--app-card-border);
+    padding: 1px 8px;
+    border-radius: 999px;
+}
+
+/* Per-category count chips (subcategories / custom sections / attributes). */
+.cat-tree-counts {
+    display: flex;
+    gap: 6px;
+    margin-inline-start: auto;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.cat-count-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.7rem;
+    color: var(--app-ink);
+    background: var(--app-thead-bg);
+    border: 1px solid var(--app-card-border);
+    padding: 1px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.cat-count-badge svg {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    opacity: .7;
+}
+
+/* Counts row on the category card — wraps under the parent/subcategory line. */
+.cat-count-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 6px;
+}
+
+.cat-count-badge.is-muted {
+    color: var(--app-muted);
+    background: transparent;
+}
+
+.cat-tree-actions {
+    margin-inline-start: 8px;
+}
+
+/* Brand tree: a product row nested under its brand. */
+.cat-tree-row.brand-child {
+    padding-inline-start: 34px;
+    background: var(--app-thead-bg);
+}
+
+.cat-tree-row.brand-child.is-link {
+    cursor: pointer;
+}
+
+.cat-tree-row.brand-child.is-link:hover {
+    color: var(--bs-primary);
+}
+
+/* Depth guide line. */
+.cat-tree-row .cat-tree-indent {
+    flex-shrink: 0;
+}
+
+/* Empty state for a grid. */
+.card-grid-empty {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 3rem 1rem;
+    color: var(--app-muted);
+    font-size: 0.85rem;
+}
+
+.card-grid-empty svg {
+    opacity: 0.45;
+}
+
+@media (max-width: 767.98px) {
+
+    .card-toolbar,
+    .card-pager {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .card-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 0.75rem;
+    }
+}
+
+/* Phones: always two cards per row (auto-fill would drop to one on narrow
+   screens), with the card chrome tightened to suit ~150px columns. */
+@media (max-width: 575.98px) {
+    .card-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.6rem;
+    }
+    .entity-card-body { padding: 0.6rem 0.65rem; gap: 0.25rem; }
+    .entity-card-title { font-size: 0.85rem; }
+    .entity-meta-row { font-size: 0.72rem; }
+    .entity-card-foot { padding-top: 0.5rem; }
+    .cat-count-badge { font-size: 0.66rem; }
+}
+
+/* Row actions */
+.list-actions {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+}
+
+.list-action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 1px solid var(--app-card-border);
+    border-radius: 7px;
+    background-color: transparent;
+    color: var(--app-muted);
+    transition: all 0.15s var(--app-ease);
+}
+
+.list-action-btn.is-edit:hover {
+    border-color: var(--bs-primary);
+    background-color: rgba(var(--bs-primary-rgb), 0.1);
+    color: var(--bs-primary);
+}
+
+.list-action-btn.is-delete:hover {
+    border-color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+}
+
+.list-action-btn.is-view:hover {
+    border-color: #0d9488;
+    background-color: rgba(13, 148, 136, 0.1);
+    color: #0d9488;
+}
+
+/* Footer sits inside the surface, under the table: per-page + range on one side,
+   pagination on the other. */
+.list-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--app-card-border);
+}
+
+.list-perpage {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--app-muted);
+    white-space: nowrap;
+}
+
+.list-perpage .form-select {
+    width: auto;
+    min-width: 72px;
+    height: 32px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.list-range {
+    padding-inline-start: 0.25rem;
+}
+
+/* Pagination: square-ish tiles, no Bootstrap drop-shadow, primary for the
+   current page. Overrides the older .pagination block higher up this file. */
+.list-surface .pagination {
+    margin-bottom: 0;
+    gap: 4px;
+}
+
+.list-surface .pagination .page-item .page-link {
+    min-width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+    border: 1px solid var(--app-card-border);
+    border-radius: 8px;
+    background-color: transparent;
+    color: var(--app-muted);
+    font-size: 0.8125rem;
+    box-shadow: none;
+    transition: all 0.15s var(--app-ease);
+}
+
+.list-surface .pagination .page-item .page-link:hover {
+    border-color: var(--bs-primary);
+    background-color: var(--app-hover);
+    color: var(--bs-primary);
+    border-radius: 8px;
+}
+
+.list-surface .pagination .page-item.active .page-link,
+.list-surface .pagination .page-item.active .page-link:hover {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: none;
+}
+
+.list-surface .pagination .page-item.disabled .page-link {
+    opacity: 0.45;
+    background-color: transparent;
+}
+
+@media (max-width: 767.98px) {
+
+    .page-head,
+    .list-footer {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .list-toolbar {
+        width: 100%;
+    }
+
+    .list-search {
+        flex: 1 1 auto;
+    }
+
+    .list-search .form-control {
+        width: 100%;
+    }
+}
+
+/* --- Footer ---
+   Full-bleed bar on the card surface: edge to edge, flush to the bottom of the
+   content column. `margin-top: auto` (with #main as a flex column) pushes it to
+   the bottom on short pages instead of leaving it floating mid-screen. */
+.app-footer {
+    margin-top: auto;
+    padding: 0;
+    font-size: 0.8125rem;
+}
+
+.app-footer-card {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0.85rem 1.5rem;
+    background-color: var(--app-card-bg);
+    /* Only a top edge — the left/right/bottom edges meet the viewport. */
+    border: 0;
+    border-top: 1px solid var(--app-card-border);
+    border-radius: 0;
+}
+
+/* The copyright text is admin-supplied HTML and often ships its own <a>, so pin
+   the colour on descendants too — otherwise the link colour leaks back in. */
+.app-footer-copyright,
+.app-footer-copyright a,
+.app-footer-copyright * {
+    color: var(--app-footer-ink) !important;
+    font-weight: 400 !important;
+    text-decoration: none !important;
+    margin-bottom: 0;
+}
+
+body.rtl .app-footer-card {
+    justify-content: flex-start;
+}
+
+/* --- Body scroll lock ---
+   While the sidebar overlays the page (< 1200px), only the sidebar scrolls. */
+body.sidebar-open {
+    overflow: hidden;
+}
+
+.sidebar-wrapper {
+    overscroll-behavior: contain;
+}
+
+/* RTL: sidebar hangs off the right edge, content shifts the other way. */
+body.rtl .sidebar-wrapper {
+    border-right: 0;
+    border-left: 1px solid var(--app-border);
+}
+
+body.rtl #sidebar:not(.active) .sidebar-wrapper {
+    left: auto;
+    right: calc(var(--app-sidebar-w) * -1);
+}
+
+body.rtl #main {
+    margin-left: 0;
+    margin-right: var(--app-sidebar-w);
+    transition: margin-right 0.28s var(--app-ease);
+}
+
+body.rtl #sidebar:not(.active)~#main {
+    margin-right: 0;
+}
+
+@media (max-width: 1023.98px) {
+
+    body.rtl #main,
+    body.rtl #sidebar:not(.active)~#main,
+    body.rtl #sidebar.active~#main {
+        margin-right: 0;
+    }
+}
+
+/* Softer, tighter sidebar (override Mazer's bold/wide defaults) */
+.sidebar-wrapper .menu {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+}
+
+.sidebar-link {
+    font-weight: 400 !important;
+    font-size: 14px !important;
+    letter-spacing: 0 !important;
+    padding: 0.6rem 0.75rem !important;
+    color: var(--app-ink) !important;
+}
+
+.sidebar-link i {
+    font-size: 1rem !important;
+}
+
+.sidebar-link span {
+    margin-left: 0.7rem !important;
+}
+
+/* The active item paints its own surface, so its label must stay light on it. */
+.sidebar-item.active>.sidebar-link,
+.sidebar-item.active>.sidebar-link span {
+    color: #fff !important;
+}
+
+.menu .sidebar-title {
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    font-size: 0.7rem !important;
+    letter-spacing: 0.5px !important;
+    margin: 1rem 0 0.5rem !important;
+    padding: 0 0.75rem !important;
+}
+
+.menu .submenu {
+    position: relative;
+    /* Side padding removed so a child's own box starts where the parent's does and the
+       offsets below can be read against one origin. */
+    padding: 0.1rem 0.5rem 0.2rem 0 !important;
+}
+
+.menu .submenu .submenu-item {
+    position: relative;
+}
+
+.menu .submenu .submenu-item::before {
+    content: "";
+    position: absolute;
+    left: 1.25rem;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: var(--app-tree-line);
+    z-index: 1;
+}
+
+/* Nothing hangs below the last child's elbow. */
+.menu .submenu .submenu-item:last-child::before {
+    bottom: 50%;
+}
+
+/* The selected child draws only the half below its elbow; the half above it is the
+   elbow's own stroke, which is the one that gets the primary colour. */
+.menu .submenu .submenu-item.active::before {
+    top: 50%;
+}
+
+.menu .submenu .submenu-item:has(~ .submenu-item.active)::before {
+    left: calc(1.25rem - 0.5px);
+    width: 2px;
+    background-color: var(--bs-primary);
+}
+
+.menu .submenu .submenu-item a {
+    font-weight: 400 !important;
+    font-size: 0.8125rem !important;
+    letter-spacing: 0 !important;
+    padding: 0.45rem 0.75rem 0.45rem 2.6rem !important;
+    position: relative;
+    z-index: 0;
+    color: var(--app-ink) !important;
+}
+
+/* The elbow: down the trunk's line, then a curve out to the label. */
+.menu .submenu .submenu-item a::before {
+    content: "";
+    position: absolute;
+    left: 1.25rem;
+    top: 0;
+    height: calc(50% + 1px);
+    width: 0.75rem;
+    border-left: 1px solid var(--app-tree-line);
+    border-bottom: 1px solid var(--app-tree-line);
+    border-bottom-left-radius: 7px;
+}
+
+.menu .submenu .submenu-item a::after {
+    content: "";
+    position: absolute;
+    inset: 0.08rem 0 0.08rem 2.1rem;
+    border-radius: 0.5rem;
+    z-index: -1;
+    transition: background-color 0.15s var(--app-ease);
+}
+
+.menu .submenu .submenu-item a:hover {
+    margin-left: 0 !important;
+}
+
+.menu .submenu .submenu-item a:hover::after {
+    background-color: var(--app-hover);
+}
+
+.menu .submenu .submenu-item.active>a {
+    color: var(--bs-primary) !important;
+    font-weight: 500 !important;
+}
+
+.menu .submenu .submenu-item.active>a::after {
+    background-color: rgba(var(--bs-primary-rgb), 0.12);
+}
+
+.menu .submenu .submenu-item.active>a::before {
+    left: calc(1.25rem - 0.5px);
+    border-left-width: 2px;
+    border-bottom-width: 2px;
+    border-color: var(--bs-primary);
+}
+
+/* RTL: the trunk and every elbow move to the other side. */
+body.rtl .menu .submenu {
+    padding: 0.1rem 0 0.2rem 0.5rem !important;
+}
+
+body.rtl .menu .submenu .submenu-item::before,
+body.rtl .menu .submenu .submenu-item a::before {
+    left: auto;
+    right: 1.25rem;
+}
+
+body.rtl .menu .submenu .submenu-item:has(~ .submenu-item.active)::before {
+    left: auto;
+    right: calc(1.25rem - 0.5px);
+}
+
+body.rtl .menu .submenu .submenu-item a {
+    padding: 0.45rem 2.6rem 0.45rem 0.75rem !important;
+}
+
+body.rtl .menu .submenu .submenu-item a::before {
+    border-left: 0;
+    border-right: 1px solid var(--app-tree-line);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 7px;
+}
+
+body.rtl .menu .submenu .submenu-item.active>a::before {
+    left: auto;
+    right: calc(1.25rem - 0.5px);
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-color: var(--bs-primary);
+}
+
+body.rtl .menu .submenu .submenu-item a::after {
+    inset: 0.08rem 2.1rem 0.08rem 0;
+}
+
+.sidebar-item {
+    margin-top: 0.15rem !important;
+}
+
+.sidebar-item.active>.sidebar-link {
+    font-weight: 500 !important;
+}
+
+/* Softer body + headings */
+body {
+    font-weight: 400 !important;
+    font-size: 0.875rem !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 600 !important;
+}
+
+h3 {
+    font-size: 1.375rem !important;
+}
+
+h4 {
+    font-size: 1.125rem !important;
+}
+
+.card-title,
+.card-header h4 {
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+}
+
+.table thead th {
+    font-weight: 600 !important;
+    font-size: 0.8125rem !important;
+}
+
+.table tbody td {
+    font-size: 0.8125rem !important;
+}
+
+.btn {
+    font-weight: 500 !important;
+    font-size: 0.875rem !important;
+}
+
+/* Admin theme color — toast/form/flatpickr overrides */
+.v-toast__item--success {
+    background-color: var(--bs-primary) !important;
+    color: #fff !important;
+}
+
+.form-control:focus,
+.form-select:focus,
+textarea.form-control:focus,
+input.form-control:focus {
+    border-color: var(--bs-primary) !important;
+    box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25) !important;
+}
+
+.form-check-input:focus {
+    border-color: var(--bs-primary) !important;
+    box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25) !important;
+}
+
+.form-check-input:checked {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+}
+
+.form-label,
+label {
+    font-weight: 500 !important;
+    font-size: 0.8125rem !important;
+}
+
+.table-sm.dataTable-table tr td {
+    padding: 0.5rem !important;
+}
+
+/* ============================================
+   Placeholders: light gray, smaller than label
+   ============================================ */
+.form-control::placeholder,
+.form-select::placeholder,
+textarea.form-control::placeholder,
+input.form-control::placeholder {
+    color: #9ca3af !important;
+    opacity: 1 !important;
+    font-size: 0.8125rem !important;
+    font-weight: 400 !important;
+}
+
+.form-control::-webkit-input-placeholder {
+    color: #9ca3af !important;
+    font-size: 0.8125rem !important;
+    font-weight: 400 !important;
+}
+
+.form-control::-moz-placeholder {
+    color: #9ca3af !important;
+    opacity: 1 !important;
+    font-size: 0.8125rem !important;
+    font-weight: 400 !important;
+}
+
+.form-control:-ms-input-placeholder {
+    color: #9ca3af !important;
+    font-size: 0.8125rem !important;
+    font-weight: 400 !important;
+}
+
+.form-control::-ms-input-placeholder {
+    color: #9ca3af !important;
+    font-size: 0.8125rem !important;
+    font-weight: 400 !important;
+}
+
+.form-control,
+.form-select,
+textarea.form-control,
+input.form-control {
+    font-size: 0.8125rem !important;
+}
+
+/* ============================================
+   AI-assisted fields (reusable)
+   .ai-field      -> soft border hint on AI-fillable inputs
+   .ai-wrap       -> wrapper around a field
+   .ai-generating -> animated gradient "wave" border while AI generates
+   ============================================ */
+.ai-field {
+    border: 1.5px solid #e4e9ff !important;
+    transition: border-color .25s ease, box-shadow .25s ease;
+}
+
+.ai-field:focus {
+    border-color: #b9c6ff !important;
+    box-shadow: 0 0 0 .15rem rgba(106, 141, 255, .15) !important;
+}
+
+.ai-wrap {
+    position: relative;
+    border-radius: 10px;
+}
+
+.ai-wrap.ai-generating {
+    padding: 2px;
+    background: linear-gradient(120deg, #6a8dff, #a86bff, #ff6bd6, #00c6ff, #6a8dff);
+    background-size: 300% 300%;
+    animation: aiWave 2.4s linear infinite;
+    box-shadow: 0 0 0 1px rgba(106, 141, 255, .25), 0 4px 18px rgba(120, 110, 255, .25);
+}
+
+.ai-wrap.ai-generating .ai-field,
+.ai-wrap.ai-generating .tox-tinymce {
+    position: relative;
+    z-index: 1;
+    border-color: transparent !important;
+    border-radius: 8px;
+}
+
+.ai-wrap.ai-generating .tox-tinymce {
+    border: none !important;
+}
+
+@keyframes aiWave {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 300% 50%;
+    }
+}
+
+/* ===== Zone cards (primary-driven; reusable card grid) ===== */
+.zone-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 18px;
+}
+
+.zone-card {
+    border: 1px solid var(--app-card-border);
+    border-radius: 14px;
+    padding: 16px;
+    background: var(--app-card-bg);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease;
+}
+
+.zone-card:hover {
+    border-color: rgba(var(--bs-primary-rgb), 0.35);
+    box-shadow: 0 6px 20px rgba(16, 24, 40, 0.1);
+    transform: translateY(-2px);
+}
+
+.zc-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.zc-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(var(--bs-primary-rgb), .1);
+    color: var(--bs-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.zc-avatar.ff-quick {
+    background: rgba(6, 182, 212, .12);
+    color: #0891b2;
+}
+
+.zc-head-main {
+    min-width: 0;
+    flex: 1;
+}
+
+.zc-name {
+    font-weight: 700;
+    font-size: .95rem;
+    color: var(--app-ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.zc-loc {
+    font-size: .78rem;
+    color: var(--app-muted);
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.zc-loc svg {
+    color: var(--bs-primary);
+    flex-shrink: 0;
+}
+
+.zc-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: space-between;
+}
+
+.zc-chip {
+    font-size: .74rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--app-card-bg);
+    border: 1px solid var(--app-card-border);
+    color: var(--app-muted);
+}
+
+.zc-chip svg {
+    color: var(--app-muted);
+    flex-shrink: 0;
+}
+
+.zc-metrics {
+    display: flex;
+    border: 1px solid var(--app-card-border);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.zc-metric {
+    flex: 1;
+    text-align: center;
+    padding: 9px 4px;
+    border-right: 1px solid var(--app-card-border);
+}
+
+.zc-metric:last-child {
+    border-right: none;
+}
+
+.zc-metric-val {
+    font-weight: 700;
+    font-size: .85rem;
+    color: var(--app-ink);
+}
+
+.zc-metric-lbl {
+    font-size: .62rem;
+    color: var(--app-muted);
+    text-transform: uppercase;
+    letter-spacing: .3px;
+    margin-top: 2px;
+}
+
+.zc-slabs {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.zc-slab-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: .78rem;
+    background: rgba(var(--bs-primary-rgb), .06);
+    padding: 6px 10px;
+    border-radius: 7px;
+    color: var(--app-muted);
+}
+
+.zc-slab-row strong {
+    color: var(--bs-primary);
+}
+
+.zc-extra {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.zc-extra li {
+    font-size: .78rem;
+    color: var(--app-muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.zc-extra li svg {
+    color: var(--bs-primary);
+    flex-shrink: 0;
+}
+
+.zc-foot {
+    display: flex;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 4px;
+}
+
+.zc-foot .btn {
+    font-weight: 600;
+    border-radius: 8px;
+}
+
+/* ============================================================================
+   AUTH PAGES (login, forgot/reset password, delivery-boy login/register)
+   One shared card design. Pages only supply markup; every style lives here so
+   the five screens cannot drift apart.
+   ============================================================================ */
+
+/* The base .login-wrapper overlay is a flat 50% black that greys the artwork
+   out. This gradient stays clear over the illustration and only deepens behind
+   the card, where the contrast is actually needed. */
+.auth .login-wrapper {
+    background-color: transparent;
+    background-image: linear-gradient(100deg, rgba(0, 0, 0, .04) 0%, rgba(0, 0, 0, .10) 45%, rgba(0, 0, 0, .34) 100%);
+    padding: 40px 7vw;
+}
+
+/* The section used to paint its own white panel (10px radius + shadow) which
+   showed through behind the card's larger corners. The card owns the surface. */
+.auth .auth-section {
+    max-width: 430px;
+    width: 100%;
+    background-color: transparent;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.auth .auth-card.login-card {
+    max-width: 430px;
+    width: 100%;
+    padding: 42px 40px 32px;
+    border-radius: 18px;
+    background: var(--app-card-bg);
+    box-shadow: 0 24px 60px rgba(16, 24, 40, .22), 0 2px 6px rgba(16, 24, 40, .06);
+}
+
+/* Brand */
+.lg-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    margin-bottom: 1.5rem;
+}
+
+.lg-brand-logo {
+    width: auto;
+    height: 47px;
+    max-width: 240px;
+    object-fit: contain;
+    margin-bottom: 0;
+}
+
+.lg-brand-name {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--bs-primary);
+    line-height: 1.1;
+}
+
+.lg-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--app-ink);
+    margin: 0 0 0.25rem;
+    text-align: center;
+}
+
+.lg-subtitle {
+    font-size: 0.85rem;
+    color: var(--app-muted);
+    margin: 0 0 1.5rem;
+    text-align: center;
+}
+
+/* Fields — a flex row rather than the theme's absolutely positioned icon,
+   which needed padding hacks to line up with the input. */
+.lg-label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--app-ink);
+    margin-bottom: 0.35rem;
+}
+
+.lg-field {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.lg-field-icon {
+    position: absolute;
+    inset-inline-start: 14px;
+    width: 18px;
+    height: 18px;
+    color: var(--app-muted);
+    pointer-events: none;
+    transition: color .15s var(--app-ease);
+}
+
+.lg-input {
+    width: 100%;
+    height: 48px;
+    padding: 0 14px 0 42px;
+    font-size: 0.875rem;
+    color: var(--app-ink);
+    background-color: var(--app-card-bg);
+    border: 1px solid var(--app-card-border);
+    border-radius: 10px;
+    outline: none;
+    transition: border-color .15s var(--app-ease), box-shadow .15s var(--app-ease);
+}
+
+.lg-input.has-trail {
+    padding-inline-end: 44px;
+}
+
+.lg-input::placeholder {
+    color: var(--app-muted);
+    opacity: .7;
+}
+
+.lg-input:focus {
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 3px rgba(var(--bs-primary-rgb), .15);
+}
+
+.lg-field:focus-within .lg-field-icon {
+    color: var(--bs-primary);
+}
+
+/* Chrome paints autofilled inputs pale blue, which overrides background-color. */
+.lg-input:-webkit-autofill,
+.lg-input:-webkit-autofill:hover,
+.lg-input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--app-ink);
+    -webkit-box-shadow: 0 0 0 1000px var(--app-card-bg) inset;
+    transition: background-color 9999s ease-in-out 0s;
+}
+
+.lg-eye {
+    position: absolute;
+    inset-inline-end: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    margin-bottom: 0;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--app-muted);
+    cursor: pointer;
+    transition: color .15s var(--app-ease), background-color .15s var(--app-ease);
+}
+
+.lg-eye:hover {
+    color: var(--bs-primary);
+    background: var(--app-hover);
+}
+
+.lg-forgot {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1.35rem;
+}
+
+/* Plain text, not a coloured link — it is a fallback path, so it should not
+   pull attention away from the primary action right below it. */
+.lg-forgot a {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--app-muted);
+    text-decoration: none;
+}
+
+.lg-forgot a:hover {
+    color: var(--app-ink);
+    text-decoration: underline;
+}
+
+/* Buttons */
+.lg-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    width: 100%;
+    height: 48px;
+    margin-bottom: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform .15s var(--app-ease), box-shadow .15s var(--app-ease),
+        background-color .15s var(--app-ease), color .15s var(--app-ease);
+}
+
+.lg-btn+.lg-btn {
+    margin-top: 0.65rem;
+}
+
+.lg-btn-primary {
+    color: #fff;
+    background: var(--bs-primary);
+    box-shadow: 0 6px 16px rgba(var(--bs-primary-rgb), .32);
+}
+
+.lg-btn-primary:hover:not(:disabled) {
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(var(--bs-primary-rgb), .4);
+}
+
+.lg-btn-primary:disabled {
+    opacity: .7;
+    cursor: default;
+}
+
+/* Secondary route (delivery-boy panel, register, admin panel): carries the
+   brand colour so it reads as available, but tinted rather than solid so it
+   does not compete with the form's primary action. */
+.lg-btn-soft {
+    color: var(--bs-primary);
+    background: rgba(var(--bs-primary-rgb), .1);
+    border-color: rgba(var(--bs-primary-rgb), .35);
+}
+
+.lg-btn-soft:hover {
+    color: #fff;
+    background: var(--bs-primary);
+    border-color: var(--bs-primary);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(var(--bs-primary-rgb), .3);
+}
+
+.lg-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 1.1rem 0;
+    font-size: 0.72rem;
+    color: var(--app-muted);
+}
+
+.lg-divider::before,
+.lg-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--app-card-border);
+}
+
+/* Back arrow above the card (forgot/reset password) */
+.lg-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-bottom: 0.85rem;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #fff;
+    background: rgba(255, 255, 255, .16);
+    border-radius: 8px;
+    text-decoration: none;
+    backdrop-filter: blur(4px);
+    transition: background-color .15s var(--app-ease);
+}
+
+.lg-back:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, .28);
+}
+
+.lg-copyright {
+    margin-top: 1.75rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--app-muted);
+}
+
+.lg-copyright a {
+    color: var(--app-muted);
+    text-decoration: none;
+}
+
+.lg-copyright a:hover {
+    color: var(--bs-primary);
+}
+
+@media (max-width: 575.98px) {
+    .auth .login-wrapper {
+        padding: 24px 16px;
+        justify-content: center;
+    }
+
+    .auth .auth-card.login-card {
+        padding: 32px 24px 24px;
+    }
+}
+
+/* ---- 1. wrapper: layout only, no paint ---- */
+.multiselect.multiselect {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    min-height: 0;
+    font-size: 0.9rem;
+}
+
+.multiselect.form-select,
+.multiselect.form-control,
+.multiselect.form-select-sm,
+.multiselect.form-control-sm,
+.multiselect.list-select,
+.multiselect.sort-select,
+.multiselect.trend-select {
+    padding: 0 !important;
+    border: 0 !important;
+    background-image: none !important;
+    /* kills the duplicate native caret */
+    background-color: transparent !important;
+    box-shadow: none !important;
+    height: auto !important;
+    line-height: normal;
+}
+
+.multiselect.form-select,
+.multiselect.form-control {
+    width: 100% !important;
+}
+
+.list-toolbar .multiselect.form-select,
+.list-toolbar .multiselect.form-control {
+    width: auto !important;
+    min-width: 140px;
+    max-width: 220px;
+    flex: 0 0 auto;
+}
+
+.multiselect.inline-select {
+    width: auto !important;
+    min-width: 170px;
+    max-width: 240px;
+    flex: 0 0 auto;
+}
+
+.card:has(.multiselect--active),
+.card>.card-body:has(.multiselect--active),
+.card .card-body:has(.multiselect--active),
+.list-surface:has(.multiselect--active),
+.list-toolbar:has(.multiselect--active),
+.list-filters:has(.multiselect--active),
+.table-responsive:has(.multiselect--active),
+.modal-body:has(.multiselect--active),
+.tab-content:has(.multiselect--active),
+.tab-pane:has(.multiselect--active) {
+    overflow: visible !important;
+}
+
+.card .card-body.card-filter-row {
+    overflow: visible;
+}
+
+.list-toolbar .multiselect.list-select-lg {
+    min-width: 200px;
+    max-width: 280px;
+}
+
+.multiselect.list-select,
+.multiselect.sort-select,
+.multiselect.trend-select {
+    width: 200px !important;
+    min-width: 140px;
+    max-width: 220px;
+    flex: 0 0 auto;
+}
+
+/* Phones: the list toolbar becomes a grid of half-width controls — every select
+   takes half a row (two per line), the search takes the rest of its row next to
+   the refresh button. Widths above are !important, hence the same here. */
+@media (max-width: 575.98px) {
+    .list-toolbar { gap: 0.5rem; }
+    .list-toolbar-start { width: 100%; margin-inline-end: 0; gap: 0.5rem; }
+    .list-toolbar .multiselect.form-select,
+    .list-toolbar .multiselect.form-control,
+    .list-toolbar .multiselect.list-select,
+    .list-toolbar .multiselect.list-select-lg,
+    .list-toolbar .multiselect.cz-sel,
+    .list-toolbar .form-select:not(.multiselect),
+    .list-toolbar select.form-control {
+        flex: 1 1 calc(50% - 0.25rem) !important;
+        width: auto !important;
+        min-width: 0 !important;
+        max-width: none !important;
+    }
+    .list-toolbar .me-auto { margin-right: 0 !important; margin-left: 0 !important; }
+    /* Some toolbars pin their controls on one line for desktop; on a phone they wrap. */
+    .list-toolbar .list-toolbar-start.flex-nowrap { flex-wrap: wrap !important; }
+    /* Date-range pickers take a full row. */
+    .list-toolbar [class$="-daterange"],
+    .list-toolbar .vue-daterange-picker { flex: 1 1 100%; width: 100% !important; max-width: none; }
+    .list-toolbar [class$="-daterange"] .form-control { width: 100%; }
+    /* A picked value never wraps to a second line inside the half-width select. */
+    .list-toolbar .multiselect__single { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+    /* 60% basis: too wide to share a line with a half-width select, narrow enough to
+       leave room for the 36px refresh button; grow fills the rest. */
+    .list-toolbar .list-search { flex: 1 1 60%; min-width: 0; order: 98; }
+    .list-toolbar .list-search .form-control { width: 100%; }
+    .list-toolbar > .list-icon-btn { order: 99; }
+    .list-toolbar .list-add-btn { flex: 1 1 100%; order: 100; justify-content: center; }
+}
+
+/* ---- 2. inner box: this is the visible field ---- */
+.multiselect .multiselect__tags {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: calc(1.4em + 0.9rem + 2px);
+    padding: 0.45rem 1.9rem 0.45rem 0.75rem;
+    border: 1px solid var(--app-card-border);
+    border-radius: 0.4rem;
+    background-color: var(--app-card-bg);
+    font-size: 0.9rem;
+    line-height: 1.4;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.multiselect .multiselect__single,
+.multiselect .multiselect__placeholder,
+.multiselect .multiselect__input {
+    margin: 0;
+    padding: 0;
+    min-height: 0;
+    line-height: 1.4;
+    font-size: 0.9rem;
+    background: transparent;
+    width: auto;
+    flex: 1 1 auto;
+    /* Selected-value + typed text; library leaves it dark navy. */
+    color: var(--app-ink);
+}
+
+.multiselect .multiselect__placeholder {
+    color: var(--app-muted);
+    display: inline-block;
+}
+
+/* ---- 3. caret: anchored to the inner box, vertically centred ---- */
+.multiselect .multiselect__select {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: auto;
+    width: 1.9rem;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.multiselect .multiselect__select::before {
+    position: static;
+    top: auto;
+    right: auto;
+    margin: 0;
+    border-style: solid;
+    border-width: 5px 5px 0;
+    border-color: #999 transparent transparent;
+}
+
+body.rtl .multiselect .multiselect__select {
+    right: auto;
+    left: 0;
+}
+
+body.rtl .multiselect .multiselect__tags {
+    padding: 0.45rem 0.75rem 0.45rem 1.9rem;
+}
+
+/* ---- 4. focus: ring on the inner box, never the borderless wrapper ---- */
+.multiselect.form-select:focus,
+.multiselect.form-control:focus,
+.multiselect.form-select:focus-within,
+.multiselect.form-control:focus-within {
+    box-shadow: none !important;
+    border-color: transparent !important;
+    outline: none;
+}
+
+.multiselect.multiselect--active .multiselect__tags {
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+}
+
+.multiselect.multiselect--active {
+    z-index: 6;
+}
+
+/* ---- 5. tags (multiple) ---- */
+.multiselect .multiselect__tags-wrap {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 2px;
+}
+
+.multiselect .multiselect__tag {
+    margin: 0 2px 0 0;
+    padding: 1px 20px 1px 8px;
+    line-height: 1.4;
+    font-size: 0.85rem;
+    background: var(--bs-primary);
+    color: #fff;
+}
+
+.multiselect .multiselect__tag-icon:hover {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.multiselect .multiselect__tag-icon::after {
+    color: #fff;
+}
+
+/* ---- 6. option list ---- */
+.multiselect .multiselect__content-wrapper {
+    background: var(--app-card-bg);
+    border-color: var(--app-card-border);
+    z-index: 7;
+}
+
+.multiselect .multiselect__option {
+    min-height: 34px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    display: flex;
+    align-items: center;
+    color: var(--app-ink);
+}
+
+/* ---- 7. colour: follow the admin theme (library hard-codes #41b883) ---- */
+.multiselect .multiselect__option--highlight,
+.multiselect .multiselect__option--highlight::after {
+    background: var(--bs-primary);
+    color: #fff;
+}
+
+.multiselect .multiselect__option--selected.multiselect__option--highlight,
+.multiselect .multiselect__option--selected.multiselect__option--highlight::after {
+    background: var(--bs-primary);
+    color: #fff;
+}
+
+.multiselect .multiselect__option--selected {
+    background: rgba(var(--bs-primary-rgb), 0.12);
+    color: var(--app-ink);
+    font-weight: 600;
+}
+
+/* ---- 8. non-searchable: reads as a plain select ---- */
+.multiselect--no-search .multiselect__tags,
+.multiselect--no-search .multiselect__input {
+    cursor: pointer;
+}
+
+.multiselect--no-search .multiselect__input {
+    /* caret would blink in a box you cannot type into */
+    caret-color: transparent;
+}
+
+/* ---- 8b. tags-only: the field IS the value, so no dropdown ---- */
+.multiselect--tags-only .multiselect__content-wrapper {
+    display: none !important;
+}
+
+/* ---- 9. disabled ---- */
+.multiselect.multiselect--disabled {
+    opacity: 1;
+    background: transparent;
+}
+
+.multiselect.multiselect--disabled .multiselect__tags {
+    background-color: var(--app-thead-bg);
+    color: var(--app-muted);
+}
+.multiselect.multiselect--disabled .multiselect__single {
+    background-color: transparent;
+    color: var(--app-muted);
+}
+
+:root {
+    --app-rail-w: 76px;
+}
+
+@media (min-width: 1024px) {
+
+    /* Sit at the edge instead of off-screen, and shrink. */
+    #sidebar:not(.active) .sidebar-wrapper {
+        left: 0;
+        width: var(--app-rail-w) !important;
+        transition: width 0.28s var(--app-ease), left 0.28s var(--app-ease);
+    }
+
+    body.rtl #sidebar:not(.active) .sidebar-wrapper {
+        left: auto;
+        right: 0;
+    }
+
+    /* Content only ever reserves the rail — hovering must not reflow the page. */
+    #sidebar:not(.active)~#main {
+        margin-left: var(--app-rail-w);
+    }
+
+    body.rtl #sidebar:not(.active)~#main {
+        margin-left: 0;
+        margin-right: var(--app-rail-w);
+    }
+
+    /* --- Rail state (collapsed, not hovered) --- */
+    #sidebar:not(.active) .sidebar-wrapper:not(:hover) .menu {
+        padding-left: 0.6rem !important;
+        padding-right: 0.6rem !important;
+    }
+
+    #sidebar:not(.active) .sidebar-wrapper:not(:hover) .sidebar-link {
+        justify-content: center;
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+
+    /* Labels go, icons stay. The unread badge is also a span, so exclude it. */
+    #sidebar:not(.active) .sidebar-wrapper:not(:hover) .sidebar-link span:not(.badge) {
+        display: none;
+    }
+
+    /* Keep the unread count visible, but as a dot on the icon corner. */
+    #sidebar:not(.active) .sidebar-wrapper:not(:hover) .sidebar-link .badge {
+        position: absolute;
+        top: 6px;
+        inset-inline-end: 12px;
+        min-width: 8px;
+        height: 8px;
+        padding: 0;
+        font-size: 0;
+        line-height: 0;
+        border-radius: 50%;
+    }
+
+    /* The has-sub caret is a pseudo-element; nothing to expand into on a rail. */
+    #sidebar:not(.active) .sidebar-wrapper:not(:hover) .sidebar-item.has-sub .sidebar-link:after {
+        display: none;
+    }
+
+    /* Submenus carry inline display/height from the slideToggle animation, so
+       this has to outrank them. */
+    #sidebar:not(.active) .sidebar-wrapper:not(:hover) .submenu {
+        display: none !important;
+    }
+
+    /* A search box cannot work at 76px. */
+    #sidebar:not(.active) .sidebar-wrapper:not(:hover) .sidebar-search {
+        display: none;
+    }
+
+/* Sidebar search: the field filters the menu, the badge opens the global palette. */
+.sidebar-search-box {
+    position: relative;
+}
+.sidebar-search-box .form-control {
+    padding-inline-end: 3.4rem;
+}
+.sidebar-search-kbd {
+    position: absolute;
+    top: 50%;
+    inset-inline-end: .45rem;
+    transform: translateY(-50%);
+    border: 1px solid var(--app-border);
+    border-radius: .35rem;
+    background: var(--app-thead-bg);
+    color: var(--app-muted);
+    font-size: .66rem;
+    line-height: 1;
+    padding: .2rem .35rem;
+    cursor: pointer;
+}
+.sidebar-search-kbd:hover {
+    color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+
+
+    /* Group headings have no room either — and the sidebar search fades them
+       in/out, writing an inline display that a plain rule would lose to. */
+    #sidebar:not(.active) .sidebar-wrapper:not(:hover) .menu .sidebar-title {
+        display: none !important;
+    }
+
+    #sidebar:not(.active) .sidebar-wrapper:not(:hover) .sidebar-header {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+}
+
+/* Pointer devices only: hovering the rail expands it back over the content. A
+   touch screen has no hover, so there the burger stays the only way to expand. */
+@media (min-width: 1024px) and (hover: hover) {
+    #sidebar:not(.active) .sidebar-wrapper:hover {
+        width: var(--app-sidebar-w) !important;
+        box-shadow: 0 12px 32px rgba(16, 24, 40, .16);
+    }
+}
+
+.sg-pop {
+    position: fixed;
+    inset-block-end: 1rem;
+    inset-inline-start: 1rem;
+    z-index: 1030;
+    width: 260px;
+    border: 1px solid var(--app-card-border);
+    border-radius: 12px;
+    background: var(--app-card-bg);
+    box-shadow: 0 12px 32px rgba(16, 24, 40, .18);
+    overflow: hidden;
+}
+.sg-pop.is-collapsed {
+    width: auto;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
+}
+
+.sg-pop-head {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.75rem;
+}
+.sg-pop-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.25;
+    flex: 1;
+}
+.sg-pop-title {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--app-ink);
+}
+.sg-pop-sub {
+    font-size: 0.68rem;
+    color: var(--app-muted);
+}
+
+/* Conic gradient rather than an SVG ring: no extra markup, and it follows the
+   admin theme colour for free. */
+.sg-pop-ring {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: conic-gradient(var(--bs-primary) calc(var(--pct) * 1%), rgba(var(--bs-primary-rgb), .18) 0);
+}
+.sg-pop-ring > span {
+    display: grid;
+    place-items: center;
+    width: 29px;
+    height: 29px;
+    border-radius: 50%;
+    background: var(--app-card-bg);
+    font-size: 0.58rem;
+    font-weight: 700;
+    color: var(--bs-primary);
+}
+
+.sg-pop-close {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    margin-bottom: 0;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: var(--app-muted);
+    cursor: pointer;
+}
+.sg-pop-close:hover {
+    background: var(--app-hover);
+    color: var(--app-ink);
+}
+
+.sg-pop-bar {
+    height: 3px;
+    background: var(--app-hover);
+}
+.sg-pop-bar span {
+    display: block;
+    height: 100%;
+    background: var(--bs-primary);
+    transition: width .3s var(--app-ease);
+}
+
+.sg-pop-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--bs-primary);
+    background: rgba(var(--bs-primary-rgb), .07);
+    text-decoration: none;
+}
+.sg-pop-cta:hover {
+    color: #fff;
+    background: var(--bs-primary);
+}
+
+/* Collapsed: just the progress ring. */
+.sg-pop-fab {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    margin-bottom: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--app-card-bg);
+    box-shadow: 0 8px 22px rgba(16, 24, 40, .22);
+    cursor: pointer;
+}
+.sg-pop-fab:hover {
+    box-shadow: 0 10px 26px rgba(16, 24, 40, .3);
+}
+
+@media (max-width: 575.98px) {
+    .sg-pop {
+        inset-block-end: 0.75rem;
+        inset-inline-start: 0.75rem;
+        width: 220px;
+    }
+}
+
+/* ============================================================================
+   FLATPICKR — DARK MODE
+   The library hardcodes a white calendar and near-black text
+   (.flatpickr-calendar { background:#fff }, rgba(0,0,0,.9) on months/days), so
+   the popup stayed white on a dark page. It portals into <body>, which is where
+   .theme-dark lives, so these plain descendant rules reach it.
+   Selected / in-range days keep the primary colour from DateRangePicker.vue.
+   ============================================================================ */
+body.theme-dark .flatpickr-calendar {
+    background: var(--app-card-bg);
+    box-shadow: 0 3px 13px rgba(0, 0, 0, .45);
+    border: 1px solid var(--app-card-border);
+}
+body.theme-dark .flatpickr-calendar.arrowTop:before,
+body.theme-dark .flatpickr-calendar.arrowTop:after {
+    border-bottom-color: var(--app-card-bg);
+}
+body.theme-dark .flatpickr-calendar.arrowBottom:before,
+body.theme-dark .flatpickr-calendar.arrowBottom:after {
+    border-top-color: var(--app-card-bg);
+}
+
+body.theme-dark .flatpickr-months,
+body.theme-dark .flatpickr-months .flatpickr-month {
+    background: transparent;
+    color: var(--app-ink);
+    fill: var(--app-ink);
+}
+body.theme-dark .flatpickr-current-month .flatpickr-monthDropdown-months,
+body.theme-dark .flatpickr-current-month input.cur-year,
+body.theme-dark .numInputWrapper span {
+    background: transparent;
+    color: var(--app-ink);
+}
+/* The dropdown's own option list is a native popup — it needs a real surface. */
+body.theme-dark .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month {
+    background: var(--app-card-bg);
+    color: var(--app-ink);
+}
+
+body.theme-dark .flatpickr-months .flatpickr-prev-month svg,
+body.theme-dark .flatpickr-months .flatpickr-next-month svg {
+    fill: var(--app-ink);
+}
+body.theme-dark .flatpickr-months .flatpickr-prev-month:hover svg,
+body.theme-dark .flatpickr-months .flatpickr-next-month:hover svg {
+    fill: var(--bs-primary);
+}
+
+body.theme-dark .flatpickr-weekdays,
+body.theme-dark span.flatpickr-weekday {
+    background: transparent;
+    color: var(--app-muted);
+}
+
+body.theme-dark .flatpickr-days,
+body.theme-dark .dayContainer {
+    background: transparent;
+}
+body.theme-dark .flatpickr-day {
+    color: var(--app-ink);
+}
+body.theme-dark .flatpickr-day:hover,
+body.theme-dark .flatpickr-day:focus {
+    background: var(--app-hover);
+    border-color: var(--app-hover);
+}
+/* Days spilling in from the neighbouring month, and anything unselectable. */
+body.theme-dark .flatpickr-day.prevMonthDay,
+body.theme-dark .flatpickr-day.nextMonthDay,
+body.theme-dark .flatpickr-day.flatpickr-disabled,
+body.theme-dark .flatpickr-day.flatpickr-disabled:hover {
+    color: var(--app-muted);
+    opacity: .55;
+}
+body.theme-dark .flatpickr-day.today:not(.selected) {
+    border-color: var(--bs-primary);
+}
+
+/* Time picker (range pickers with time enabled). */
+body.theme-dark .flatpickr-time,
+body.theme-dark .flatpickr-time input,
+body.theme-dark .flatpickr-time .flatpickr-time-separator,
+body.theme-dark .flatpickr-time .flatpickr-am-pm {
+    background: transparent;
+    color: var(--app-ink);
+}
+body.theme-dark .flatpickr-time input:hover,
+body.theme-dark .flatpickr-time .flatpickr-am-pm:hover {
+    background: var(--app-hover);
+}
+body.theme-dark .flatpickr-innerContainer,
+body.theme-dark .flatpickr-rContainer {
+    background: transparent;
+}
+
+/* ============================================================================
+   DARK MODE — TEXT UTILITIES
+   Bootstrap pins these to light-mode literals with !important, so specificity
+   alone never wins:
+     .text-muted { color: #7c8db5 !important }   -> too dim on the dark sheet
+     .text-dark  { color: var(--bs-dark-rgb) }   -> near-black, invisible
+   These re-point them at the theme tokens. Light mode is untouched.
+   ============================================================================ */
+body.theme-dark .text-muted {
+    color: var(--app-muted) !important;
+}
+body.theme-dark .text-dark,
+body.theme-dark .text-black,
+body.theme-dark .text-body {
+    color: var(--app-ink) !important;
+}
+/* bg-light panels carry dark text by design; flip the pair together so the
+   contrast survives rather than going light-on-light. */
+body.theme-dark .bg-light {
+    background-color: var(--app-thead-bg) !important;
+}
+body.theme-dark .bg-white {
+    background-color: var(--app-card-bg) !important;
+}
+body.theme-dark .bg-light.text-dark,
+body.theme-dark .bg-white.text-dark {
+    color: var(--app-ink) !important;
+}
+
+body.theme-dark .tooltip.show {
+    opacity: 1;
+}
+body.theme-dark .tooltip-inner {
+    background-color: #3a3a52;
+    color: var(--app-ink);
+    border: 1px solid var(--app-card-border);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .45);
+}
+
+body.theme-dark .bs-tooltip-auto[data-popper-placement^="top"] .tooltip-arrow::before,
+body.theme-dark .bs-tooltip-top .tooltip-arrow::before {
+    border-top-color: #3a3a52;
+}
+body.theme-dark .bs-tooltip-auto[data-popper-placement^="bottom"] .tooltip-arrow::before,
+body.theme-dark .bs-tooltip-bottom .tooltip-arrow::before {
+    border-bottom-color: #3a3a52;
+}
+body.theme-dark .bs-tooltip-auto[data-popper-placement^="left"] .tooltip-arrow::before,
+body.theme-dark .bs-tooltip-start .tooltip-arrow::before {
+    border-left-color: #3a3a52;
+}
+body.theme-dark .bs-tooltip-auto[data-popper-placement^="right"] .tooltip-arrow::before,
+body.theme-dark .bs-tooltip-end .tooltip-arrow::before {
+    border-right-color: #3a3a52;
+}
+
+/* The hand-rolled tooltip used on a few help icons. */
+body.theme-dark .tooltip-icon .tooltip-text {
+    background-color: #3a3a52;
+    color: var(--app-ink);
+    border: 1px solid var(--app-card-border);
+}
+body.theme-dark .tooltip-icon .tooltip-text::after {
+    border-color: #3a3a52 transparent transparent transparent;
+}
+
+label:has(> svg) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+}
+label > svg {
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+/* :has() fallback — the icon alone still goes back to inline flow, so it sits
+   on the same line as the text even where the flex rule is unsupported. */
+.form-group label svg,
+.form-label svg {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+body.theme-dark .border {
+    border-color: var(--app-card-border) !important;
+}
+body.theme-dark .border-top {
+    border-top-color: var(--app-card-border) !important;
+}
+body.theme-dark .border-end {
+    border-right-color: var(--app-card-border) !important;
+}
+body.theme-dark .border-bottom {
+    border-bottom-color: var(--app-card-border) !important;
+}
+body.theme-dark .border-start {
+    border-left-color: var(--app-card-border) !important;
+}
+
+body.theme-dark .multiselect .multiselect__option--disabled {
+    background: var(--app-thead-bg) !important;
+    color: var(--app-muted) !important;
+}
+
+.err-page {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+.err-card {
+    width: 100%;
+    max-width: 440px;
+    text-align: center;
+    padding: 2.5rem 2rem;
+    border: 1px solid var(--app-card-border);
+    border-radius: 18px;
+    background: var(--app-card-bg);
+    box-shadow: 0 12px 40px rgba(16, 24, 40, .08);
+}
+.err-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 88px;
+    height: 88px;
+    border-radius: 24px;
+    background: rgba(var(--bs-primary-rgb), .1);
+    color: var(--bs-primary);
+    margin-bottom: 1rem;
+}
+.err-icon.is-warn { background: rgba(245, 158, 11, .14); color: #d97706; }
+.err-icon.is-danger { background: rgba(239, 68, 68, .12); color: #dc2626; }
+
+.err-code {
+    font-size: 3.4rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: var(--app-ink);
+}
+.err-title {
+    margin: 0.5rem 0 0.4rem;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--app-ink);
+}
+.err-text {
+    margin: 0 auto 1.5rem;
+    max-width: 34ch;
+    font-size: 0.9rem;
+    color: var(--app-muted);
+}
+.err-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+}
+.err-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border-radius: 10px;
+    margin-bottom: 0;
+}
+.err-redirect {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.85rem;
+}
+
+/* In-page country/zone filter dropdowns — force fixed width so multiple sit in a ROW
+   (vue-multiselect defaults .multiselect to width:100%; .multiselect.cz-sel out-specifies it). */
+.multiselect.cz-sel { width: 160px; min-width: 140px; flex: 0 0 auto; }
+.multiselect.cz-sel .multiselect__tags { min-height: 38px; padding: 7px 30px 0 10px; }
+.multiselect.cz-sel .multiselect__single, .multiselect.cz-sel .multiselect__input { font-size: .82rem; margin-bottom: 6px; line-height: 1.2; }
+.multiselect.cz-sel .multiselect__select { height: 36px; }
+
+@media (max-width: 575.98px) { .multiselect.cz-sel { width: auto; min-width: 0; flex: 1 1 calc(50% - 0.5rem); } }
+.cz-opt { display: inline-flex; align-items: center; gap: 6px; }
+.cz-flag { width: 20px; height: 14px; object-fit: cover; border-radius: 2px; flex-shrink: 0; }
+.cz-ic { width: 14px; height: 14px; flex-shrink: 0; }
+
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}
+
+/* Old theme stays put underneath while the new one wipes over it. */
+::view-transition-old(root) {
+    z-index: 1;
+}
+
+::view-transition-new(root) {
+    z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+        animation: none !important;
+    }
+}
+
+.tooltip,
+.tooltip.show {
+    z-index: 1080 !important;
+}
+
+/* ============================================================================
+   Delivery-boy identity cell — photo + name (linking to the rider's page) with
+   email and mobile beneath. Shared by settlement history, cash collection,
+   salary transactions and withdrawal requests.
+   ============================================================================ */
+.db-identity {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    text-align: start;
+}
+
+.db-identity-avatar {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--app-thead-bg);
+}
+
+.db-identity-lines {
+    min-width: 0;
+    line-height: 1.3;
+}
+
+.db-identity-name {
+    font-weight: 600;
+    color: var(--app-ink);
+    text-decoration: none;
+}
+
+.db-identity-name:hover {
+    color: var(--bs-primary);
+}
+
+.db-identity-sub {
+    display: block;
+    font-size: .74rem;
+    color: var(--app-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 220px;
+}
+
+.card .card-header h4 {
+    float: none;
+}
+
+.card > .card-header + .card-body {
+    padding-top: .75rem;
+}
+
+@media screen and (max-width: 1199px) {
+    .sidebar-wrapper,
+    body.theme-dark .sidebar-wrapper {
+        position: fixed !important;
+        top: 0;
+        bottom: 0;
+        height: 100dvh !important;
+        min-height: 100dvh;
+        max-height: 100dvh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        z-index: 22;
+    }
+}

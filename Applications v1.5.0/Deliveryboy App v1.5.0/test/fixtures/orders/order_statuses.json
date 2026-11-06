@@ -1,0 +1,43 @@
+{
+  "status": 1,
+  "message": "success",
+  "data": [
+    {
+      "id": 10,
+      "status": "Ready for Pickup",
+      "status_name": "Ready for Pickup"
+    },
+    {
+      "id": 11,
+      "status": "Picked Up",
+      "status_name": "Picked Up"
+    },
+    {
+      "id": 5,
+      "status": "Out For Delivery",
+      "status_name": "Out For Delivery"
+    },
+    {
+      "id": 6,
+      "status": "Delivered",
+      "status_name": "Delivered"
+    }
+  ],
+  "return_statuses": [
+    {
+      "id": 5,
+      "status": "Out for Pickup",
+      "status_name": "Out for Pickup"
+    },
+    {
+      "id": 6,
+      "status": "Received from Customer",
+      "status_name": "Received from Customer"
+    },
+    {
+      "id": 7,
+      "status": "Return to Store",
+      "status_name": "Return to Store"
+    }
+  ]
+}

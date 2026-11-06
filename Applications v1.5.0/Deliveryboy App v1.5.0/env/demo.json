@@ -1,0 +1,6 @@
+{
+  "APPLICATION_ID": "com.cakezake.delivery",
+  "APP_NAME": "CakeZake Deliveryboy",
+  "BASE_URL": "https://admin.cakezake.com/delivery_boy/",
+  "SOCKET_BASE_URL": "wss://cakezake.com/ws/chat"
+}

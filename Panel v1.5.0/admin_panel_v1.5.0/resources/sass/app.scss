@@ -1,0 +1,37 @@
+// DM Sans (self-hosted, no CDN) — bundled by vite
+@use '@fontsource/dm-sans/400.css' as is400;
+@use '@fontsource/dm-sans/500.css' as is500;
+@use '@fontsource/dm-sans/600.css' as is600;
+@use '@fontsource/dm-sans/700.css' as is700;
+@use '@fontsource/instrument-serif/400.css' as isr400;
+
+// Sweet alert - use prebuilt CSS
+@use 'sweetalert2/dist/sweetalert2.min.css';
+
+// Toastr
+@use 'toastr/build/toastr.min.css';
+
+// Dark theme
+@use 'dark-theme';
+
+// CakeZake brand typography: DM Sans body, Instrument Serif headings
+:root { --bs-body-font-family: 'DM Sans', system-ui, -apple-system, sans-serif; --cz-primary: #fe3c5e; --cz-primary-dark: #e02d4d; --cz-primary-light: #ff6b85; }
+body { font-family: var(--bs-body-font-family); }
+h1, .h1, h2, .h2 { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; }
+
+// CakeZake loading animation: every regular (non-small) Bootstrap spinner becomes the sliding, opening gift box.
+// Small inline spinners (buttons, table cells) stay as they are.
+.spinner-border:not(.spinner-border-sm),
+.spinner-grow:not(.spinner-grow-sm) {
+    border: 0 !important;
+    border-radius: 0 !important;
+    width: 96px !important;
+    height: 72px !important;
+    background: url('/images/gift-loader.svg') center / contain no-repeat !important;
+    animation: none !important;
+    opacity: 1 !important;
+    vertical-align: middle;
+    color: transparent !important;
+}
+.spinner-border:not(.spinner-border-sm) > *,
+.spinner-grow:not(.spinner-grow-sm) > * { display: none; }

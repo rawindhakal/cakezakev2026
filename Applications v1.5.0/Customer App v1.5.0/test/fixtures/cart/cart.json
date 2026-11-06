@@ -1,0 +1,172 @@
+{
+  "status": 1,
+  "message": "Cart found",
+  "total": 2,
+  "data": {
+    "cod_allowed": 1,
+    "product_variant_id": "12",
+    "quantity": "3",
+    "distance": "4.2",
+    "time_to_deliver": "30 mins",
+    "unlock_message": "Add $5 more to unlock free delivery",
+    "unlock_promo_code": "FREESHIP",
+    "unlock_promo_code_id": 7,
+    "is_deliverable_address": 1,
+    "delivery_charges": {
+      "amount": 20.0,
+      "taxable_amount": 18.0,
+      "tax_amount": 2.0,
+      "tax_name": "GST",
+      "tax_rate": 5.0
+    },
+    "surge_charges": [
+      {
+        "label": "Peak hour surge",
+        "charge": 10.0,
+        "is_refundable": false,
+        "taxable_amount": 9.0,
+        "tax_amount": 1.0,
+        "tax_name": "GST",
+        "tax_rate": 5.0
+      }
+    ],
+    "zone_additional_charges": [
+      {
+        "name": "Handling charge",
+        "amount": 5.0,
+        "is_refundable": true,
+        "taxable_amount": 4.5,
+        "tax_amount": 0.5,
+        "tax_name": "GST",
+        "tax_rate": 5.0
+      }
+    ],
+    "total_amount": 250.5,
+    "user_balance": 100.0,
+    "sub_total": 200.0,
+    "saved_amount": 15.0,
+    "minimum_order_amount": 50.0,
+    "cart": [
+      {
+        "id": 101,
+        "name": "Organic Apples",
+        "product_name": "Organic Apples 1kg",
+        "slug": "organic-apples",
+        "images": [{"image_url": "https://example.com/apples.jpg"}],
+        "short_description": "Fresh organic apples",
+        "product_type": 1,
+        "sales_channel": "quick",
+        "category_id": 3,
+        "category_name": "Fruits",
+        "brand_id": 9,
+        "brand_name": "FarmFresh",
+        "is_unlimited_stock": 0,
+        "in_stock": true,
+        "is_min_alert": false,
+        "is_favorite": false,
+        "product_rating": true,
+        "rating": 4.5,
+        "rating_count": 20,
+        "variants_count": 1,
+        "min_price": 100.0,
+        "discount_percent": 10,
+        "variant_id": 201,
+        "sku": "APL-1KG",
+        "price": 100.0,
+        "discounted_price": 90.0,
+        "stock": 50,
+        "total_allowed_quantity": 5,
+        "variants": [
+          {
+            "id": 201,
+            "name": "1kg",
+            "sku": "APL-1KG",
+            "image": "https://example.com/apples-variant.jpg",
+            "attributes_text": "Weight: 1kg",
+            "variant_attributes": [],
+            "price": 100.0,
+            "discounted_price": 90.0,
+            "stock": 50,
+            "in_stock": true,
+            "quantity": 2,
+            "custom_sections": []
+          }
+        ],
+        "time_to_deliver": "20 mins",
+        "prescription_note": "",
+        "is_prescription_required": false,
+        "currency": "$",
+        "decimal_point": 2,
+        "slab_discount_message": ""
+      },
+      {
+        "id": 102,
+        "name": "Whole Wheat Bread",
+        "product_name": "Whole Wheat Bread 400g",
+        "slug": "whole-wheat-bread",
+        "images": [{"image_url": "https://example.com/bread.jpg"}],
+        "short_description": "Freshly baked bread",
+        "product_type": 1,
+        "sales_channel": "quick",
+        "category_id": 4,
+        "category_name": "Bakery",
+        "brand_id": 11,
+        "brand_name": "BakeHouse",
+        "is_unlimited_stock": 0,
+        "in_stock": true,
+        "is_min_alert": false,
+        "is_favorite": true,
+        "product_rating": true,
+        "rating": 4.2,
+        "rating_count": 12,
+        "variants_count": 1,
+        "min_price": 40.0,
+        "discount_percent": 0,
+        "variant_id": 202,
+        "sku": "BRD-400G",
+        "price": 40.0,
+        "discounted_price": 0.0,
+        "stock": 30,
+        "total_allowed_quantity": 10,
+        "variants": [
+          {
+            "id": 202,
+            "name": "400g",
+            "sku": "BRD-400G",
+            "image": "https://example.com/bread-variant.jpg",
+            "attributes_text": "Weight: 400g",
+            "variant_attributes": [],
+            "price": 40.0,
+            "discounted_price": 0.0,
+            "stock": 30,
+            "in_stock": true,
+            "quantity": 1,
+            "custom_sections": []
+          }
+        ],
+        "time_to_deliver": "20 mins",
+        "prescription_note": "",
+        "is_prescription_required": false,
+        "currency": "$",
+        "decimal_point": 2,
+        "slab_discount_message": ""
+      }
+    ],
+    "additional_charges": [
+      {
+        "name": "Packaging charge",
+        "amount": 3.0,
+        "is_refundable": false,
+        "taxable_amount": 2.7,
+        "tax_amount": 0.3,
+        "tax_name": "GST",
+        "tax_rate": 5.0
+      }
+    ],
+    "tax_breakdown": [
+      {"name": "GST", "rate": 5, "amount": 4.3}
+    ],
+    "currency": "$",
+    "decimal_point": 2
+  }
+}

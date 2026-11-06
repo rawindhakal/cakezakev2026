@@ -1,0 +1,16 @@
+{
+  "status": 1,
+  "message": "Message sent successfully",
+  "data": [
+    {
+      "id": 905,
+      "conversation_id": 41,
+      "sender_id": 12,
+      "sender_type": "delivery_boy",
+      "message": "On my way",
+      "attachment": null,
+      "attachment_url": null,
+      "created_at": "2026-08-19 09:13:05"
+    }
+  ]
+}

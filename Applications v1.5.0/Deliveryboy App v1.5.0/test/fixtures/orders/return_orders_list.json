@@ -1,0 +1,1205 @@
+{
+  "status": 1,
+  "message": "Success",
+  "data": [
+    {
+      "id": 23,
+      "return_number": "RET-00023",
+      "user_id": 4,
+      "product_variant_id": 73,
+      "order_id": 195,
+      "order_item_id": 291,
+      "address_id": 8,
+      "address": {
+        "name": "hency",
+        "address": "Bhuj-Mirjapar(MandviRoad) Bhuj Bhuj Bhuj Gujarat India-370001",
+        "mobile": "9876543210",
+        "alternate_mobile": "",
+        "latitude": "23.2322889",
+        "longitude": "69.6435867"
+      },
+      "return_reason": "no need this item",
+      "status": 8,
+      "remarks": null,
+      "delivery_boy_id": 5,
+      "reject_reason": null,
+      "delivery_boy_bonus_amount": 0,
+      "delivery_boy_bonus_details": {
+        "base_total": 200,
+        "bonus_type": 0,
+        "bonus_type_name": "Fixed/Salaried",
+        "bonus_amount": 0
+      },
+      "bonus_credited": 1,
+      "customer_name": "hency",
+      "customer_mobile": "9876543210",
+      "customer_email": "",
+      "branch_id": 19,
+      "quantity": 1,
+      "price": 250,
+      "sub_total": 200,
+      "discounted_price": 200,
+      "product_name": "Green Kiwi 2 kg",
+      "payment_method": "COD",
+      "final_total": 278,
+      "currency": "₹",
+      "order_number": "ORD-00195",
+      "zone_id": 19,
+      "city_name": "Bhuj(ecommerce)",
+      "delivery_boy_name": "Tapu",
+      "delivery_boy_mobile": "9659685968",
+      "product_id": 43,
+      "order_status_name": "Refund Completed",
+      "date": "2026-07-09T07:21:14.000000Z",
+      "branch_info": {
+        "branch_name": "Bhuj ecommerce store",
+        "latitude": "23.2472446",
+        "longitude": "69.668339",
+        "mobile": "+919876543228",
+        "formatted_address": "Bhuj, Bhuj Taluka, Kachchh, Gujarat, 370001, India"
+      },
+      "return_item": {
+        "id": 291,
+        "user_id": 4,
+        "order_id": 195,
+        "product_name": "Green Kiwi 2 kg",
+        "hsn_code": null,
+        "variant_attributes": [
+          {
+            "name": "KG",
+            "value": "2 kg"
+          }
+        ],
+        "product_variant_id": 73,
+        "prescription": null,
+        "delivery_boy_id": 5,
+        "delivery_boy_bonus_amount": "0.00",
+        "quantity": 1,
+        "price": 250,
+        "discounted_price": 200,
+        "purchase_price": "100.00",
+        "tax_amount": 0,
+        "tax_percentage": 0,
+        "sub_total": 200,
+        "delivery_charge": 48,
+        "additional_charges": [
+          {
+            "name": "Packing Charge",
+            "amount": 10,
+            "is_refundable": true
+          },
+          {
+            "name": "Platform fee",
+            "amount": 20,
+            "is_refundable": false
+          }
+        ],
+        "surge_charges": [],
+        "promo_discount": 0,
+        "wallet_balance": 0,
+        "final_total": 278,
+        "refund_amount": 210,
+        "active_status": 8,
+        "otp": 655003,
+        "cancellation_reason": null,
+        "canceled_at": null,
+        "branch_id": 19,
+        "cancelable_status": 1,
+        "till_status": 5,
+        "return_status": 1,
+        "return_days": 2,
+        "is_credited": 1,
+        "invoice_number": "INV-00195-1",
+        "mobile": "9876543210",
+        "total": 200,
+        "discount": 0,
+        "promo_code": "",
+        "payment_method": "COD",
+        "user_name": "hency",
+        "branch_name": "Bhuj ecommerce store",
+        "product_id": 43,
+        "image": "https://cakezake.com/storage/products/variants/1784891711_72906.png",
+        "status_name": "Returned",
+        "amount_to_refund": 210
+      },
+      "pickup_address": {
+        "name": "hency",
+        "address": "Bhuj-Mirjapar(MandviRoad) Bhuj Bhuj Bhuj Gujarat India-370001",
+        "mobile": "9876543210",
+        "alternate_mobile": "",
+        "latitude": "23.2322889",
+        "longitude": "69.6435867"
+      },
+      "timeline": [
+        {
+          "status": 1,
+          "status_name": "Return Requested",
+          "updated_by": "hency",
+          "datetime": "2026-07-09T07:21:14.000000Z"
+        },
+        {
+          "status": 2,
+          "status_name": "Accepted",
+          "updated_by": "superadmin",
+          "datetime": "2026-07-09T09:01:44.000000Z"
+        },
+        {
+          "status": 4,
+          "status_name": "Delivery Boy Assigned",
+          "updated_by": "superadmin",
+          "datetime": "2026-07-09T09:02:01.000000Z"
+        },
+        {
+          "status": 5,
+          "status_name": "Out for Pickup",
+          "updated_by": "superadmin",
+          "datetime": "2026-07-09T09:02:02.000000Z"
+        },
+        {
+          "status": 6,
+          "status_name": "Received from Customer",
+          "updated_by": "superadmin",
+          "datetime": "2026-07-09T11:03:36.000000Z"
+        },
+        {
+          "status": 7,
+          "status_name": "Return to Store",
+          "updated_by": "superadmin",
+          "datetime": "2026-07-09T11:03:40.000000Z"
+        },
+        {
+          "status": 8,
+          "status_name": "Refund Completed",
+          "updated_by": "superadmin",
+          "datetime": "2026-07-09T11:03:43.000000Z"
+        }
+      ],
+      "is_delivery_boy_chat_visible": false
+    },
+    {
+      "id": 17,
+      "return_number": "RET-00017",
+      "user_id": 8,
+      "product_variant_id": 43,
+      "order_id": 75,
+      "order_item_id": 144,
+      "address_id": 19,
+      "address": {
+        "name": "Address Testing",
+        "address": "Airport Ring Road Time Square Bhuj Taluka Bhuj Gujarat India-370001",
+        "mobile": "+236 123123123",
+        "alternate_mobile": "+91 789789789",
+        "latitude": "23.233617049873573",
+        "longitude": "69.64491095166274"
+      },
+      "return_reason": "rgjfjkgnjkfnjkfnk",
+      "status": 8,
+      "remarks": null,
+      "delivery_boy_id": 5,
+      "reject_reason": null,
+      "delivery_boy_bonus_amount": 0,
+      "delivery_boy_bonus_details": {
+        "base_total": 1250.79,
+        "bonus_type": 0,
+        "bonus_type_name": "Fixed/Salaried",
+        "bonus_amount": 0
+      },
+      "bonus_credited": 1,
+      "customer_name": "Vipul Vaghjiyani",
+      "customer_mobile": "9316390162",
+      "customer_email": "vipul.cakezake@gmail.com",
+      "branch_id": 19,
+      "quantity": 1,
+      "price": 1250.79,
+      "sub_total": 1250.79,
+      "discounted_price": 1250.79,
+      "product_name": "Men's formal dress Black / sm / Cotton",
+      "payment_method": "COD",
+      "final_total": 1328.79,
+      "currency": "₹",
+      "order_number": "ORD-00075",
+      "zone_id": 19,
+      "city_name": "Bhuj(ecommerce)",
+      "delivery_boy_name": "Tapu",
+      "delivery_boy_mobile": "9659685968",
+      "product_id": 32,
+      "order_status_name": "Refund Completed",
+      "date": "2026-06-30T13:14:36.000000Z",
+      "branch_info": {
+        "branch_name": "Bhuj ecommerce store",
+        "latitude": "23.2472446",
+        "longitude": "69.668339",
+        "mobile": "+919876543228",
+        "formatted_address": "Bhuj, Bhuj Taluka, Kachchh, Gujarat, 370001, India"
+      },
+      "return_item": {
+        "id": 144,
+        "user_id": 8,
+        "order_id": 75,
+        "product_name": "Men's formal dress Black / sm / Cotton",
+        "hsn_code": null,
+        "variant_attributes": [
+          {
+            "name": "Color",
+            "value": "Black"
+          },
+          {
+            "name": "Size",
+            "value": "sm"
+          },
+          {
+            "name": "Fabric",
+            "value": "Cotton"
+          }
+        ],
+        "product_variant_id": 43,
+        "prescription": null,
+        "delivery_boy_id": 5,
+        "delivery_boy_bonus_amount": "0.00",
+        "quantity": 1,
+        "price": 1250.79,
+        "discounted_price": 1250.79,
+        "purchase_price": "0.00",
+        "tax_amount": 0,
+        "tax_percentage": 0,
+        "sub_total": 1250.79,
+        "delivery_charge": 48,
+        "additional_charges": [
+          {
+            "name": "Packing Charge",
+            "amount": 10,
+            "is_refundable": true
+          },
+          {
+            "name": "Platform fee",
+            "amount": 20,
+            "is_refundable": false
+          }
+        ],
+        "surge_charges": [],
+        "promo_discount": 0,
+        "wallet_balance": 0,
+        "final_total": 1328.79,
+        "refund_amount": 1260.79,
+        "active_status": 8,
+        "otp": 0,
+        "cancellation_reason": null,
+        "canceled_at": null,
+        "branch_id": 19,
+        "cancelable_status": 0,
+        "till_status": 2,
+        "return_status": 1,
+        "return_days": 2,
+        "is_credited": 1,
+        "invoice_number": "INV-00075-1",
+        "mobile": "23 67878",
+        "total": 1250.79,
+        "discount": 0,
+        "promo_code": "",
+        "payment_method": "COD",
+        "user_name": "Vipul Vaghjiyani",
+        "branch_name": "Bhuj ecommerce store",
+        "product_id": 32,
+        "image": "https://cakezake.com/storage/products/variants/imzudwdn9vb5zvaagiyqpdtxmdebuyzft9kzc8xc.webp",
+        "status_name": "Returned",
+        "amount_to_refund": 1260.79
+      },
+      "pickup_address": {
+        "name": "Address Testing",
+        "address": "Airport Ring Road Time Square Bhuj Taluka Bhuj Gujarat India-370001",
+        "mobile": "+236 123123123",
+        "alternate_mobile": "+91 789789789",
+        "latitude": "23.233617049873573",
+        "longitude": "69.64491095166274"
+      },
+      "timeline": [
+        {
+          "status": 1,
+          "status_name": "Return Requested",
+          "updated_by": "Vipul Vaghjiyani",
+          "datetime": "2026-06-30T13:14:36.000000Z"
+        },
+        {
+          "status": 2,
+          "status_name": "Accepted",
+          "updated_by": "superadmin",
+          "datetime": "2026-06-30T13:15:47.000000Z"
+        },
+        {
+          "status": 4,
+          "status_name": "Delivery Boy Assigned",
+          "updated_by": "superadmin",
+          "datetime": "2026-06-30T13:16:03.000000Z"
+        },
+        {
+          "status": 5,
+          "status_name": "Out for Pickup",
+          "updated_by": "Tapu",
+          "datetime": "2026-06-30T13:30:09.000000Z"
+        },
+        {
+          "status": 6,
+          "status_name": "Received from Customer",
+          "updated_by": "Tapu",
+          "datetime": "2026-06-30T13:30:13.000000Z"
+        },
+        {
+          "status": 7,
+          "status_name": "Return to Store",
+          "updated_by": "Tapu",
+          "datetime": "2026-06-30T13:30:15.000000Z"
+        },
+        {
+          "status": 8,
+          "status_name": "Refund Completed",
+          "updated_by": "Vipul Vaghjiyani",
+          "datetime": "2026-06-30T13:31:03.000000Z"
+        }
+      ],
+      "is_delivery_boy_chat_visible": false
+    },
+    {
+      "id": 15,
+      "return_number": "RET-00015",
+      "user_id": 4,
+      "product_variant_id": 73,
+      "order_id": 40,
+      "order_item_id": 94,
+      "address_id": null,
+      "address": null,
+      "return_reason": "no need",
+      "status": 7,
+      "remarks": null,
+      "delivery_boy_id": 5,
+      "reject_reason": null,
+      "delivery_boy_bonus_amount": 0,
+      "delivery_boy_bonus_details": {
+        "base_total": 200,
+        "bonus_type": 0,
+        "bonus_type_name": "Fixed/Salaried",
+        "bonus_amount": 0
+      },
+      "bonus_credited": 1,
+      "customer_name": "hency",
+      "customer_mobile": "9876543210",
+      "customer_email": "",
+      "branch_id": 19,
+      "quantity": 1,
+      "price": 250,
+      "sub_total": 200,
+      "discounted_price": 200,
+      "product_name": "Green Kiwi 2 kg",
+      "payment_method": "COD",
+      "final_total": 1280,
+      "currency": "₹",
+      "order_number": "ORD-00040",
+      "zone_id": 19,
+      "city_name": "Bhuj(ecommerce)",
+      "delivery_boy_name": "Tapu",
+      "delivery_boy_mobile": "9659685968",
+      "product_id": 43,
+      "order_status_name": "Return to Store",
+      "date": "2026-06-29T15:20:06.000000Z",
+      "branch_info": {
+        "branch_name": "Bhuj ecommerce store",
+        "latitude": "23.2472446",
+        "longitude": "69.668339",
+        "mobile": "+919876543228",
+        "formatted_address": "Bhuj, Bhuj Taluka, Kachchh, Gujarat, 370001, India"
+      },
+      "return_item": {
+        "id": 94,
+        "user_id": 4,
+        "order_id": 40,
+        "product_name": "Green Kiwi 2 kg",
+        "hsn_code": null,
+        "variant_attributes": [
+          {
+            "name": "KG",
+            "value": "2 kg"
+          }
+        ],
+        "product_variant_id": 73,
+        "prescription": null,
+        "delivery_boy_id": 0,
+        "delivery_boy_bonus_amount": "0.00",
+        "quantity": 1,
+        "price": 250,
+        "discounted_price": 200,
+        "purchase_price": "0.00",
+        "tax_amount": 0,
+        "tax_percentage": 0,
+        "sub_total": 200,
+        "delivery_charge": 0,
+        "additional_charges": [
+          {
+            "name": "Packing Charge",
+            "amount": 1.6,
+            "is_refundable": true
+          },
+          {
+            "name": "Platform fee",
+            "amount": 3.2,
+            "is_refundable": false
+          }
+        ],
+        "surge_charges": [],
+        "promo_discount": 0,
+        "wallet_balance": 0,
+        "final_total": 1280,
+        "refund_amount": null,
+        "active_status": 6,
+        "otp": 0,
+        "cancellation_reason": null,
+        "canceled_at": null,
+        "branch_id": 19,
+        "cancelable_status": 0,
+        "till_status": 0,
+        "return_status": 1,
+        "return_days": 2,
+        "is_credited": 0,
+        "invoice_number": "INV-00040-2",
+        "mobile": "9876543210",
+        "total": 1250,
+        "discount": 0,
+        "promo_code": "",
+        "payment_method": "COD",
+        "user_name": "hency",
+        "branch_name": "Bhuj ecommerce store",
+        "product_id": 43,
+        "image": "https://cakezake.com/storage/products/variants/1784891711_72906.png",
+        "status_name": "Delivered",
+        "amount_to_refund": 201.6
+      },
+      "pickup_address": null,
+      "timeline": [
+        {
+          "status": 1,
+          "status_name": "Return Requested",
+          "updated_by": "hency",
+          "datetime": "2026-06-29T15:20:06.000000Z"
+        },
+        {
+          "status": 2,
+          "status_name": "Accepted",
+          "updated_by": "superadmin",
+          "datetime": "2026-06-29T16:10:34.000000Z"
+        },
+        {
+          "status": 4,
+          "status_name": "Delivery Boy Assigned",
+          "updated_by": "superadmin",
+          "datetime": "2026-06-29T16:10:47.000000Z"
+        },
+        {
+          "status": 5,
+          "status_name": "Out for Pickup",
+          "updated_by": "Tapu",
+          "datetime": "2026-06-29T16:53:24.000000Z"
+        },
+        {
+          "status": 6,
+          "status_name": "Received from Customer",
+          "updated_by": "Tapu",
+          "datetime": "2026-06-29T16:53:45.000000Z"
+        },
+        {
+          "status": 7,
+          "status_name": "Return to Store",
+          "updated_by": "Tapu",
+          "datetime": "2026-06-29T16:53:52.000000Z"
+        }
+      ],
+      "is_delivery_boy_chat_visible": true
+    },
+    {
+      "id": 14,
+      "return_number": "RET-00014",
+      "user_id": 4,
+      "product_variant_id": 73,
+      "order_id": 59,
+      "order_item_id": 121,
+      "address_id": null,
+      "address": null,
+      "return_reason": "no need",
+      "status": 8,
+      "remarks": null,
+      "delivery_boy_id": 5,
+      "reject_reason": null,
+      "delivery_boy_bonus_amount": 0,
+      "delivery_boy_bonus_details": {
+        "base_total": 200,
+        "bonus_type": 0,
+        "bonus_type_name": "Fixed/Salaried",
+        "bonus_amount": 0
+      },
+      "bonus_credited": 1,
+      "customer_name": "hency",
+      "customer_mobile": "9876543210",
+      "customer_email": "",
+      "branch_id": 19,
+      "quantity": 1,
+      "price": 250,
+      "sub_total": 200,
+      "discounted_price": 200,
+      "product_name": "Green Kiwi 2 kg",
+      "payment_method": "wallet",
+      "final_total": 230,
+      "currency": "₹",
+      "order_number": "ORD-00059",
+      "zone_id": 19,
+      "city_name": "Bhuj(ecommerce)",
+      "delivery_boy_name": "Tapu",
+      "delivery_boy_mobile": "9659685968",
+      "product_id": 43,
+      "order_status_name": "Refund Completed",
+      "date": "2026-06-29T14:27:26.000000Z",
+      "branch_info": {
+        "branch_name": "Bhuj ecommerce store",
+        "latitude": "23.2472446",
+        "longitude": "69.668339",
+        "mobile": "+919876543228",
+        "formatted_address": "Bhuj, Bhuj Taluka, Kachchh, Gujarat, 370001, India"
+      },
+      "return_item": {
+        "id": 121,
+        "user_id": 4,
+        "order_id": 59,
+        "product_name": "Green Kiwi 2 kg",
+        "hsn_code": null,
+        "variant_attributes": [
+          {
+            "name": "KG",
+            "value": "2 kg"
+          }
+        ],
+        "product_variant_id": 73,
+        "prescription": null,
+        "delivery_boy_id": 5,
+        "delivery_boy_bonus_amount": "0.00",
+        "quantity": 1,
+        "price": 250,
+        "discounted_price": 200,
+        "purchase_price": "0.00",
+        "tax_amount": 0,
+        "tax_percentage": 0,
+        "sub_total": 200,
+        "delivery_charge": 0,
+        "additional_charges": [
+          {
+            "name": "Packing Charge",
+            "amount": 10,
+            "is_refundable": true
+          },
+          {
+            "name": "Platform fee",
+            "amount": 20,
+            "is_refundable": false
+          }
+        ],
+        "surge_charges": [],
+        "promo_discount": 0,
+        "wallet_balance": 230,
+        "final_total": 230,
+        "refund_amount": 210,
+        "active_status": 8,
+        "otp": 0,
+        "cancellation_reason": null,
+        "canceled_at": null,
+        "branch_id": 19,
+        "cancelable_status": 1,
+        "till_status": 5,
+        "return_status": 1,
+        "return_days": 2,
+        "is_credited": 0,
+        "invoice_number": "INV-00059-1",
+        "mobile": "9876543210",
+        "total": 200,
+        "discount": 0,
+        "promo_code": "",
+        "payment_method": "wallet",
+        "user_name": "hency",
+        "branch_name": "Bhuj ecommerce store",
+        "product_id": 43,
+        "image": "https://cakezake.com/storage/products/variants/1784891711_72906.png",
+        "status_name": "Returned",
+        "amount_to_refund": 210
+      },
+      "pickup_address": null,
+      "timeline": [
+        {
+          "status": 1,
+          "status_name": "Return Requested",
+          "updated_by": "hency",
+          "datetime": "2026-06-29T14:27:26.000000Z"
+        },
+        {
+          "status": 2,
+          "status_name": "Accepted",
+          "updated_by": "superadmin",
+          "datetime": "2026-06-29T14:28:13.000000Z"
+        },
+        {
+          "status": 4,
+          "status_name": "Delivery Boy Assigned",
+          "updated_by": "superadmin",
+          "datetime": "2026-06-29T14:28:20.000000Z"
+        },
+        {
+          "status": 5,
+          "status_name": "Out for Pickup",
+          "updated_by": "superadmin",
+          "datetime": "2026-06-29T14:28:22.000000Z"
+        },
+        {
+          "status": 6,
+          "status_name": "Received from Customer",
+          "updated_by": "superadmin",
+          "datetime": "2026-06-29T14:28:24.000000Z"
+        },
+        {
+          "status": 7,
+          "status_name": "Return to Store",
+          "updated_by": "superadmin",
+          "datetime": "2026-06-29T14:28:25.000000Z"
+        },
+        {
+          "status": 8,
+          "status_name": "Refund Completed",
+          "updated_by": "hency",
+          "datetime": "2026-06-29T14:28:27.000000Z"
+        }
+      ],
+      "is_delivery_boy_chat_visible": false
+    },
+    {
+      "id": 11,
+      "return_number": "RET-00011",
+      "user_id": 4,
+      "product_variant_id": 68,
+      "order_id": 40,
+      "order_item_id": 93,
+      "address_id": null,
+      "address": null,
+      "return_reason": "sdsds",
+      "status": 4,
+      "remarks": null,
+      "delivery_boy_id": 5,
+      "reject_reason": null,
+      "delivery_boy_bonus_amount": 0,
+      "delivery_boy_bonus_details": {
+        "base_total": 800,
+        "bonus_type": 0,
+        "bonus_type_name": "Fixed/Salaried",
+        "bonus_amount": 0
+      },
+      "bonus_credited": 0,
+      "customer_name": "hency",
+      "customer_mobile": "9876543210",
+      "customer_email": "",
+      "branch_id": 19,
+      "quantity": 1,
+      "price": 850.01,
+      "sub_total": 800,
+      "discounted_price": 800,
+      "product_name": "Gits Open and Eat Rasgulla 500 g (Can)",
+      "payment_method": "COD",
+      "final_total": 1280,
+      "currency": "₹",
+      "order_number": "ORD-00040",
+      "zone_id": 19,
+      "city_name": "Bhuj(ecommerce)",
+      "delivery_boy_name": "Tapu",
+      "delivery_boy_mobile": "9659685968",
+      "product_id": 40,
+      "order_status_name": "Delivery Boy Assigned",
+      "date": "2026-06-29T11:50:19.000000Z",
+      "branch_info": {
+        "branch_name": "Bhuj ecommerce store",
+        "latitude": "23.2472446",
+        "longitude": "69.668339",
+        "mobile": "+919876543228",
+        "formatted_address": "Bhuj, Bhuj Taluka, Kachchh, Gujarat, 370001, India"
+      },
+      "return_item": {
+        "id": 93,
+        "user_id": 4,
+        "order_id": 40,
+        "product_name": "Gits Open and Eat Rasgulla 500 g (Can)",
+        "hsn_code": null,
+        "variant_attributes": [
+          {
+            "name": "KG",
+            "value": "100 gm"
+          }
+        ],
+        "product_variant_id": 68,
+        "prescription": null,
+        "delivery_boy_id": 0,
+        "delivery_boy_bonus_amount": "0.00",
+        "quantity": 1,
+        "price": 850.01,
+        "discounted_price": 800,
+        "purchase_price": "0.00",
+        "tax_amount": 0,
+        "tax_percentage": 0,
+        "sub_total": 800,
+        "delivery_charge": 0,
+        "additional_charges": [
+          {
+            "name": "Packing Charge",
+            "amount": 6.4,
+            "is_refundable": true
+          },
+          {
+            "name": "Platform fee",
+            "amount": 12.8,
+            "is_refundable": false
+          }
+        ],
+        "surge_charges": [],
+        "promo_discount": 0,
+        "wallet_balance": 0,
+        "final_total": 1280,
+        "refund_amount": null,
+        "active_status": 6,
+        "otp": 0,
+        "cancellation_reason": null,
+        "canceled_at": null,
+        "branch_id": 19,
+        "cancelable_status": 0,
+        "till_status": 0,
+        "return_status": 1,
+        "return_days": 2,
+        "is_credited": 0,
+        "invoice_number": "INV-00040-1",
+        "mobile": "9876543210",
+        "total": 1250,
+        "discount": 0,
+        "promo_code": "",
+        "payment_method": "COD",
+        "user_name": "hency",
+        "branch_name": "Bhuj ecommerce store",
+        "product_id": 40,
+        "image": "https://cakezake.com/storage/products/variants/vqd3stnlw9qxqleqlth3edoucflzvcdskdjqgo2q.webp",
+        "status_name": "Delivered",
+        "amount_to_refund": 806.4
+      },
+      "pickup_address": null,
+      "timeline": [
+        {
+          "status": 1,
+          "status_name": "Return Requested",
+          "updated_by": "hency",
+          "datetime": "2026-06-29T11:50:19.000000Z"
+        },
+        {
+          "status": 2,
+          "status_name": "Accepted",
+          "updated_by": "superadmin",
+          "datetime": "2026-06-29T12:21:10.000000Z"
+        },
+        {
+          "status": 4,
+          "status_name": "Delivery Boy Assigned",
+          "updated_by": "superadmin",
+          "datetime": "2026-06-29T12:21:38.000000Z"
+        }
+      ],
+      "is_delivery_boy_chat_visible": true
+    },
+    {
+      "id": 10,
+      "return_number": "RET-00010",
+      "user_id": 3,
+      "product_variant_id": 23,
+      "order_id": 15,
+      "order_item_id": 27,
+      "address_id": null,
+      "address": null,
+      "return_reason": "bad product",
+      "status": 8,
+      "remarks": "uyjkhuyj",
+      "delivery_boy_id": 5,
+      "reject_reason": null,
+      "delivery_boy_bonus_amount": 0,
+      "delivery_boy_bonus_details": {
+        "base_total": 24,
+        "bonus_type": 0,
+        "bonus_type_name": "Fixed/Salaried",
+        "bonus_amount": 0
+      },
+      "bonus_credited": 1,
+      "customer_name": "Jensi Bhudiya",
+      "customer_mobile": "8401554223",
+      "customer_email": "support@cakezake.com",
+      "branch_id": 20,
+      "quantity": 2,
+      "price": 12,
+      "sub_total": 24,
+      "discounted_price": 12,
+      "product_name": "sm / xl",
+      "payment_method": "Wallet",
+      "final_total": 28002,
+      "currency": "₹",
+      "order_number": "ORD-00015",
+      "zone_id": null,
+      "city_name": null,
+      "delivery_boy_name": "Tapu",
+      "delivery_boy_mobile": "9659685968",
+      "product_id": 16,
+      "order_status_name": "Refund Completed",
+      "date": "2026-06-20T12:27:18.000000Z",
+      "branch_info": {
+        "branch_name": "Bhuj quick store",
+        "latitude": "23.215791202149354",
+        "longitude": "69.60783004760744",
+        "mobile": "+919876543229",
+        "formatted_address": "Bhuj, Bhuj Taluka, Kachchh, Gujarat, 370001, India"
+      },
+      "return_item": {
+        "id": 27,
+        "user_id": 3,
+        "order_id": 15,
+        "product_name": "sm / xl",
+        "hsn_code": null,
+        "variant_attributes": [
+          {
+            "name": "Size",
+            "value": "sm"
+          },
+          {
+            "name": "Capacity",
+            "value": "xl"
+          }
+        ],
+        "product_variant_id": 23,
+        "prescription": null,
+        "delivery_boy_id": 0,
+        "delivery_boy_bonus_amount": "0.00",
+        "quantity": 2,
+        "price": 12,
+        "discounted_price": 12,
+        "purchase_price": "0.00",
+        "tax_amount": 0,
+        "tax_percentage": 0,
+        "sub_total": 24,
+        "delivery_charge": 0,
+        "additional_charges": null,
+        "surge_charges": null,
+        "promo_discount": 100,
+        "wallet_balance": 9406,
+        "final_total": 28002,
+        "refund_amount": 24,
+        "active_status": 8,
+        "otp": 0,
+        "cancellation_reason": null,
+        "canceled_at": null,
+        "branch_id": 20,
+        "cancelable_status": 1,
+        "till_status": 0,
+        "return_status": 1,
+        "return_days": 7,
+        "is_credited": 0,
+        "invoice_number": "INV-00015-6",
+        "mobile": "1234567890",
+        "total": 28082,
+        "discount": 0,
+        "promo_code": "QUICK MODE MA KHALI FLAT(100)",
+        "payment_method": "Wallet",
+        "user_name": "Jensi Bhudiya",
+        "branch_name": "Bhuj quick store",
+        "product_id": 16,
+        "image": "https://cakezake.com/storage/products/variants/raes1xw9gqo4ubkwgxv7vpq4wrjj8gqweuqxbo5n.webp",
+        "status_name": "Returned",
+        "amount_to_refund": 24
+      },
+      "pickup_address": null,
+      "timeline": [
+        {
+          "status": 5,
+          "status_name": "Out for Pickup",
+          "updated_by": "superadmin",
+          "datetime": "2026-06-27T18:01:31.000000Z"
+        },
+        {
+          "status": 6,
+          "status_name": "Received from Customer",
+          "updated_by": "superadmin",
+          "datetime": "2026-06-27T18:02:37.000000Z"
+        },
+        {
+          "status": 7,
+          "status_name": "Return to Store",
+          "updated_by": "superadmin",
+          "datetime": "2026-06-27T18:24:39.000000Z"
+        },
+        {
+          "status": 8,
+          "status_name": "Refund Completed",
+          "updated_by": "",
+          "datetime": "2026-06-27T18:24:49.000000Z"
+        }
+      ],
+      "is_delivery_boy_chat_visible": false
+    },
+    {
+      "id": 9,
+      "return_number": "RET-00009",
+      "user_id": 3,
+      "product_variant_id": 22,
+      "order_id": 15,
+      "order_item_id": 26,
+      "address_id": null,
+      "address": null,
+      "return_reason": "bad product",
+      "status": 5,
+      "remarks": null,
+      "delivery_boy_id": 5,
+      "reject_reason": null,
+      "delivery_boy_bonus_amount": 0,
+      "delivery_boy_bonus_details": {
+        "base_total": 20,
+        "bonus_type": 0,
+        "bonus_type_name": "Fixed/Salaried",
+        "bonus_amount": 0
+      },
+      "bonus_credited": 0,
+      "customer_name": "Jensi Bhudiya",
+      "customer_mobile": "8401554223",
+      "customer_email": "support@cakezake.com",
+      "branch_id": 20,
+      "quantity": 2,
+      "price": 12,
+      "sub_total": 20,
+      "discounted_price": 10,
+      "product_name": "1 / 1Y",
+      "payment_method": "Wallet",
+      "final_total": 28002,
+      "currency": "₹",
+      "order_number": "ORD-00015",
+      "zone_id": null,
+      "city_name": null,
+      "delivery_boy_name": "Tapu",
+      "delivery_boy_mobile": "9659685968",
+      "product_id": 18,
+      "order_status_name": "Out for Pickup",
+      "date": "2026-06-20T12:27:13.000000Z",
+      "branch_info": {
+        "branch_name": "Bhuj quick store",
+        "latitude": "23.215791202149354",
+        "longitude": "69.60783004760744",
+        "mobile": "+919876543229",
+        "formatted_address": "Bhuj, Bhuj Taluka, Kachchh, Gujarat, 370001, India"
+      },
+      "return_item": {
+        "id": 26,
+        "user_id": 3,
+        "order_id": 15,
+        "product_name": "1 / 1Y",
+        "hsn_code": null,
+        "variant_attributes": [
+          {
+            "name": "KG",
+            "value": "100 gm"
+          },
+          {
+            "name": "Warranty",
+            "value": "1Y"
+          }
+        ],
+        "product_variant_id": 22,
+        "prescription": null,
+        "delivery_boy_id": 0,
+        "delivery_boy_bonus_amount": "0.00",
+        "quantity": 2,
+        "price": 12,
+        "discounted_price": 10,
+        "purchase_price": "0.00",
+        "tax_amount": 0,
+        "tax_percentage": 0,
+        "sub_total": 20,
+        "delivery_charge": 0,
+        "additional_charges": null,
+        "surge_charges": null,
+        "promo_discount": 100,
+        "wallet_balance": 9406,
+        "final_total": 28002,
+        "refund_amount": null,
+        "active_status": 2,
+        "otp": 0,
+        "cancellation_reason": null,
+        "canceled_at": null,
+        "branch_id": 20,
+        "cancelable_status": 1,
+        "till_status": 0,
+        "return_status": 1,
+        "return_days": 7,
+        "is_credited": 0,
+        "invoice_number": "INV-00015-5",
+        "mobile": "1234567890",
+        "total": 28082,
+        "discount": 0,
+        "promo_code": "QUICK MODE MA KHALI FLAT(100)",
+        "payment_method": "Wallet",
+        "user_name": "Jensi Bhudiya",
+        "branch_name": "Bhuj quick store",
+        "product_id": 18,
+        "image": "https://cakezake.com/storage/products/variants/bncuoygfbdwcpcefipdculmmei2qv1bfg09yfgcr.jpg",
+        "status_name": "Received",
+        "amount_to_refund": 20
+      },
+      "pickup_address": null,
+      "timeline": [
+        {
+          "status": 5,
+          "status_name": "Out for Pickup",
+          "updated_by": "superadmin",
+          "datetime": "2026-06-27T18:25:49.000000Z"
+        }
+      ],
+      "is_delivery_boy_chat_visible": true
+    },
+    {
+      "id": 8,
+      "return_number": "RET-00008",
+      "user_id": 3,
+      "product_variant_id": 53,
+      "order_id": 15,
+      "order_item_id": 25,
+      "address_id": null,
+      "address": null,
+      "return_reason": "bad product",
+      "status": 7,
+      "remarks": null,
+      "delivery_boy_id": 5,
+      "reject_reason": null,
+      "delivery_boy_bonus_amount": 200,
+      "delivery_boy_bonus_details": {
+        "base_total": 21000,
+        "bonus_type": 1,
+        "bonus_type_name": "Commission",
+        "bonus_percentage": 20,
+        "bonus_min_amount": 50,
+        "bonus_max_amount": 200,
+        "bonus_amount": 200
+      },
+      "bonus_credited": 1,
+      "customer_name": "Jensi Bhudiya",
+      "customer_mobile": "8401554223",
+      "customer_email": "support@cakezake.com",
+      "branch_id": 20,
+      "quantity": 1,
+      "price": 25000,
+      "sub_total": 21000,
+      "discounted_price": 21000,
+      "product_name": "Interio by Godrej Ewa Engineered Wood Queen Box Bed",
+      "payment_method": "Wallet",
+      "final_total": 28002,
+      "currency": "₹",
+      "order_number": "ORD-00015",
+      "zone_id": null,
+      "city_name": null,
+      "delivery_boy_name": "Tapu",
+      "delivery_boy_mobile": "9659685968",
+      "product_id": 34,
+      "order_status_name": "Return to Store",
+      "date": "2026-06-20T12:27:07.000000Z",
+      "branch_info": {
+        "branch_name": "Bhuj quick store",
+        "latitude": "23.215791202149354",
+        "longitude": "69.60783004760744",
+        "mobile": "+919876543229",
+        "formatted_address": "Bhuj, Bhuj Taluka, Kachchh, Gujarat, 370001, India"
+      },
+      "return_item": {
+        "id": 25,
+        "user_id": 3,
+        "order_id": 15,
+        "product_name": "Interio by Godrej Ewa Engineered Wood Queen Box Bed",
+        "hsn_code": null,
+        "variant_attributes": [
+          {
+            "name": "Ewa Engineered Wood Queen Box Bed",
+            "value": "Interio by Godrej Ewa Engineered Wood Queen Box Bed"
+          }
+        ],
+        "product_variant_id": 53,
+        "prescription": null,
+        "delivery_boy_id": 0,
+        "delivery_boy_bonus_amount": "0.00",
+        "quantity": 1,
+        "price": 25000,
+        "discounted_price": 21000,
+        "purchase_price": "0.00",
+        "tax_amount": 0,
+        "tax_percentage": 0,
+        "sub_total": 21000,
+        "delivery_charge": 0,
+        "additional_charges": null,
+        "surge_charges": null,
+        "promo_discount": 100,
+        "wallet_balance": 9406,
+        "final_total": 28002,
+        "refund_amount": null,
+        "active_status": 2,
+        "otp": 0,
+        "cancellation_reason": null,
+        "canceled_at": null,
+        "branch_id": 20,
+        "cancelable_status": 0,
+        "till_status": 0,
+        "return_status": 0,
+        "return_days": 0,
+        "is_credited": 0,
+        "invoice_number": "INV-00015-4",
+        "mobile": "1234567890",
+        "total": 28082,
+        "discount": 0,
+        "promo_code": "QUICK MODE MA KHALI FLAT(100)",
+        "payment_method": "Wallet",
+        "user_name": "Jensi Bhudiya",
+        "branch_name": "Bhuj quick store",
+        "product_id": 34,
+        "image": "https://cakezake.com/storage/products/variants/onhyvyvlih4ruy9mtrvthxhwsvnz49n0uhxjut1x.webp",
+        "status_name": "Received",
+        "amount_to_refund": 21000
+      },
+      "pickup_address": null,
+      "timeline": [
+        {
+          "status": 2,
+          "status_name": "Accepted",
+          "updated_by": "superadmin",
+          "datetime": "2026-07-13T12:32:24.000000Z"
+        },
+        {
+          "status": 4,
+          "status_name": "Delivery Boy Assigned",
+          "updated_by": "superadmin",
+          "datetime": "2026-07-13T12:35:08.000000Z"
+        },
+        {
+          "status": 5,
+          "status_name": "Out for Pickup",
+          "updated_by": "superadmin",
+          "datetime": "2026-07-13T12:35:29.000000Z"
+        },
+        {
+          "status": 6,
+          "status_name": "Received from Customer",
+          "updated_by": "superadmin",
+          "datetime": "2026-07-13T12:35:30.000000Z"
+        },
+        {
+          "status": 7,
+          "status_name": "Return to Store",
+          "updated_by": "superadmin",
+          "datetime": "2026-07-13T12:35:32.000000Z"
+        }
+      ],
+      "is_delivery_boy_chat_visible": true
+    }
+  ],
+  "total": 8
+}

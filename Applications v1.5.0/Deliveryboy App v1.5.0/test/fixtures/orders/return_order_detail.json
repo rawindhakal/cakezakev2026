@@ -1,0 +1,208 @@
+{
+  "status": 1,
+  "message": "Success",
+  "data": {
+    "id": 23,
+    "return_number": "RET-00023",
+    "user_id": 4,
+    "product_variant_id": 73,
+    "order_id": 195,
+    "order_item_id": 291,
+    "address_id": 8,
+    "address": {
+      "name": "hency",
+      "address": "Bhuj-Mirjapar(MandviRoad) Bhuj Bhuj Bhuj Gujarat India-370001",
+      "mobile": "9876543210",
+      "alternate_mobile": "",
+      "latitude": "23.2322889",
+      "longitude": "69.6435867"
+    },
+    "return_reason": "no need this item",
+    "status": 8,
+    "remarks": null,
+    "delivery_boy_id": 5,
+    "reject_reason": null,
+    "delivery_boy_bonus_amount": 0,
+    "delivery_boy_bonus_details": {
+      "base_total": 200,
+      "bonus_type": 0,
+      "bonus_type_name": "Fixed/Salaried",
+      "bonus_amount": 0
+    },
+    "bonus_credited": 1,
+    "customer_name": "hency",
+    "customer_mobile": "9876543210",
+    "customer_email": "",
+    "branch_id": 19,
+    "quantity": 1,
+    "price": 250,
+    "sub_total": 200,
+    "discounted_price": 200,
+    "product_name": "Green Kiwi 2 kg",
+    "payment_method": "COD",
+    "final_total": 278,
+    "currency": "₹",
+    "order_number": "ORD-00195",
+    "zone_id": 19,
+    "city_name": "Bhuj(ecommerce)",
+    "delivery_boy_name": "Tapu",
+    "delivery_boy_mobile": "9659685968",
+    "product_id": 43,
+    "order_status_name": "Refund Completed",
+    "date": "2026-07-09T07:21:14.000000Z",
+    "branch_info": {
+      "branch_name": "Bhuj ecommerce store",
+      "latitude": "23.2472446",
+      "longitude": "69.668339",
+      "mobile": "+919876543228",
+      "formatted_address": "Bhuj, Bhuj Taluka, Kachchh, Gujarat, 370001, India"
+    },
+    "return_item": {
+      "id": 291,
+      "user_id": 4,
+      "order_id": 195,
+      "product_name": "Green Kiwi 2 kg",
+      "hsn_code": null,
+      "variant_attributes": [
+        {
+          "name": "KG",
+          "value": "2 kg"
+        }
+      ],
+      "addons": [
+        {
+          "group_id": 18,
+          "group_name": "Add sides",
+          "input_type": "checkbox",
+          "option_id": 51,
+          "option_name": "Mint chutney bowl",
+          "qty": 2,
+          "unit_price": 0,
+          "line_price": 0,
+          "is_free": 1,
+          "available": 1,
+          "linked_variant_id": null
+        },
+        {
+          "group_id": 18,
+          "group_name": "Add sides",
+          "input_type": "checkbox",
+          "option_id": 52,
+          "option_name": "Rumali roti 2 pieces",
+          "qty": 2,
+          "unit_price": 40,
+          "line_price": 80,
+          "is_free": 0,
+          "available": 1,
+          "linked_variant_id": null
+        }
+      ],
+      "addon_total": 80,
+      "product_variant_id": 73,
+      "prescription": null,
+      "delivery_boy_id": 5,
+      "delivery_boy_bonus_amount": "0.00",
+      "quantity": 1,
+      "price": 250,
+      "discounted_price": 200,
+      "purchase_price": "100.00",
+      "tax_amount": 0,
+      "tax_percentage": 0,
+      "sub_total": 200,
+      "delivery_charge": 48,
+      "additional_charges": [
+        {
+          "name": "Packing Charge",
+          "amount": 10,
+          "is_refundable": true
+        },
+        {
+          "name": "Platform fee",
+          "amount": 20,
+          "is_refundable": false
+        }
+      ],
+      "surge_charges": [],
+      "promo_discount": 0,
+      "wallet_balance": 0,
+      "final_total": 278,
+      "refund_amount": 210,
+      "active_status": 8,
+      "otp": 655003,
+      "cancellation_reason": null,
+      "canceled_at": null,
+      "branch_id": 19,
+      "cancelable_status": 1,
+      "till_status": 5,
+      "return_status": 1,
+      "return_days": 2,
+      "is_credited": 1,
+      "invoice_number": "INV-00195-1",
+      "mobile": "9876543210",
+      "total": 200,
+      "discount": 0,
+      "promo_code": "",
+      "payment_method": "COD",
+      "user_name": "hency",
+      "branch_name": "Bhuj ecommerce store",
+      "product_id": 43,
+      "image": "https://cakezake.com/storage/products/variants/1784891711_72906.png",
+      "status_name": "Returned",
+      "amount_to_refund": 210
+    },
+    "pickup_address": {
+      "name": "hency",
+      "address": "Bhuj-Mirjapar(MandviRoad) Bhuj Bhuj Bhuj Gujarat India-370001",
+      "mobile": "9876543210",
+      "alternate_mobile": "",
+      "latitude": "23.2322889",
+      "longitude": "69.6435867"
+    },
+    "timeline": [
+      {
+        "status": 1,
+        "status_name": "Return Requested",
+        "updated_by": "hency",
+        "datetime": "2026-07-09T07:21:14.000000Z"
+      },
+      {
+        "status": 2,
+        "status_name": "Accepted",
+        "updated_by": "superadmin",
+        "datetime": "2026-07-09T09:01:44.000000Z"
+      },
+      {
+        "status": 4,
+        "status_name": "Delivery Boy Assigned",
+        "updated_by": "superadmin",
+        "datetime": "2026-07-09T09:02:01.000000Z"
+      },
+      {
+        "status": 5,
+        "status_name": "Out for Pickup",
+        "updated_by": "superadmin",
+        "datetime": "2026-07-09T09:02:02.000000Z"
+      },
+      {
+        "status": 6,
+        "status_name": "Received from Customer",
+        "updated_by": "superadmin",
+        "datetime": "2026-07-09T11:03:36.000000Z"
+      },
+      {
+        "status": 7,
+        "status_name": "Return to Store",
+        "updated_by": "superadmin",
+        "datetime": "2026-07-09T11:03:40.000000Z"
+      },
+      {
+        "status": 8,
+        "status_name": "Refund Completed",
+        "updated_by": "superadmin",
+        "datetime": "2026-07-09T11:03:43.000000Z"
+      }
+    ],
+    "is_delivery_boy_chat_visible": false
+  },
+  "total": 1
+}

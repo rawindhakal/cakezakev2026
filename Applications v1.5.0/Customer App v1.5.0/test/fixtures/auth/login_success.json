@@ -1,0 +1,18 @@
+{
+  "status": 1,
+  "message": "Login successful",
+  "status_code": "LOGIN_SUCCESS",
+  "data": {
+    "id": 42,
+    "name": "Jordan Blake",
+    "email": "jordan.blake@example.com",
+    "country_code": "+1",
+    "country_id": 231,
+    "mobile": "5551234567",
+    "profile": "https://cdn.cakezake.test/profiles/42.png",
+    "balance": 125.5,
+    "referral_code": "JORDAN42",
+    "type": "email",
+    "access_token": "test-access-token-abc123"
+  }
+}

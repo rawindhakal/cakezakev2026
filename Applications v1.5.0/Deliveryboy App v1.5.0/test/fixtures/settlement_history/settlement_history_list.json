@@ -1,0 +1,52 @@
+{
+  "status": 1,
+  "message": "Settlement history fetched successfully",
+  "total": 3,
+  "data": [
+    {
+      "id": "901",
+      "delivery_boy_id": 42,
+      "name": "Ravi Kumar",
+      "mobile": "9876543210",
+      "country_code": "91",
+      "entry_type": "delivery_commission",
+      "type": "credit",
+      "amount": "150.75",
+      "opening_balance": "1200.00",
+      "closing_balance": "1350.75",
+      "currency": "₹",
+      "message": "Commission for order #1006",
+      "created_at": "2026-08-17 10:30:00"
+    },
+    {
+      "id": "902",
+      "delivery_boy_id": 42,
+      "name": "Ravi Kumar",
+      "mobile": "9876543210",
+      "country_code": "91",
+      "entry_type": "withdrawal",
+      "type": "debit",
+      "amount": 500,
+      "opening_balance": 1350.75,
+      "closing_balance": 850.75,
+      "currency": "₹",
+      "message": "Withdrawal to bank account",
+      "created_at": "2026-08-16 18:05:00"
+    },
+    {
+      "id": "903",
+      "delivery_boy_id": 42,
+      "name": "Ravi Kumar",
+      "mobile": "9876543210",
+      "country_code": "91",
+      "entry_type": "cash_deposit_wallet",
+      "type": "debit",
+      "amount": 320.5,
+      "opening_balance": 850.75,
+      "closing_balance": 530.25,
+      "currency": "₹",
+      "message": null,
+      "created_at": "2026-08-15 09:15:00"
+    }
+  ]
+}

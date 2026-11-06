@@ -1,0 +1,236 @@
+import 'package:customer/commons/widgets/app_radio_option_tile.dart';
+import 'package:customer/commons/widgets/app_svg_icon.dart';
+import 'package:customer/commons/widgets/loading_widget.dart';
+import 'package:customer/core/constants/app_constants.dart';
+import 'package:customer/core/constants/assets_constants.dart';
+import 'package:customer/core/constants/navigation_service.dart';
+import 'package:customer/core/localization/cubit/language_cubit.dart';
+import 'package:customer/core/localization/cubit/language_select_cubit.dart';
+import 'package:customer/core/localization/models/language_model.dart';
+import 'package:customer/core/local_storage/auth_hive_box.dart';
+import 'package:customer/core/local_storage/settings_hive_box.dart';
+import 'package:customer/features/auth/cubits/update_fcm_token_cubit.dart';
+import 'package:customer/utils/extensions/context_extensions.dart';
+import 'package:customer/utils/extensions/localization_extensions.dart';
+import 'package:customer/utils/extensions/size_extensions.dart';
+import 'package:customer/commons/animations/slide_animation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:customer/core/theme/app_spacing.dart';
+import 'package:customer/core/localization/language_label_key.dart';
+import 'package:customer/commons/widgets/app_text.dart';
+import 'package:customer/utils/show_app_bottom_sheet.dart';
+import 'package:customer/core/constants/theme_constants.dart';
+
+void showLanguageSheet(BuildContext context) {
+  showAppBottomSheet(
+    context,
+    insetBottomSafeArea: false,
+    padding: const EdgeInsetsDirectional.fromSTEB(
+      ThemeConstants.paddingL,
+      ThemeConstants.paddingM,
+      ThemeConstants.paddingL,
+      0,
+    ),
+    builder: (_) => MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: context.read<LanguageCubit>()),
+        BlocProvider(create: (_) => LanguageSelectCubit()),
+      ],
+      child: const _LanguageSheet(),
+    ),
+  );
+}
+
+class _LanguageSheet extends StatefulWidget {
+  const _LanguageSheet();
+
+  @override
+  State<_LanguageSheet> createState() => _LanguageSheetState();
+}
+
+class _LanguageSheetState extends State<_LanguageSheet> {
+  String? _pendingId;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<UpdateFcmTokenCubit, UpdateFcmTokenState>(
+      listener: (context, state) {
+        if (state is UpdateFcmTokenLoaded) AppNavigator.pop(context);
+      },
+      child: BlocConsumer<LanguageSelectCubit, LanguageSelectState>(
+        listener: (context, selectState) {
+          if (selectState is LanguageSelectLoaded) {
+            context.read<LanguageCubit>().updateSelectedId(
+              selectState.language.id ?? '',
+            );
+            SettingsHiveBox.instance.setLanguageId(
+              selectState.language.id ?? '',
+            );
+            SettingsHiveBox.instance.setLanguageCode(
+              selectState.language.code ?? '',
+            );
+            SettingsHiveBox.instance.setLanguageType(
+              selectState.language.type ?? '',
+            );
+            if (AuthHiveBox.instance.isLoggedIn) {
+              context.read<UpdateFcmTokenCubit>().updateFcmToken(
+                fcmToken: AuthHiveBox.instance.fcmToken,
+                platform: AppConstants.platformType,
+                languageId: selectState.language.adminLangIdForFcm ?? '',
+              );
+            } else {
+              AppNavigator.pop(context);
+            }
+          }
+        },
+        builder: (context, selectState) {
+          final isSelecting = selectState is LanguageSelecting;
+          return BlocBuilder<LanguageCubit, LanguageState>(
+            builder: (context, state) {
+              final languages = state is LanguageLoaded
+                  ? state.languages
+                  : <LanguageJsonData>[];
+              final selectedId = state is LanguageLoaded
+                  ? state.selectedId
+                  : null;
+
+              final showingList =
+                  state is! LanguageLoading &&
+                  state is! LanguageError &&
+                  selectState is! LanguageSelectError &&
+                  languages.isNotEmpty;
+
+              return Column(
+                mainAxisSize: .min,
+                children: [
+                  AppText(
+                    context.translate(LanguageLabelKeys.selectLanguage),
+                    style: context.tt.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: context.cs.onSurface,
+                    ),
+                  ),
+                  AppSpacing.h12,
+                  if (state is LanguageLoading)
+                    Padding(
+                      padding: const EdgeInsetsDirectional.symmetric(
+                        vertical: ThemeConstants.paddingXXL,
+                      ),
+                      child: LoadingWidget(),
+                    )
+                  else if (state is LanguageError)
+                    Padding(
+                      padding: const EdgeInsetsDirectional.symmetric(
+                        vertical: ThemeConstants.paddingL,
+                      ),
+                      child: Column(
+                        spacing: ThemeConstants.spaceM,
+                        children: [
+                          AppText(
+                            state.message,
+                            style: context.tt.bodySmall?.copyWith(
+                              color: context.cs.onSurfaceVariant,
+                            ),
+                          ),
+                          TextButton.icon(
+                            onPressed: () =>
+                                context.read<LanguageCubit>().loadLanguages(),
+                            icon: AppSvgIcon(
+                              AssetsConstants.refreshIcon,
+                              size: ThemeConstants.iconS,
+                              color: context.cs.primary,
+                            ),
+                            label: AppText(
+                              context.translate(LanguageLabelKeys.retry),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  else if (selectState is LanguageSelectError)
+                    Padding(
+                      padding: const EdgeInsetsDirectional.symmetric(
+                        vertical: ThemeConstants.paddingL,
+                      ),
+                      child: AppText(
+                        selectState.message,
+                        style: context.tt.bodySmall?.copyWith(
+                          color: context.cs.error,
+                        ),
+                      ),
+                    )
+                  else if (languages.isNotEmpty)
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxHeight: context.screenHeight * 0.5,
+                      ),
+                      child: RadioGroup<String>(
+                        groupValue: selectedId,
+                        onChanged: (id) {
+                          if (!isSelecting) {
+                            setState(() => _pendingId = id);
+                            context.read<LanguageSelectCubit>().selectLanguage(
+                              id ?? '',
+                            );
+                          }
+                        },
+                        child: SlideAnimationScope(
+                          builder: (context, animationController) =>
+                              ListView.builder(
+                                shrinkWrap: true,
+                                padding: EdgeInsetsDirectional.only(
+                                  bottom: context.bottomSafePadding,
+                                ),
+                                itemCount: languages.length,
+                                itemBuilder: (context, index) {
+                                  final lang = languages[index];
+                                  return SlideAnimation(
+                                    position: index,
+                                    slideDirection: SlideDirection.fromBottom,
+                                    itemCount: languages.length,
+                                    animationController: animationController,
+                                    child: AppRadioOptionTile<String>(
+                                      value: lang.id ?? '',
+                                      title: lang.name ?? '—',
+                                      subtitle: (lang.code ?? '').isNotEmpty
+                                          ? (lang.code ?? '').toUpperCase()
+                                          : null,
+                                      selected: selectedId == lang.id,
+                                      enabled: !isSelecting,
+                                      margin: const EdgeInsetsDirectional.only(
+                                        bottom: 2,
+                                      ),
+                                      trailing:
+                                          isSelecting && _pendingId == lang.id
+                                          ? LoadingWidget(
+                                              size: ThemeConstants.loaderSize,
+                                            )
+                                          : null,
+                                      onTap: () {
+                                        setState(() => _pendingId = lang.id);
+                                        context
+                                            .read<LanguageSelectCubit>()
+                                            .selectLanguage(lang.id ?? '');
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
+                        ),
+                      ),
+                    ),
+                  if (!showingList)
+                    SizedBox(
+                      height:
+                          context.bottomSafePadding + ThemeConstants.paddingL,
+                    ),
+                ],
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
