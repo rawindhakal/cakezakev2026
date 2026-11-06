@@ -180,7 +180,6 @@
                                     <div v-if="currentStep === 2">
                                         <h4 class="fw-bold mb-1">{{ __('currency') }} &amp; {{ __('payment_gateways') }}</h4>
                                         <p class="text-muted">{{ __('configure_currency_and_payment_gateways') }}</p>
-                                        <div class="alert alert-info py-2 small">Online gateways are disabled for CakeZake — only COD, pay at counter, eSewa, bank transfer and QR payment are offered. Manage them in <router-link to="/payment_methods">Payment methods</router-link>. Any gateway keys below are ignored.</div>
                                         <PaymentGatewaysSection :form="form" />
                                     </div>
 
@@ -717,6 +716,8 @@ export default {
                 // Blank = unlimited (controller branches NULL).
                 fd.append('referral_usage_limit', this.form.referral_usage_limit ?? '');
                 fd.append('payment_gateways', JSON.stringify(this.form.payment_gateways));
+                if (this.form.esewa_qr) fd.append('esewa_qr', this.form.esewa_qr);
+                if (this.form.qr_image) fd.append('qr_image', this.form.qr_image);
                 fd.append('buyer_tax_enabled', this.form.buyer_tax_enabled ? 1 : 0);
                 fd.append('buyer_tax_label', this.form.buyer_tax_label ?? '');
                 fd.append('buyer_tax_regex', this.form.buyer_tax_regex ?? '');

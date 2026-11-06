@@ -22,6 +22,10 @@ export function defaultGateways() {
     return {
         payment_method_settings: 1,
         cod_payment_method: 0, cod_mode: defaultModes.cod_mode,
+        counter_payment_method: 0, counter_instructions: '',
+        esewa_payment_method: 0, esewa_id: '', esewa_account_name: '', esewa_qr_image: '', esewa_instructions: '',
+        bank_payment_method: 0, bank_name: '', bank_account_name: '', bank_account_number: '', bank_branch: '', bank_instructions: '',
+        qr_payment_method: 0, qr_image: '', qr_instructions: '',
         paypal_payment_method: 0, paypal_mode: defaultModes.paypal_mode, paypal_currency_code: '',
         paypal_client_id: '', paypal_client_secret: '', paypal_webhook_id: '',
         razorpay_payment_method: 0, razorpay_key: '', razorpay_secret_key: '',

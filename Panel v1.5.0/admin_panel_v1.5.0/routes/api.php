@@ -189,8 +189,6 @@ Route::middleware(['auth:api', 'branch.scope', 'conditional'])->group(function (
 
     Route::group(['prefix' => 'offline_payments'], function () {
         $c = \App\Http\Controllers\API\OfflinePaymentApiController::class;
-        Route::get('settings', [$c, 'settings']);
-        Route::post('settings', [$c, 'save'])->name('offline_payments.save');
         Route::post('verify', [$c, 'verify'])->name('offline_payments.verify');
     });
 

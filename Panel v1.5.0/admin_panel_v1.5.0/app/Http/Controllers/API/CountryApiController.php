@@ -261,6 +261,21 @@ class CountryApiController extends Controller
         }
         if ($request->has('payment_gateways')) {
             $gateways = json_decode($request->payment_gateways, true) ?: [];
+            $old = is_array($country->payment_gateways) ? $country->payment_gateways : [];
+            // Payment QR images (eSewa / QR payment): a new upload replaces the old file,
+            // an emptied path removes it.
+            foreach (['esewa_qr' => 'esewa_qr_image', 'qr_image' => 'qr_image'] as $field => $key) {
+                $prev = (string) ($old[$key] ?? '');
+                if ($request->hasFile($field) && $request->file($field)->isValid()) {
+                    $gateways[$key] = $request->file($field)->store('payment_qr', 'public');
+                } else {
+                    // Never trust a client-supplied path: keep the stored one, or clear it.
+                    $gateways[$key] = empty($gateways[$key]) ? '' : $prev;
+                }
+                if ($prev !== '' && $prev !== $gateways[$key]) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete($prev);
+                }
+            }
             $country->payment_gateways = $gateways;
         }
         /* Buyer tax registration field. The label is what this country calls the number

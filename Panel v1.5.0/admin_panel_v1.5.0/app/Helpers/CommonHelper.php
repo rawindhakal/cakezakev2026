@@ -859,8 +859,8 @@ class CommonHelper
 
     public static function isCodAllowed($country, array $items = []): int
     {
-        // COD is a global switch now (Admin -> Payment methods), not a per-country one.
-        if (!\App\Services\OfflinePayments::enabled(\App\Services\OfflinePayments::COD)) {
+        // COD is a per-country switch (Country -> Payment gateways).
+        if (!\App\Services\OfflinePayments::enabled(\App\Services\OfflinePayments::COD, $country)) {
             return 0;
         }
 

@@ -50,321 +50,116 @@
                         </div>
                     </div>
 
-                    <!-- PayPal -->
+                    <!-- Pay at counter -->
                     <div class="col-md-6 mb-4">
                         <div class="card h-100 border shadow-none">
                             <div class="card-header d-flex justify-content-between align-items-center">
-                                <h6 class="card-title mb-0">{{ __('paypal_payments') }}</h6>
+                                <h6 class="card-title mb-0">Pay at counter</h6>
                                 <div class="form-check form-switch m-0">
-                                    <input class="form-check-input" type="checkbox" true-value="1" false-value="0" v-model="form.payment_gateways.paypal_payment_method">
+                                    <input class="form-check-input" type="checkbox" true-value="1" false-value="0" v-model="form.payment_gateways.counter_payment_method">
                                 </div>
                             </div>
                             <div class="card-body">
-                                <template v-if="form.payment_gateways.paypal_payment_method == 1">
+                                <p class="text-muted small">Customer pays at the branch counter when collecting.</p>
+                                <template v-if="form.payment_gateways.counter_payment_method == 1">
                                     <div class="form-group mb-3">
-                                        <label>{{ __('payment_mode') }} <small>[ {{ __('sandbox') }} / {{ __('live') }} ]</small></label>
-                                        <AppSelect class="form-control form-select" v-model="form.payment_gateways.paypal_mode" :options="paypal_modeOptions" :searchable="false" />
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label>{{ __('currency_code') }}</label>
-                                        <AppSelect class="form-control form-select"
-                                            v-model="form.payment_gateways.paypal_currency_code"
-                                            :options="paypalCurrencyOptions"
-                                            :placeholder="__('select_currency_code')" />
-                                    </div>
-
-                                    <div class="form-group mb-3">
-                                        <label>{{ __('client_id') }}</label>
-                                        <input type="text" class="form-control" :value="shouldHideCreds ? '' : form.payment_gateways.paypal_client_id" @input="!shouldHideCreds && (form.payment_gateways.paypal_client_id = $event.target.value)" :placeholder="shouldHideCreds ? __('demo_mode') : 'Paypal Client ID'" :readonly="shouldHideCreds">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label>{{ __('client_secret') }}</label>
-                                        <input type="text" class="form-control" :value="shouldHideCreds ? '' : form.payment_gateways.paypal_client_secret" @input="!shouldHideCreds && (form.payment_gateways.paypal_client_secret = $event.target.value)" :placeholder="shouldHideCreds ? __('demo_mode') : 'Paypal Client Secret'" :readonly="shouldHideCreds">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label>{{ __('webhook_id') }} <small>({{ __('from_the_webhook_you_create_below') }})</small></label>
-                                        <input type="text" class="form-control" :value="shouldHideCreds ? '' : form.payment_gateways.paypal_webhook_id" @input="!shouldHideCreds && (form.payment_gateways.paypal_webhook_id = $event.target.value)" :placeholder="shouldHideCreds ? __('demo_mode') : 'Paypal Webhook ID'" :readonly="shouldHideCreds">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>{{ __('webhook_url') }} <small>({{ __('add_this_webhook_in_your_paypal_app') }})</small></label>
-                                        <input type="text" class="form-control" :value="webhookUrls.paypal" placeholder="Paypal webhook URL" disabled>
+                                        <label>Instructions shown to customer</label>
+                                        <input type="text" class="form-control" v-model="form.payment_gateways.counter_instructions" placeholder="e.g. Pay when you collect your order">
                                     </div>
                                 </template>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Razorpay -->
+                    <!-- eSewa -->
                     <div class="col-md-6 mb-4">
                         <div class="card h-100 border shadow-none">
                             <div class="card-header d-flex justify-content-between align-items-center">
-                                <h6 class="card-title mb-0">{{ __('razorpay_payments') }}</h6>
+                                <h6 class="card-title mb-0">eSewa</h6>
                                 <div class="form-check form-switch m-0">
-                                    <input class="form-check-input" type="checkbox" true-value="1" false-value="0" v-model="form.payment_gateways.razorpay_payment_method">
+                                    <input class="form-check-input" type="checkbox" true-value="1" false-value="0" v-model="form.payment_gateways.esewa_payment_method">
                                 </div>
                             </div>
                             <div class="card-body">
-                                <template v-if="form.payment_gateways.razorpay_payment_method == 1">
+                                <p class="text-muted small">Paid up front. The customer uploads a screenshot and staff verify it manually.</p>
+                                <template v-if="form.payment_gateways.esewa_payment_method == 1">
                                     <div class="form-group mb-3">
-                                        <label>{{ __('razorpay_key_id') }}</label>
-                                        <input type="text" class="form-control" :value="shouldHideCreds ? '' : form.payment_gateways.razorpay_key" @input="!shouldHideCreds && (form.payment_gateways.razorpay_key = $event.target.value)" :placeholder="shouldHideCreds ? __('demo_mode') : 'Razor Key ID'" :readonly="shouldHideCreds">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>{{ __('secret_key') }}</label>
-                                        <input type="text" class="form-control" :value="shouldHideCreds ? '' : form.payment_gateways.razorpay_secret_key" @input="!shouldHideCreds && (form.payment_gateways.razorpay_secret_key = $event.target.value)" :placeholder="shouldHideCreds ? __('demo_mode') : 'Razorpay Secret Key'" :readonly="shouldHideCreds">
-                                    </div>
-                                </template>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Paystack -->
-                    <div class="col-md-6 mb-4">
-                        <div class="card h-100 border shadow-none">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <h6 class="card-title mb-0">{{ __('paystack_payments') }}</h6>
-                                <div class="form-check form-switch m-0">
-                                    <input class="form-check-input" type="checkbox" true-value="1" false-value="0" v-model="form.payment_gateways.paystack_payment_method">
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <template v-if="form.payment_gateways.paystack_payment_method == 1">
-                                    <div class="form-group mb-3">
-                                        <label>{{ __('paystack_public_key') }}</label>
-                                        <input type="text" class="form-control" :value="shouldHideCreds ? '' : form.payment_gateways.paystack_public_key" @input="!shouldHideCreds && (form.payment_gateways.paystack_public_key = $event.target.value)" :placeholder="shouldHideCreds ? __('demo_mode') : 'Paystack Public key'" :readonly="shouldHideCreds">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label>{{ __('paystack_secret_key') }}</label>
-                                        <input type="text" class="form-control" :value="shouldHideCreds ? '' : form.payment_gateways.paystack_secret_key" @input="!shouldHideCreds && (form.payment_gateways.paystack_secret_key = $event.target.value)" :placeholder="shouldHideCreds ? __('demo_mode') : 'Paystack Secret Key'" :readonly="shouldHideCreds">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>{{ __('currency_code') }}</label>
-                                        <AppSelect class="form-control form-select"
-                                            v-model="form.payment_gateways.paystack_currency_code"
-                                            :options="paystackCurrencyOptions"
-                                            :placeholder="__('select_currency_code')" />
-                                    </div>
-                                </template>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Stripe -->
-                    <div class="col-md-6 mb-4">
-                        <div class="card h-100 border shadow-none">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <h6 class="card-title mb-0">{{ __('stripe_payments') }}</h6>
-                                <div class="form-check form-switch m-0">
-                                    <input class="form-check-input" type="checkbox" true-value="1" false-value="0" v-model="form.payment_gateways.stripe_payment_method">
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <template v-if="form.payment_gateways.stripe_payment_method == 1">
-                                    <div class="form-group mb-3">
-                                        <label>{{ __('mode') }}</label>
-                                        <AppSelect class="form-control form-select" v-model="form.payment_gateways.stripe_mode" :options="stripe_modeOptions" :searchable="false" />
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label>{{ __('stripe_publishable_key') }}</label>
-                                        <input type="text" class="form-control" :value="shouldHideCreds ? '' : form.payment_gateways.stripe_publishable_key" @input="!shouldHideCreds && (form.payment_gateways.stripe_publishable_key = $event.target.value)" :placeholder="shouldHideCreds ? __('demo_mode') : 'Stripe Publishable Key'" :readonly="shouldHideCreds">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label>{{ __('stripe_secret_key') }}</label>
-                                        <input type="text" class="form-control" :value="shouldHideCreds ? '' : form.payment_gateways.stripe_secret_key" @input="!shouldHideCreds && (form.payment_gateways.stripe_secret_key = $event.target.value)" :placeholder="shouldHideCreds ? __('demo_mode') : 'Stripe Secret Key'" :readonly="shouldHideCreds">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label>{{ __('stripe_webhook_secret_key') }}</label>
-                                        <input type="text" class="form-control" :value="shouldHideCreds ? '' : form.payment_gateways.stripe_webhook_secret_key" @input="!shouldHideCreds && (form.payment_gateways.stripe_webhook_secret_key = $event.target.value)" :placeholder="shouldHideCreds ? __('demo_mode') : 'Stripe Webhook Secret Key'" :readonly="shouldHideCreds">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>{{ __('currency_code') }}</label>
-                                        <AppSelect class="form-control form-select"
-                                            v-model="form.payment_gateways.stripe_currency_code"
-                                            :options="stripeCurrencyOptions"
-                                            :placeholder="__('select_currency_code')" />
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label>{{ __('payment_endpoint_url') }} <small>({{ __('set_this_as_url_in_your_stripe_account') }})</small></label>
-                                        <input type="text" class="form-control" :value="webhookUrls.stripe" readonly>
-                                    </div>
-                                </template>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Midtrans -->
-                    <div class="col-md-6 mb-4">
-                        <div class="card h-100 border shadow-none">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <h6 class="card-title mb-0">{{ __('midtrans_payments') }}</h6>
-                                <div class="form-check form-switch m-0">
-                                    <input class="form-check-input" type="checkbox" true-value="1" false-value="0" v-model="form.payment_gateways.midtrans_payment_method">
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <template v-if="form.payment_gateways.midtrans_payment_method == 1">
-                                    <div class="form-group mb-3">
-                                        <label>{{ __('midtrans_payment_mode') }} <small>[ {{ __('sandbox') }} / {{ __('live') }} ]</small></label>
-                                        <AppSelect class="form-control form-select" v-model="form.payment_gateways.midtrans_mode" :options="midtrans_modeOptions" :searchable="false" />
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label>{{ __('server_key') }}</label>
-                                        <input type="text" class="form-control" :value="shouldHideCreds ? '' : form.payment_gateways.midtrans_server_key" @input="!shouldHideCreds && (form.payment_gateways.midtrans_server_key = $event.target.value)" :placeholder="shouldHideCreds ? __('demo_mode') : 'Midtrans Server Key'" :readonly="shouldHideCreds">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label>{{ __('notification_url') }} <small>{{ __('set_webhook_url') }}</small></label>
-                                        <input type="text" class="form-control" :value="webhookUrls.midtrans" placeholder="Midtrans Webhook URL" disabled>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>{{ __('return_url') }}</label>
-                                        <input type="text" class="form-control" :value="webhookUrls.midtransReturn" placeholder="Midtrans Return URL" disabled>
-                                    </div>
-                                </template>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- PhonePe -->
-                    <div class="col-md-6 mb-4">
-                        <div class="card h-100 border shadow-none">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <h6 class="card-title mb-0">{{ __('phonepay_payments') }}</h6>
-                                <div class="form-check form-switch m-0">
-                                    <input class="form-check-input" type="checkbox" true-value="1" false-value="0" v-model="form.payment_gateways.phonepay_payment_method">
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <template v-if="form.payment_gateways.phonepay_payment_method == 1">
-                                    <div class="form-group mb-3">
-                                        <label>{{ __('phonepay_payment_mode') }} <small>[ {{ __('sandbox') }} / {{ __('live') }} ]</small></label>
-                                        <AppSelect class="form-control form-select" v-model="form.payment_gateways.phonepay_mode" :options="phonepay_modeOptions" :searchable="false" />
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label>{{ __('merchant_id') }}</label>
-                                        <input type="text" class="form-control" :value="shouldHideCreds ? '' : form.payment_gateways.phonepay_merchant_id" @input="!shouldHideCreds && (form.payment_gateways.phonepay_merchant_id = $event.target.value)" :placeholder="shouldHideCreds ? __('demo_mode') : 'Phonepe Merchant ID'" :readonly="shouldHideCreds">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label>{{ __('client_id') }}</label>
-                                        <input type="text" class="form-control" :value="shouldHideCreds ? '' : form.payment_gateways.phonepay_client_id" @input="!shouldHideCreds && (form.payment_gateways.phonepay_client_id = $event.target.value)" :placeholder="shouldHideCreds ? __('demo_mode') : 'Phonepe Client ID'" :readonly="shouldHideCreds">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label>{{ __('client_version') }}</label>
-                                        <input type="text" class="form-control" :value="shouldHideCreds ? '' : form.payment_gateways.phonepay_client_version" @input="!shouldHideCreds && (form.payment_gateways.phonepay_client_version = $event.target.value)" :placeholder="shouldHideCreds ? __('demo_mode') : 'Phonepe Client Version'" :readonly="shouldHideCreds">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>{{ __('client_secret') }}</label>
-                                        <input type="text" class="form-control" :value="shouldHideCreds ? '' : form.payment_gateways.phonepay_client_secret" @input="!shouldHideCreds && (form.payment_gateways.phonepay_client_secret = $event.target.value)" :placeholder="shouldHideCreds ? __('demo_mode') : 'Phonepe Client Secret'" :readonly="shouldHideCreds">
-                                    </div>
-                                </template>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Cashfree -->
-                    <div class="col-md-6 mb-4">
-                        <div class="card h-100 border shadow-none">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <h6 class="card-title mb-0">{{ __('cashfree_payments') }}</h6>
-                                <div class="form-check form-switch m-0">
-                                    <input class="form-check-input" type="checkbox" true-value="1" false-value="0" v-model="form.payment_gateways.cashfree_payment_method">
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <template v-if="form.payment_gateways.cashfree_payment_method == 1">
-                                    <div class="form-group mb-3">
-                                        <label>{{ __('cashfree_payment_mode') }} <small>[ {{ __('sandbox') }} / {{ __('live') }} ]</small></label>
-                                        <AppSelect class="form-control form-select" v-model="form.payment_gateways.cashfree_mode" :options="cashfree_modeOptions" :searchable="false" />
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label>{{ __('app_id') }}</label>
-                                        <input type="text" class="form-control" :value="shouldHideCreds ? '' : form.payment_gateways.cashfree_app_id" @input="!shouldHideCreds && (form.payment_gateways.cashfree_app_id = $event.target.value)" :placeholder="shouldHideCreds ? __('demo_mode') : 'Cashfree APP ID'" :readonly="shouldHideCreds">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label>{{ __('secret_key') }}</label>
-                                        <input type="text" class="form-control" :value="shouldHideCreds ? '' : form.payment_gateways.cashfree_secret_key" @input="!shouldHideCreds && (form.payment_gateways.cashfree_secret_key = $event.target.value)" :placeholder="shouldHideCreds ? __('demo_mode') : 'Cashfree Secret Key'" :readonly="shouldHideCreds">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>{{ __('notification_url') }} <small>{{ __('set_webhook_url_for_cashfree') }}</small></label>
-                                        <input type="text" class="form-control" :value="webhookUrls.cashfree" placeholder="Cashfree Webhook URL" disabled>
-                                    </div>
-                                </template>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Paytabs -->
-                    <div class="col-md-6 mb-4">
-                        <div class="card h-100 border shadow-none">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <h6 class="card-title mb-0">{{ __('paytabs_payments') }}</h6>
-                                <div class="form-check form-switch m-0">
-                                    <input class="form-check-input" type="checkbox" true-value="1" false-value="0" v-model="form.payment_gateways.paytabs_payment_method">
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <template v-if="form.payment_gateways.paytabs_payment_method == 1">
-                                    <div class="form-group mb-3">
-                                        <label>{{ __('paytabs_payment_mode') }} <small>[ {{ __('sandbox') }} / {{ __('live') }} ]</small></label>
-                                        <AppSelect class="form-control form-select" v-model="form.payment_gateways.paytabs_mode" :options="paytabs_modeOptions" :searchable="false" />
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label>{{ __('profile_id') }}</label>
-                                        <input type="text" class="form-control" :value="shouldHideCreds ? '' : form.payment_gateways.paytabs_profile_id" @input="!shouldHideCreds && (form.payment_gateways.paytabs_profile_id = $event.target.value)" :placeholder="shouldHideCreds ? __('demo_mode') : 'Paytabs Profile ID'" :readonly="shouldHideCreds">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label>{{ __('secret_key') }}</label>
-                                        <input type="text" class="form-control" :value="shouldHideCreds ? '' : form.payment_gateways.paytabs_secret_key" @input="!shouldHideCreds && (form.payment_gateways.paytabs_secret_key = $event.target.value)" :placeholder="shouldHideCreds ? __('demo_mode') : 'Paytabs Secret Key'" :readonly="shouldHideCreds">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>{{ __('notification_url') }} <small>{{ __('set_webhook_url_for_paytabs') }}</small></label>
-                                        <input type="text" class="form-control" :value="webhookUrls.paytabs" placeholder="Paytabs Webhook URL" disabled>
-                                    </div>
-                                </template>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Gateways from installed plugins. Rendered from the manifest schema,
-                         written into the same payment_gateways object the form already
-                         saves, so nothing about the save path changes. -->
-                    <div class="col-md-6 mb-4" v-for="gw in pluginGateways" :key="gw.code">
-                        <div class="card h-100 border shadow-none">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <h6 class="card-title mb-0">{{ gw.label }}</h6>
-                                <div class="form-check form-switch m-0">
-                                    <input class="form-check-input" type="checkbox" true-value="1" false-value="0"
-                                        v-model="form.payment_gateways[gw.toggle_key]">
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <template v-if="form.payment_gateways[gw.toggle_key] == 1">
-                                    <div class="form-group mb-3" v-for="field in gw.fields" :key="field.key">
-                                        <label>
-                                            {{ __(field.label) }}
-                                            <span v-if="field.required" class="text-danger">*</span>
-                                        </label>
-
-                                        <AppSelect v-if="field.type === 'select'" class="form-control form-select"
-                                            v-model="form.payment_gateways[field.key]"
-                                            :options="pluginFieldOptions(field)" :searchable="false" />
-
-                                        <div v-else-if="field.type === 'toggle'" class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" true-value="1" false-value="0"
-                                                v-model="form.payment_gateways[field.key]">
+                                        <label>eSewa ID / number</label>
+                                        <input type="text" class="form-control" v-model="form.payment_gateways.esewa_id" placeholder="98XXXXXXXX">
+                                    </div><div class="form-group mb-3">
+                                        <label>Account name</label>
+                                        <input type="text" class="form-control" v-model="form.payment_gateways.esewa_account_name" placeholder="">
+                                    </div><div class="form-group mb-3">
+                                        <label>QR image</label>
+                                        <div v-if="form.payment_gateways.esewa_qr_image" class="mb-2">
+                                            <img :src="storageUrl(form.payment_gateways.esewa_qr_image)" alt="QR" style="max-height:140px" class="border rounded p-1 d-block mb-1">
+                                            <button type="button" class="btn btn-sm btn-outline-danger" @click="form.payment_gateways.esewa_qr_image = ''; form.esewa_qr = null">Remove</button>
                                         </div>
-
-                                        <!-- A secret is hidden in demo mode, exactly like the core gateways' keys. -->
-                                        <input v-else :type="field.type === 'number' ? 'number' : 'text'" class="form-control"
-                                            :value="field.secret && shouldHideCreds ? '' : form.payment_gateways[field.key]"
-                                            @input="!(field.secret && shouldHideCreds) && (form.payment_gateways[field.key] = $event.target.value)"
-                                            :readonly="field.secret && shouldHideCreds"
-                                            :placeholder="field.secret && shouldHideCreds ? __('demo_mode') : __(field.placeholder || field.label)">
-
+                                        <input type="file" class="form-control" accept="image/*" @change="form.esewa_qr = $event.target.files[0] || null">
+                                    </div><div class="form-group mb-3">
+                                        <label>Instructions</label>
+                                        <input type="text" class="form-control" v-model="form.payment_gateways.esewa_instructions" placeholder="">
                                     </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
 
-                                    <div class="form-group">
-                                        <label>{{ __('notification_url') }}</label>
-                                        <input type="text" class="form-control" :value="gw.webhook_url" disabled>
+                    <!-- Bank transfer -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 border shadow-none">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h6 class="card-title mb-0">Bank transfer</h6>
+                                <div class="form-check form-switch m-0">
+                                    <input class="form-check-input" type="checkbox" true-value="1" false-value="0" v-model="form.payment_gateways.bank_payment_method">
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted small">Paid up front. The customer uploads proof and staff verify it manually.</p>
+                                <template v-if="form.payment_gateways.bank_payment_method == 1">
+                                    <div class="form-group mb-3">
+                                        <label>Bank name</label>
+                                        <input type="text" class="form-control" v-model="form.payment_gateways.bank_name" placeholder="">
+                                    </div><div class="form-group mb-3">
+                                        <label>Account name</label>
+                                        <input type="text" class="form-control" v-model="form.payment_gateways.bank_account_name" placeholder="">
+                                    </div><div class="form-group mb-3">
+                                        <label>Account number</label>
+                                        <input type="text" class="form-control" v-model="form.payment_gateways.bank_account_number" placeholder="">
+                                    </div><div class="form-group mb-3">
+                                        <label>Branch</label>
+                                        <input type="text" class="form-control" v-model="form.payment_gateways.bank_branch" placeholder="">
+                                    </div><div class="form-group mb-3">
+                                        <label>Instructions</label>
+                                        <input type="text" class="form-control" v-model="form.payment_gateways.bank_instructions" placeholder="">
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- QR payment -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 border shadow-none">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h6 class="card-title mb-0">QR payment</h6>
+                                <div class="form-check form-switch m-0">
+                                    <input class="form-check-input" type="checkbox" true-value="1" false-value="0" v-model="form.payment_gateways.qr_payment_method">
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted small">Upload your bank / wallet QR. The customer scans, pays and uploads proof for manual verification.</p>
+                                <template v-if="form.payment_gateways.qr_payment_method == 1">
+                                    <div class="form-group mb-3">
+                                        <label>QR image</label>
+                                        <div v-if="form.payment_gateways.qr_image" class="mb-2">
+                                            <img :src="storageUrl(form.payment_gateways.qr_image)" alt="QR" style="max-height:140px" class="border rounded p-1 d-block mb-1">
+                                            <button type="button" class="btn btn-sm btn-outline-danger" @click="form.payment_gateways.qr_image = ''; form.qr_image = null">Remove</button>
+                                        </div>
+                                        <input type="file" class="form-control" accept="image/*" @change="form.qr_image = $event.target.files[0] || null">
+                                    </div><div class="form-group mb-3">
+                                        <label>Instructions</label>
+                                        <input type="text" class="form-control" v-model="form.payment_gateways.qr_instructions" placeholder="">
                                     </div>
                                 </template>
                             </div>
@@ -392,10 +187,10 @@ export default {
         // renders exactly as before.
         return { currencyOptions, login_user: Auth.user, pluginGateways: [] };
     },
-    created() {
-        this.loadPluginGateways();
-    },
     methods: {
+        storageUrl(path) {
+            return /^https?:/.test(path) ? path : window.location.origin + '/storage/' + String(path).replace(/^\/+/, '');
+        },
         /**
          * Gateways contributed by plugins, plus their default keys.
          *

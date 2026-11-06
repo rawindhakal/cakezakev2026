@@ -368,7 +368,7 @@ class OrderApiController extends Controller
 
             // Only COD, pay-at-counter and the manually verified methods are accepted.
             if ($payment_method !== 'Wallet'
-                && !(\App\Services\OfflinePayments::enabled((string) $payment_method))) {
+                && !(\App\Services\OfflinePayments::enabled((string) $payment_method, optional($orderZone)->country))) {
                 return CommonHelper::responseError(__('payment_method_not_configured'));
             }
 

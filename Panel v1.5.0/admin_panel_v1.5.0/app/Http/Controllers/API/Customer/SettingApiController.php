@@ -273,7 +273,7 @@ class SettingApiController extends Controller
         foreach ($legacy as $g) {
             $data[$g . '_payment_method'] = '0';
         }
-        $offline = \App\Services\OfflinePayments::publicConfig();
+        $offline = \App\Services\OfflinePayments::publicConfig($zone->country);
         $data['cod_payment_method'] = (string) (int) $offline['cod']['enabled'];
         $data['cod_mode'] = 'global';
         $data['counter_payment_method'] = (string) (int) $offline['counter']['enabled'];

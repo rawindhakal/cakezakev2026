@@ -40,7 +40,6 @@ const ProductBulk = () => import("../views/Product/ProductBulk.vue");
 const GiftingList = () => import("../views/Gifting/GiftingList.vue");
 const DeliverySchedule = () => import("../views/Orders/DeliverySchedule.vue");
 const DeliverySlots = () => import("../views/Orders/DeliverySlots.vue");
-const PaymentMethods = () => import("../views/Setting/PaymentMethods.vue");
 const Brands = () => import("../views/Product/Brands/Brands.vue");
 const Attributes = () => import("../views/Category/Attributes/Attributes.vue");
 const ManageStock = () => import("../views/Product/ManageStock.vue");
@@ -408,12 +407,6 @@ function configRoutes() {
                     name: "DeliverySchedule",
                     component: DeliverySchedule,
                     meta: { permission: 'order_list', role: adminRoles, title: 'Delivery planner' },
-                },
-                {
-                    path: "payment_methods",
-                    name: "PaymentMethods",
-                    component: PaymentMethods,
-                    meta: { permission: 'order_list', role: adminRoles, title: 'Payment methods' },
                 },
                 {
                     path: "delivery_slots",

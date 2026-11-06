@@ -35,25 +35,29 @@ class OfflinePayments
         ];
     }
 
-    public static function config(): array
+    /** Flat keys inside countries.payment_gateways that hold the offline settings. */
+    private const FIELDS = [
+        'cod' => ['enabled' => 'cod_payment_method'],
+        'counter' => ['enabled' => 'counter_payment_method', 'instructions' => 'counter_instructions'],
+        'esewa' => ['enabled' => 'esewa_payment_method', 'esewa_id' => 'esewa_id', 'account_name' => 'esewa_account_name',
+            'qr_image' => 'esewa_qr_image', 'instructions' => 'esewa_instructions'],
+        'bank' => ['enabled' => 'bank_payment_method', 'bank_name' => 'bank_name', 'account_name' => 'bank_account_name',
+            'account_number' => 'bank_account_number', 'branch' => 'bank_branch', 'instructions' => 'bank_instructions'],
+        'qr' => ['enabled' => 'qr_payment_method', 'qr_image' => 'qr_image', 'instructions' => 'qr_instructions'],
+    ];
+
+    /** Offline payment settings of one country (they live in countries.payment_gateways). */
+    public static function forCountry($country): array
     {
-        $raw = DB::table('settings')->where('variable', self::KEY)->value('value');
-        $saved = $raw ? (json_decode($raw, true) ?: []) : [];
+        $gw = is_array($country?->payment_gateways ?? null) ? $country->payment_gateways : [];
         $out = self::defaults();
-        foreach ($out as $k => $v) {
-            $out[$k] = array_merge($v, is_array($saved[$k] ?? null) ? $saved[$k] : []);
+        foreach (self::FIELDS as $section => $map) {
+            foreach ($map as $field => $key) {
+                if (!array_key_exists($key, $gw)) continue;
+                $out[$section][$field] = $field === 'enabled' ? ((int) $gw[$key] ? 1 : 0) : (string) $gw[$key];
+            }
         }
         return $out;
-    }
-
-    public static function save(array $cfg): void
-    {
-        $json = json_encode($cfg);
-        if (DB::table('settings')->where('variable', self::KEY)->exists()) {
-            DB::table('settings')->where('variable', self::KEY)->update(['value' => $json]);
-        } else {
-            DB::table('settings')->insert(['variable' => self::KEY, 'value' => $json]);
-        }
     }
 
     public static function url(?string $path): string
@@ -62,17 +66,17 @@ class OfflinePayments
     }
 
     /** Client-safe view: what the checkout needs to show payment instructions. */
-    public static function publicConfig(): array
+    public static function publicConfig($country): array
     {
-        $c = self::config();
+        $c = self::forCountry($country);
         $c['esewa']['qr_image'] = self::url($c['esewa']['qr_image']);
         $c['qr']['qr_image'] = self::url($c['qr']['qr_image']);
         return $c;
     }
 
-    public static function enabled(string $method): bool
+    public static function enabled(string $method, $country = null): bool
     {
-        $c = self::config();
+        $c = self::forCountry($country);
         $map = [self::COD => 'cod', self::COUNTER => 'counter', self::ESEWA => 'esewa', self::BANK => 'bank', self::QR => 'qr'];
         return isset($map[$method]) && (int) ($c[$map[$method]]['enabled'] ?? 0) === 1;
     }
