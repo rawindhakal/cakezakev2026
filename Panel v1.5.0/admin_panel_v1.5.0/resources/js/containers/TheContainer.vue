@@ -362,6 +362,12 @@ export default {
                             permission: 'order_list',
                         },
                         {
+                            name: 'Payment methods',
+                            icon: markRaw(CreditCard),
+                            url: '/payment_methods',
+                            permission: 'order_list',
+                        },
+                        {
                             name: 'Delivery slots',
                             icon: markRaw(Disc3),
                             url: '/delivery_slots',

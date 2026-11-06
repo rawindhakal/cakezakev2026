@@ -4,7 +4,7 @@ import 'package:customer/core/localization/language_label_key.dart';
 
 import 'payment_methods_model.dart';
 
-enum PaymentFlowType { webview, sdk, cod }
+enum PaymentFlowType { webview, sdk, cod, manual }
 
 enum PaymentGatewayType {
   phonepe(
@@ -61,6 +61,31 @@ enum PaymentGatewayType {
     PaymentFlowType.cod,
     AppConstants.cod,
   ),
+  // CakeZake accepts only COD plus these in-person / manually verified methods.
+  payAtCounter(
+    'Pay at counter',
+    AssetsConstants.codIcon,
+    PaymentFlowType.cod,
+    'PayAtCounter',
+  ),
+  esewa(
+    'eSewa',
+    AssetsConstants.codIcon,
+    PaymentFlowType.manual,
+    'Esewa',
+  ),
+  bankTransfer(
+    'Bank transfer',
+    AssetsConstants.codIcon,
+    PaymentFlowType.manual,
+    'BankTransfer',
+  ),
+  qrPayment(
+    'QR payment',
+    AssetsConstants.codIcon,
+    PaymentFlowType.manual,
+    'QrPayment',
+  ),
   dpo(
     LanguageLabelKeys.dpo,
     AssetsConstants.dpoIcon,
@@ -101,17 +126,11 @@ class PaymentMethodItem {
 
   static List<PaymentMethodItem> fromData(PaymentMethodsData data) {
     final map = <PaymentGatewayType, String?>{
-      PaymentGatewayType.phonepe: data.phonePePaymentMethod,
-      PaymentGatewayType.midtrans: data.midtransPaymentMethod,
-      PaymentGatewayType.paystack: data.paystackPaymentMethod,
-      PaymentGatewayType.stripe: data.stripePaymentMethod,
-      PaymentGatewayType.paypal: data.paypalPaymentMethod,
-      PaymentGatewayType.razorpay: data.razorpayPaymentMethod,
-      PaymentGatewayType.cashfree: data.cashfreePaymentMethod,
-      PaymentGatewayType.paytabs: data.paytabsPaymentMethod,
       PaymentGatewayType.cod: data.codPaymentMethod,
-      PaymentGatewayType.dpo: data.dpoPaymentMethod,
-      PaymentGatewayType.payu: data.payuPaymentMethod,
+      PaymentGatewayType.payAtCounter: data.counterPaymentMethod,
+      PaymentGatewayType.esewa: data.esewaPaymentMethod,
+      PaymentGatewayType.bankTransfer: data.bankPaymentMethod,
+      PaymentGatewayType.qrPayment: data.qrPaymentMethod,
     };
 
     return map.entries

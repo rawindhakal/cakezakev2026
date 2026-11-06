@@ -266,63 +266,21 @@ class SettingApiController extends Controller
             return CommonHelper::responseError(__('not_deliverable_to_this_location'));
         }
 
-        // Same key set the app already consumes, now sourced from the zone's gateway map.
-        $variables = array(
-            "payment_method_settings",
-            "cod_payment_method",
-            "cod_mode",
-
-            "paypal_payment_method",
-
-            "razorpay_payment_method",
-            "razorpay_key",
-
-            "paystack_payment_method",
-            "paystack_public_key",
-            "paystack_currency_code",
-
-            "stripe_payment_method",
-            "stripe_publishable_key",
-            "stripe_currency_code",
-            "stripe_mode",
-
-            "midtrans_payment_method",
-
-            "phonepay_payment_method",
-            "phonepay_mode",
-
-            "cashfree_payment_method",
-            "cashfree_mode",
-
-            "paytabs_payment_method",
-            "paytabs_mode"
-        );
-
-        /* Keys an plugin's gateway declared public — its on/off switch and whatever the
-           app needs to open its checkout. Secrets are excluded by the driver itself, so
-           adding a gateway plugin needs no edit here. */
-        try {
-            $registry = app(\App\Plugins\Registries\PaymentGatewayRegistry::class);
-            foreach ($registry->keys() as $code) {
-                $driver = $registry->driver($code);
-                if (!$driver instanceof \App\Plugins\Contracts\PaymentGateway) {
-                    continue;
-                }
-                $variables[] = $code . '_payment_method';
-                foreach ($driver->publicSettingKeys() as $key) {
-                    $variables[] = (string) $key;
-                }
-            }
-            $variables = array_values(array_unique($variables));
-        } catch (\Throwable $e) {
-            \Illuminate\Support\Facades\Log::warning('[Payments] plugin public keys unavailable: ' . $e->getMessage());
+        // Only COD, pay-at-counter, eSewa, bank transfer and QR payment are offered. The
+        // legacy per-gateway keys are still sent (empty) so older app builds don't break.
+        $legacy = ['paypal', 'razorpay', 'paystack', 'stripe', 'midtrans', 'phonepay', 'cashfree', 'paytabs', 'payu'];
+        $data = ['payment_method_settings' => 1];
+        foreach ($legacy as $g) {
+            $data[$g . '_payment_method'] = '0';
         }
-
-        $gateways = CommonHelper::countryPaymentGateways($zone?->country);
-        $data = array();
-        foreach ($variables as $key) {
-            $data[$key] = $gateways[$key] ?? "";
-        }
+        $offline = \App\Services\OfflinePayments::publicConfig();
+        $data['cod_payment_method'] = (string) (int) $offline['cod']['enabled'];
+        $data['cod_mode'] = 'global';
+        $data['counter_payment_method'] = (string) (int) $offline['counter']['enabled'];
+        $data['esewa_payment_method'] = (string) (int) $offline['esewa']['enabled'];
+        $data['bank_payment_method'] = (string) (int) $offline['bank']['enabled'];
+        $data['qr_payment_method'] = (string) (int) $offline['qr']['enabled'];
+        $data['offline_payments'] = $offline;
 
         $data = base64_encode(json_encode($data));
         return CommonHelper::responseWithData($data);

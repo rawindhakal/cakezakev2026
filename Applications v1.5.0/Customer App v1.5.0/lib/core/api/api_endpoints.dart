@@ -73,6 +73,7 @@ class ApiEndpoints {
   static const String addressUpdate = "$address/update";
   static const String addressRemove = "$address/delete";
   static const String placeOrder = "place_order";
+  static const String paymentProof = "payment_proof";
   static const String initiateTransaction = "initiate_transaction";
   static const String addTransaction = "add_transaction";
   static const String deleteAccount = "delete_account";

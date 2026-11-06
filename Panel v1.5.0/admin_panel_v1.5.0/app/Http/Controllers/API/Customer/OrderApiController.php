@@ -366,7 +366,14 @@ class OrderApiController extends Controller
             $wallet_balance = (isset($request->wallet_balance) && is_numeric($request->wallet_balance)) ? $request->wallet_balance : 0;
             $payment_method = $request->payment_method;
 
-            $active_status = $payment_method == Transaction::$paymentTypeCod ? OrderStatusList::$received : OrderStatusList::$paymentPending;
+            // Only COD, pay-at-counter and the manually verified methods are accepted.
+            if ($payment_method !== 'Wallet'
+                && !(\App\Services\OfflinePayments::enabled((string) $payment_method))) {
+                return CommonHelper::responseError(__('payment_method_not_configured'));
+            }
+
+            $active_status = ($payment_method == Transaction::$paymentTypeCod || in_array($payment_method, \App\Services\OfflinePayments::ALL, true))
+                ? OrderStatusList::$received : OrderStatusList::$paymentPending;
             if ($payment_method == 'Wallet') {
                 $active_status = OrderStatusList::$received;
             }
@@ -592,6 +599,7 @@ class OrderApiController extends Controller
             }
             // Payments settled at placement (no gateway round-trip needed).
             $immediatePayment = ($payment_method == Transaction::$paymentTypeCod
+                || in_array($payment_method, \App\Services\OfflinePayments::ALL, true)
                 || $payment_method == Transaction::$paymentTypeWallet
                 || $walletFullyPays);
 
@@ -656,6 +664,9 @@ class OrderApiController extends Controller
                 $order->final_total = $final_total;
                 $order->remaining_final = $final_total;
                 $order->payment_method = $payment_method;
+                if (\App\Services\OfflinePayments::isManual($payment_method)) {
+                    $order->payment_verification = 'pending';
+                }
                 if ($isPickup) {
                     $bill = !empty($user_address)
                         ? [
@@ -1172,6 +1183,9 @@ class OrderApiController extends Controller
 
     public function initiateTransaction(Request $request)
     {
+        // Online gateways are retired: payments are COD / counter / manually verified only.
+        return CommonHelper::responseError(__('payment_method_not_configured'));
+
         $validator = Validator::make($request->all(), [
             'payment_method' => 'required',
             'type' => 'required|in:order,wallet',
@@ -2574,5 +2588,29 @@ class OrderApiController extends Controller
         $data['time_to_deliver']  = CustomerProductShaper::formatDeliveryTime($minutes, false);
 
         return CommonHelper::responseSuccessWithData("Live Tracking Detail fetched successfully.", $data);
+    }
+
+    /** Customer uploads the proof (screenshot + reference) for a manual payment. */
+    public function submitPaymentProof(Request $request)
+    {
+        $v = Validator::make($request->all(), [
+            'order_id' => 'required|integer',
+            'reference' => 'nullable|string|max:191',
+            'proof' => 'required|image|max:6144',
+        ]);
+        if ($v->fails()) return CommonHelper::responseError($v->errors()->first());
+
+        $order = Order::where('id', $request->order_id)->where('user_id', $request->user()->id)->first();
+        if (!$order || !\App\Services\OfflinePayments::isManual($order->payment_method)) {
+            return CommonHelper::responseError(__('order_not_found'));
+        }
+        if ($order->payment_verification === 'verified') {
+            return CommonHelper::responseError(__('payment_already_verified'));
+        }
+        $order->payment_proof = $request->file('proof')->store('payment_proofs', 'public');
+        $order->payment_reference = $request->input('reference');
+        $order->payment_verification = 'pending';
+        $order->save();
+        return CommonHelper::responseSuccess(__('payment_proof_submitted'));
     }
 }

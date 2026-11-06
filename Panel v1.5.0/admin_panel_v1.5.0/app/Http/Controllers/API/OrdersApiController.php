@@ -53,6 +53,7 @@ class OrdersApiController extends Controller
             'orders.recipient_relationship',
             'orders.occasion',
             'orders.delivery_slot_id',
+            'orders.payment_verification',
             'orders.delivery_starts_at',
             'orders.delivery_ends_at',
             'orders.delivery_date',

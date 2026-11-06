@@ -71,15 +71,10 @@ import GiftDetails from "@/components/gifting/GiftDetails";
 
 // Online gateways keyed by payment_setting flag (COD/wallet handled separately).
 const GATEWAYS = [
-  { key: "razorpay_payment_method", value: "razorpay", logo: RazorpayLogo },
-  { key: "paypal_payment_method", value: "paypal", logo: PaypalLogo },
-  { key: "paystack_payment_method", value: "paystack", logo: PaystackLogo },
-  { key: "stripe_payment_method", value: "stripe", logo: StripeLogo },
-  { key: "cashfree_payment_method", value: "cashfree", logo: CashfreeLogo },
-  { key: "midtrans_payment_method", value: "midtrans", logo: MidtransLogo },
-  { key: "phonepay_payment_method", value: "phonepe", logo: PhonePeLogo },
-  { key: "paytabs_payment_method", value: "paytabs", logo: PaytabsLogo },
-  { key: "payu_payment_method", value: "payu", logo: PayuLogo },
+  { key: "counter_payment_method", value: "PayAtCounter", label: "Pay at counter", logo: null as any },
+  { key: "esewa_payment_method", value: "Esewa", label: "eSewa", logo: null as any },
+  { key: "bank_payment_method", value: "BankTransfer", label: "Bank transfer", logo: null as any },
+  { key: "qr_payment_method", value: "QrPayment", label: "QR payment", logo: null as any },
 ];
 
 const CheckCircle = ({ active }: { active: boolean }) => (
@@ -139,7 +134,7 @@ const QuickCheckoutView = ({
   const deliveryType = useSelector(
     (state: any) => state.Checkout.deliveryType as "delivery" | "pickup",
   );
-  const { placeOrder, paymentLoading, StripePortal } = useOrderPlacement();
+  const { placeOrder, paymentLoading, StripePortal, OfflinePortal } = useOrderPlacement();
 
   const [addresses, setAddresses] = useState<any[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<any>(null);
@@ -454,7 +449,7 @@ const QuickCheckoutView = ({
     }
     // Only COD/wallet close the drawer — gateways (Stripe modal etc.) live here.
     const settlesInline =
-      effectiveMethod === "COD" || effectiveMethod === "wallet";
+      effectiveMethod === "COD" || effectiveMethod === "wallet" || effectiveMethod === "PayAtCounter";
 
     await placeOrder({
       analyticsItems: checkoutData?.cart,
@@ -1184,7 +1179,7 @@ const QuickCheckoutView = ({
                     <div className="my-3 flex items-center gap-2">
                       <span className="h-px flex-grow bg-[color-mix(in_srgb,var(--primary-color)_18%,transparent)]" />
                       <span className="text-[10px] font-semibold uppercase tracking-wider SecondaryTextColor">
-                        {t("pay_online") || "Pay Online"}
+                        {"Other ways to pay"}
                       </span>
                       <span className="h-px flex-grow bg-[color-mix(in_srgb,var(--primary-color)_18%,transparent)]" />
                     </div>
@@ -1215,7 +1210,7 @@ const QuickCheckoutView = ({
                               )}
                             </span>
                             <span className="flex-grow truncate text-left text-sm font-semibold capitalize textColor">
-                              {t(g.value) || g.value}
+                              {g.label}
                             </span>
                             <CheckCircle active={active} />
                           </button>
@@ -1474,6 +1469,7 @@ const QuickCheckoutView = ({
           </button>
         </div>
         {StripePortal}
+        {OfflinePortal}
       </div>
 
       <NewAddressModal

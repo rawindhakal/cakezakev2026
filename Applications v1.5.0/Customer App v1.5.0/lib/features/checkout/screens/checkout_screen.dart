@@ -1,3 +1,4 @@
+import 'package:customer/features/payment_method/screens/manual_payment_screen.dart';
 import 'package:customer/commons/cubit/base_pagination_cubit.dart';
 import 'package:customer/core/constants/assets_constants.dart';
 import 'package:customer/utils/extensions/num_extensions.dart';
@@ -731,6 +732,22 @@ class _CheckoutScreenState extends State<CheckoutScreen>
       postPromoTotal: orderAmount,
     );
     if (state.isCod || walletCoversFull) {
+      _goToOrderSuccess(orderId: state.orderId, orderItemId: state.orderItemId);
+      return;
+    }
+
+    // eSewa / bank transfer / QR: order is placed; collect the payment proof.
+    if (_selectedPayment?.flowType == PaymentFlowType.manual) {
+      await Navigator.of(context).push<bool>(
+        MaterialPageRoute(
+          builder: (_) => ManualPaymentScreen(
+            orderId: state.orderId,
+            method: _selectedPayment!.apiValue,
+            amount: orderAmount,
+          ),
+        ),
+      );
+      if (!mounted) return;
       _goToOrderSuccess(orderId: state.orderId, orderItemId: state.orderItemId);
       return;
     }

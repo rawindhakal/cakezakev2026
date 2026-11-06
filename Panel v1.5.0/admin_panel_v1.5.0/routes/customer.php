@@ -175,6 +175,7 @@ Route::group(['middleware' => ['auth.customer', 'conditional']], function () {
 
         //Checkout
         Route::post('place_order', [OrderApiController::class, 'placeOrder']);
+        Route::post('payment_proof', [OrderApiController::class, 'submitPaymentProof']);
         Route::post('initiate_transaction', [OrderApiController::class, 'initiateTransaction']);
         // A payment SDK asking the server to sign one of its own calls.
         Route::post('payment_sdk_hash', [OrderApiController::class, 'paymentSdkHash']);

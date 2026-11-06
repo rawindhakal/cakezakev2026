@@ -96,3 +96,5 @@ export const add = "add";
 export const deleteItem = "delete";
 export const update = "update";
 export const edit = "edit";
+
+export const paymentProof = "payment_proof";

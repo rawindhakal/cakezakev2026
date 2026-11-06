@@ -859,14 +859,13 @@ class CommonHelper
 
     public static function isCodAllowed($country, array $items = []): int
     {
-        $gateways = self::countryPaymentGateways($country);
-
-        // Values arrive from JSON as either int or string ("1"), so compare loosely.
-        if (($gateways['cod_payment_method'] ?? 0) != 1) {
+        // COD is a global switch now (Admin -> Payment methods), not a per-country one.
+        if (!\App\Services\OfflinePayments::enabled(\App\Services\OfflinePayments::COD)) {
             return 0;
         }
 
-        if (($gateways['cod_mode'] ?? null) == Setting::$codModeGlobal) {
+        $gateways = self::countryPaymentGateways($country);
+        if (($gateways['cod_mode'] ?? Setting::$codModeGlobal) == Setting::$codModeGlobal) {
             return 1;
         }
 

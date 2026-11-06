@@ -156,6 +156,7 @@
 
                         <template #cell(payment_method)="row">
                             <span class="badge bg-light text-dark border">{{ row.item.payment_method }}</span>
+                            <span v-if="row.item.payment_verification" class="badge ms-1" :class="{'bg-warning text-dark': row.item.payment_verification==='pending','bg-success': row.item.payment_verification==='verified','bg-danger': row.item.payment_verification==='rejected'}">{{ row.item.payment_verification }}</span>
                         </template>
 
                         <template #cell(final_total)="row">
@@ -242,7 +243,7 @@ export default {
             statuses: [],
             branches: [],
             // Core gateways; an installed payment plugin's gateway is appended at load.
-            paymentMethods: ['COD', 'Wallet', 'Razorpay', 'Stripe', 'PayPal', 'PhonePe', 'Cashfree', 'Paystack', 'Midtrans'],
+            paymentMethods: ['COD', 'PayAtCounter', 'Esewa', 'BankTransfer', 'QrPayment', 'Wallet'],
             pluginPaymentMethods: [],
 
             orderFields: [

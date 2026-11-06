@@ -2,6 +2,11 @@
 
 // Per-gateway enable flags ("1" = merchant enabled this method).
 const PAYMENT_METHOD_FLAGS = [
+  "counter_payment_method",
+  "esewa_payment_method",
+  "bank_payment_method",
+  "qr_payment_method",
+  "offline_payments",
   "razorpay_payment_method",
   "paypal_payment_method",
   "paystack_payment_method",

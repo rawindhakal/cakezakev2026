@@ -35,6 +35,14 @@ class PaymentMethods {
 }
 
 class PaymentMethodsData {
+  /// Latest `offline_payments` block (QR images, bank / eSewa details) — read by
+  /// the manual-payment screen.
+  static Map<String, dynamic> offlineConfig = <String, dynamic>{};
+
+  String? counterPaymentMethod;
+  String? esewaPaymentMethod;
+  String? bankPaymentMethod;
+  String? qrPaymentMethod;
   String? stripePublishableKey;
   String? paymentMethodSettings;
   String? codPaymentMethod;
@@ -95,6 +103,13 @@ class PaymentMethodsData {
   });
 
   PaymentMethodsData.fromJson(Map<String, dynamic> json) {
+    counterPaymentMethod = json['counter_payment_method']?.toString() ?? '';
+    esewaPaymentMethod = json['esewa_payment_method']?.toString() ?? '';
+    bankPaymentMethod = json['bank_payment_method']?.toString() ?? '';
+    qrPaymentMethod = json['qr_payment_method']?.toString() ?? '';
+    if (json['offline_payments'] is Map) {
+      offlineConfig = Map<String, dynamic>.from(json['offline_payments'] as Map);
+    }
     stripePublishableKey = json['stripe_publishable_key']?.toString() ?? '';
     paymentMethodSettings = json['payment_method_settings']?.toString() ?? '';
     codPaymentMethod = json['cod_payment_method']?.toString() ?? '';

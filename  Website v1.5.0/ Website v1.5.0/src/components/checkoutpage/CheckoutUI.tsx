@@ -55,7 +55,8 @@ import DeleteAddressDialog from "./UI/DeleteAddressDialog";
 import { AppliedCouponTicket, CouponInput } from "./UI/CouponSection";
 import { SavingsBanner, CashbackBanner, WalletCoversBanner } from "./UI/SummaryBanners";
 import { PaymentMethodButton, PaymentPickerDialog } from "./UI/PaymentPicker";
-import { paymentMethodKeys } from "./UI/paymentMethods";
+import { OFFLINE_METHODS, isOfflineValue } from "./UI/paymentMethods";
+import OfflinePaymentModal from "./OfflinePaymentModal";
 import PlaceOrderProgress from "./UI/PlaceOrderProgress";
 
 import {
@@ -715,7 +716,7 @@ const CheckoutUI = () => {
     const method = checkout?.selectedPaymentMethod;
     const capitalizedMethod =
       String(method).charAt(0).toUpperCase() + String(method).slice(1);
-    const status = method === "COD" || method === "wallet" ? 2 : 1;
+    const status = isOfflineValue(method) ? 2 : 1;
     try {
       // Hard block: can't place an order to an undeliverable address.
       if (deliveryError) {
@@ -933,9 +934,9 @@ const CheckoutUI = () => {
           },
         ]
       : []),
-    ...paymentMethodKeys
+    ...OFFLINE_METHODS
       .filter((m) => setting?.payment_setting?.[m.key] === "1")
-      .map((m) => ({ value: m.label, label: t(m.label) || m.label })),
+      .map((m) => ({ value: m.value, label: m.label })),
   ];
   const selectedPayment = paymentOptions.find(
     (o) => o.value === checkout?.selectedPaymentMethod,
@@ -992,7 +993,7 @@ const CheckoutUI = () => {
 
   const money = (val: number | string = 0) => formatCurrency(val, currency, decimals);
 
-  const { setOrderItemId, initiateTransaction, stripe } = useCheckoutPayment({
+  const { setOrderItemId, initiateTransaction, stripe, offline } = useCheckoutPayment({
     payable,
     currencyCode,
     setPaymentLoading,
@@ -1572,6 +1573,14 @@ const CheckoutUI = () => {
         onConfirm={confirmDeleteAddress}
       />
 
+      {offline.order && (
+        <OfflinePaymentModal
+          method={offline.order.method}
+          orderId={offline.order.orderId}
+          amount={payable}
+          onDone={offline.done}
+        />
+      )}
       {stripe.show && (
         <StripeModal
           showStripe={stripe.show}

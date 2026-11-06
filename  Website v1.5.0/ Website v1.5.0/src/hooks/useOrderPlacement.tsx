@@ -17,6 +17,8 @@ import {
 import { getPickupErrorMessage } from "@/utils/placeOrderErrors";
 import useCurrency from "@/hooks/useCurrency";
 import { toGaItem, trackPurchase } from "@/utils/analytics";
+import { MANUAL_METHODS, isOfflineValue } from "@/components/checkoutpage/UI/paymentMethods";
+import OfflinePaymentModal from "@/components/checkoutpage/OfflinePaymentModal";
 import { submitPaymentForm, redirectToGateway } from "@/utils/submitPaymentForm";
 import { launchPayuSdk } from "@/utils/payuSdk";
 
@@ -77,6 +79,7 @@ export default function useOrderPlacement() {
   const { currencyCode } = useCurrency();
 
   const [paymentLoading, setPaymentLoading] = useState(false);
+  const [offlineOrder, setOfflineOrder] = useState<{ method: string; orderId: number | string; amount: number } | null>(null);
   // Stripe embedded flow state.
   const [showStripe, setShowStripe] = useState(false);
   const [stripeClientSecret, setStripeClientSecret] = useState("");
@@ -225,7 +228,13 @@ export default function useOrderPlacement() {
   ) => {
     const capitalized = String(method).charAt(0).toUpperCase() + String(method).slice(1);
 
-    if (method === "COD" || method === "wallet") {
+    if (MANUAL_METHODS.includes(method)) {
+      dispatch(clearCartPromo());
+      dispatch(clearPrescriptions());
+      setOfflineOrder({ method, orderId, amount: payable });
+      return;
+    }
+    if (method === "COD" || method === "wallet" || method === "PayAtCounter") {
       dispatch(clearCartPromo());
       dispatch(clearPrescriptions());
       return router.push(statusUrl(method, orderId));
@@ -366,7 +375,7 @@ export default function useOrderPlacement() {
     buyerBusinessName = "",
   }: PlaceOrderParams): Promise<boolean> => {
     // COD & wallet settle immediately (status 2); gateways create as pending (1).
-    const status = method === "COD" || method === "wallet" ? 2 : 1;
+    const status = isOfflineValue(method) ? 2 : 1;
     setPaymentLoading(true);
     try {
       const response: any = await api.placeOrder({
@@ -453,5 +462,18 @@ export default function useOrderPlacement() {
     />
   ) : null;
 
-  return { placeOrder, paymentLoading, StripePortal };
+  const OfflinePortal = offlineOrder ? (
+    <OfflinePaymentModal
+      method={offlineOrder.method}
+      orderId={offlineOrder.orderId}
+      amount={offlineOrder.amount}
+      onDone={() => {
+        const o = offlineOrder;
+        setOfflineOrder(null);
+        router.push(statusUrl(o.method, o.orderId));
+      }}
+    />
+  ) : null;
+
+  return { placeOrder, paymentLoading, StripePortal, OfflinePortal };
 }

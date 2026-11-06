@@ -72,7 +72,13 @@ String formatOrderPaymentMethod(BuildContext context, String raw) {
       LanguageLabelKeys.cashOnDelivery,
     ),
     // Gateway names (razorpay, stripe, …) are shown as the API sent them.
-    null => raw,
+    null => switch (raw) {
+      'PayAtCounter' => 'Pay at counter',
+      'Esewa' => 'eSewa',
+      'BankTransfer' => 'Bank transfer',
+      'QrPayment' => 'QR payment',
+      _ => raw,
+    },
   };
 }
 

@@ -74,7 +74,8 @@ class PlaceOrderCubit extends Cubit<PlaceOrderState> {
     emit(PlaceOrderLoading());
     try {
       final isCod =
-          OrderPaymentMethod.fromRaw(paymentMethod) == OrderPaymentMethod.cod;
+          OrderPaymentMethod.fromRaw(paymentMethod) == OrderPaymentMethod.cod ||
+          paymentMethod == 'PayAtCounter';
 
       final map = await _repository.placeOrder(
         addressId: addressId,

@@ -39,3 +39,4 @@ APK/
 Documentation/
 *.log
 *.bak
+*.tsbuildinfo

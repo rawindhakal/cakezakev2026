@@ -180,6 +180,7 @@
                                     <div v-if="currentStep === 2">
                                         <h4 class="fw-bold mb-1">{{ __('currency') }} &amp; {{ __('payment_gateways') }}</h4>
                                         <p class="text-muted">{{ __('configure_currency_and_payment_gateways') }}</p>
+                                        <div class="alert alert-info py-2 small">Online gateways are disabled for CakeZake — only COD, pay at counter, eSewa, bank transfer and QR payment are offered. Manage them in <router-link to="/payment_methods">Payment methods</router-link>. Any gateway keys below are ignored.</div>
                                         <PaymentGatewaysSection :form="form" />
                                     </div>
 

@@ -284,6 +284,19 @@
                                     <span>{{ __('payment_method') }}</span>
                                     <b><span class="badge bg-light text-dark border">{{ order.payment_method }}</span></b>
                                 </div>
+                                <div v-if="order.payment_verification" class="mt-2 p-2 border rounded">
+                                    <div class="d-flex align-items-center mb-1">
+                                        <b class="small">Manual payment</b>
+                                        <span class="badge ms-auto" :class="{'bg-warning text-dark': order.payment_verification==='pending','bg-success': order.payment_verification==='verified','bg-danger': order.payment_verification==='rejected'}">{{ order.payment_verification }}</span>
+                                    </div>
+                                    <div class="small" v-if="order.payment_reference">Reference: <b>{{ order.payment_reference }}</b></div>
+                                    <a v-if="order.payment_proof" :href="proofUrl(order.payment_proof)" target="_blank"><img :src="proofUrl(order.payment_proof)" alt="Payment proof" style="max-width:100%;max-height:220px;border-radius:8px;margin:6px 0"></a>
+                                    <div v-else class="small text-muted">Customer has not uploaded proof yet.</div>
+                                    <div class="d-flex gap-2 mt-1" v-if="order.payment_verification !== 'verified'">
+                                        <button class="btn btn-success btn-sm" @click="verifyPayment('verified')">Verify payment</button>
+                                        <button class="btn btn-outline-danger btn-sm" v-if="order.payment_verification !== 'rejected'" @click="verifyPayment('rejected')">Reject</button>
+                                    </div>
+                                </div>
 
                                 <!-- Ecommerce: per-item charges already shown above; here just the total paid -->
                                 <template v-if="isItemWise">
@@ -1462,6 +1475,16 @@ export default {
         // What the customer actually paid at placement: subtotal + all charges − promo.
         // Derived from immutable snapshot fields so it stays the original amount even
         // after a cancel/return. Works for an order (quick) or an order item (ecom).
+        proofUrl(p) { return (this.$storageUrl || (window.location.origin + '/storage/')) + p; },
+        verifyPayment(decision) {
+            const send = (note) => axios.post(this.$apiUrl + '/offline_payments/verify', { order_id: this.order.id, decision, note }).then(r => {
+                if (r.data.status === 0) { this.$swal.fire({ icon: 'error', title: r.data.message }); return; }
+                this.order.payment_verification = decision;
+            });
+            if (decision === 'verified') return send('');
+            this.$swal.fire({ title: 'Reject this payment?', input: 'text', inputLabel: 'Reason for the customer', showCancelButton: true })
+                .then(res => { if (res.isConfirmed) send(res.value || ''); });
+        },
         totalPaid(o) {
             if (!o) return '0.00';
             const num = v => Number(v || 0);

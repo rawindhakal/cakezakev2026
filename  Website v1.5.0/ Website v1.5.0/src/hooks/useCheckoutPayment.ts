@@ -10,6 +10,7 @@ import { setPhonePeCheckoutDetails } from "@/redux/slices/checkoutSlice";
 import { submitPaymentForm, redirectToGateway } from "@/utils/submitPaymentForm";
 import { launchPayuSdk } from "@/utils/payuSdk";
 import { t } from "@/utils/translation";
+import { MANUAL_METHODS } from "@/components/checkoutpage/UI/paymentMethods";
 
 // Paystack touches window at import; load client-side only.
 let PaystackPop: any;
@@ -43,6 +44,7 @@ const useCheckoutPayment = ({
 
   // Ecom order_item_id from place_order.
   const orderItemIdRef = useRef<number | string | null>(null);
+  const [offlineOrder, setOfflineOrder] = useState<{ method: string; orderId: number | string } | null>(null);
   const [showStripe, setShowStripe] = useState(false);
   const [stripeOrderId, setStripeOrderId] = useState<number | string | null>(null);
   const [stripeClientSecret, setStripeClientSecret] = useState<string | null>(null);
@@ -162,7 +164,12 @@ const useCheckoutPayment = ({
   ) => {
     const method = selectedMethod;
     try {
-      if (method == "COD" || method == "wallet") return goToSuccess(method, orderId);
+      if (MANUAL_METHODS.includes(method)) {
+        dispatch(clearCartPromo());
+        setOfflineOrder({ method, orderId });
+        return;
+      }
+      if (method == "COD" || method == "wallet" || method == "PayAtCounter") return goToSuccess(method, orderId);
       if (method == "paystack") return handlePayStackPayment(orderId, capitalizedMethod);
 
       const response = await api.initiateTrasaction({
@@ -252,6 +259,14 @@ const useCheckoutPayment = ({
   return {
     setOrderItemId,
     initiateTransaction,
+    offline: {
+      order: offlineOrder,
+      done: () => {
+        const o = offlineOrder;
+        setOfflineOrder(null);
+        if (o) goToSuccess(o.method, o.orderId);
+      },
+    },
     stripe: {
       show: showStripe,
       setShow: setShowStripe,

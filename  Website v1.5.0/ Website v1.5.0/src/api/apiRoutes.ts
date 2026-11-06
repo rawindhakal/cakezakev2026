@@ -1143,6 +1143,14 @@ export const addTransaction = async ({
   const response = await api.post(`${apiEndPoints.addTransaction}`, formData);
   return response.data;
 };
+export const submitPaymentProof = async ({ orderId, reference, proof }: any): Promise<any> => {
+  const formData = new FormData();
+  formData.append("order_id", orderId);
+  if (reference) formData.append("reference", reference);
+  formData.append("proof", proof);
+  const response = await api.post(`${apiEndPoints.paymentProof}`, formData);
+  return response.data;
+};
 export const deleteOrder = async ({ orderId }: any): Promise<any> => {
   const formData = new FormData();
   formData.append("order_id", orderId);

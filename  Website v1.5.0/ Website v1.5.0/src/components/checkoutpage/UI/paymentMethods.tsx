@@ -12,6 +12,17 @@ import PhonePeLogo from "@/assets/payment_methods_svgs/Phonepe.svg";
 import PaytabsLogo from "@/assets/payment_methods_svgs/ic_paytabs.svg";
 import PayuLogo from "@/assets/payment_methods_svgs/payu.png";
 
+/** Manual / in-person methods — the only ones CakeZake accepts besides COD. */
+export const OFFLINE_METHODS = [
+  { key: "counter_payment_method", value: "PayAtCounter", label: "Pay at counter", sub: "Pay in person when you collect" },
+  { key: "esewa_payment_method", value: "Esewa", label: "eSewa", sub: "Scan, pay and upload the screenshot" },
+  { key: "bank_payment_method", value: "BankTransfer", label: "Bank transfer", sub: "Transfer to our account and upload proof" },
+  { key: "qr_payment_method", value: "QrPayment", label: "QR payment", sub: "Scan our QR with any banking app" },
+];
+export const MANUAL_METHODS = ["Esewa", "BankTransfer", "QrPayment"];
+export const isOfflineValue = (v: string) =>
+  v === "COD" || v === "wallet" || OFFLINE_METHODS.some((m) => m.value === v);
+
 export const paymentMethodKeys = [
   { key: "razorpay_payment_method", label: "razorpay" },
   { key: "paypal_payment_method", label: "paypal" },
@@ -38,7 +49,7 @@ const payMethodLogos = {
 };
 
 export const payMethodIcon = (method: string) => {
-  if (method === "COD") return <FaMoneyBillWave size={18} />;
+  if (method === "COD" || method === "PayAtCounter") return <FaMoneyBillWave size={18} />;
   const logo = (payMethodLogos as Record<string, any>)[method];
   if (logo) {
     return (
@@ -58,6 +69,8 @@ export const payMethodIcon = (method: string) => {
 
 // Subtitle per payment method.
 export const payMethodSubtitle = (method: string) => {
+  const off = OFFLINE_METHODS.find((m) => m.value === method);
+  if (off) return off.sub;
   const map: Record<string, string> = {
     COD: t("pay_when_delivered") || "Pay in cash when your order arrives",
     razorpay: t("pay_via_upi_cards") || "UPI, cards, net banking & wallets",
