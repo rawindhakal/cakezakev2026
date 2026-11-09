@@ -140,7 +140,7 @@
         </template>
 
         <!-- ============ CATEGORY SECTION ============ -->
-        <template v-else-if="block.type === 'category_section'">
+        <template v-else-if="['category_section', 'occasion_section', 'relationship_section'].includes(block.type)">
             <div class="row g-2 mb-3">
                 <div class="col-md-6">
                     <label class="hb-lbl">{{ __('layout') }}</label>
@@ -204,10 +204,26 @@
                     <ColorInput :model-value="cfg.item_text_color" @update:model-value="cfg.item_text_color = $event" />
                 </div>
             </div>
-            <label class="hb-lbl">{{ __('select_categories') }}</label>
-            <AppSelect class="form-select form-select-sm" multiple :model-value="cfg.category_ids"
-                @update:model-value="cfg.category_ids = $event"
-                :options="categoryOptions" :placeholder="__('select_categories')" />
+            <template v-if="block.type === 'occasion_section'">
+                <label class="hb-lbl">{{ __('select_occasions') }}</label>
+                <AppSelect class="form-select form-select-sm" multiple :model-value="cfg.occasion_ids"
+                    @update:model-value="cfg.occasion_ids = $event"
+                    :options="gifting.occasions" :placeholder="__('select_occasions')" />
+                <p class="text-muted small mb-0 mt-1">{{ __('manage_in_gifting') }}</p>
+            </template>
+            <template v-else-if="block.type === 'relationship_section'">
+                <label class="hb-lbl">{{ __('select_relationships') }}</label>
+                <AppSelect class="form-select form-select-sm" multiple :model-value="cfg.relationship_ids"
+                    @update:model-value="cfg.relationship_ids = $event"
+                    :options="gifting.relationships" :placeholder="__('select_relationships')" />
+                <p class="text-muted small mb-0 mt-1">{{ __('manage_in_gifting') }}</p>
+            </template>
+            <template v-else>
+                <label class="hb-lbl">{{ __('select_categories') }}</label>
+                <AppSelect class="form-select form-select-sm" multiple :model-value="cfg.category_ids"
+                    @update:model-value="cfg.category_ids = $event"
+                    :options="categoryOptions" :placeholder="__('select_categories')" />
+            </template>
         </template>
 
         <!-- ============ PRODUCT SLIDER ============ -->
@@ -680,10 +696,17 @@ import DimensionSlider from './DimensionSlider.vue';
 import ColorInput from './ColorInput.vue';
 import { newBannerItem, newTabItem, TABS_MAX, TAB_LIMIT_MAX, blockHasTitle } from '../homeBuilderHelpers.js';
 import { Plus, Info } from 'lucide-vue-next';
+import { loadGiftingOptions } from '../giftingOptions.js';
 
 export default {
     name: 'BlockEditor',
     components: { Plus, Info, BannerItemRow, TabItemRow, HbImageUpload, TranslatableInput, RedirectPicker, PlatformTriInput, PlatformAspectInput, DimensionSlider, ColorInput },
+    data() {
+        return { gifting: { occasions: [], relationships: [] } };
+    },
+    created() {
+        loadGiftingOptions().then((g) => { this.gifting = g; });
+    },
     props: {
         block: { type: Object, required: true },
         languages: { type: Array, default: () => [] },

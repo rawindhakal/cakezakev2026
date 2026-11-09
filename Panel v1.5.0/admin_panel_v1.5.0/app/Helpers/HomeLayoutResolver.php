@@ -499,6 +499,9 @@ class HomeLayoutResolver
         'banner_slider'    => ['carousel_style', 'indicator', 'auto_scroll', 'infinite_loop', 'speed_ms', 'image_aspect'],
         'grid_banner'      => ['variant', 'section_title', 'text_color', 'background_color', 'background_image_url', 'bg_image_aspect', 'block_padding', 'grid_columns', 'grid_gap', 'grid_rows', 'grid_layout_type', 'tile_radius', 'image_aspect'],
         'category_section' => ['variant', 'text_color', 'item_text_color', 'background_color', 'background_image_url', 'bg_image_aspect', 'grid_columns', 'category_gap', 'category_radius', 'section_title'],
+        // Occasion / relationship showcases share the category section's look.
+        'occasion_section'     => ['variant', 'text_color', 'item_text_color', 'background_color', 'background_image_url', 'bg_image_aspect', 'grid_columns', 'category_gap', 'category_radius', 'section_title'],
+        'relationship_section' => ['variant', 'text_color', 'item_text_color', 'background_color', 'background_image_url', 'bg_image_aspect', 'grid_columns', 'category_gap', 'category_radius', 'section_title'],
         'product_slider'   => ['variant', 'section_title', 'data_source', 'limit', 'grid_columns', 'product_grid_gap', 'product_card_radius', 'block_padding', 'background_image_url', 'background_color', 'text_color', 'image_aspect', 'shuffle_products'],
         // Tabs share one look; each tab's data source lives on the tab itself.
         'product_tabs'     => ['variant', 'section_title', 'limit', 'grid_columns', 'product_grid_gap', 'product_card_radius', 'block_padding', 'background_image_url', 'background_color', 'text_color', 'image_aspect', 'tab_style', 'tab_image_aspect', 'active_indicator', 'active_bg_style', 'active_tab_color', 'active_tab_color_2', 'active_outline_color', 'active_bg_image_url', 'active_bg_image_aspect', 'tab_text_color', 'active_tab_text_color', 'tab_animation'],
@@ -521,7 +524,7 @@ class HomeLayoutResolver
     private const IMAGE_ASPECT_DEFAULTS = ['app' => '16:9', 'tablet' => '16:9', 'web' => '3:1'];
 
     /** Block types whose `layout` is editable in the builder (others have no layout UI). */
-    private const LAYOUT_TYPES = ['category_section', 'product_slider', 'product_tabs', 'brand_section'];
+    private const LAYOUT_TYPES = ['category_section', 'product_slider', 'product_tabs', 'brand_section', 'occasion_section', 'relationship_section'];
 
     private const TABS_MAX = 8;
     private const TAB_LIMIT_MAX = 20;
@@ -577,7 +580,7 @@ class HomeLayoutResolver
             $cfg['tab_animation']      = in_array($cfg['tab_animation'] ?? '', ['none', 'fade', 'slide'], true) ? $cfg['tab_animation'] : 'fade';
         }
 
-        if (in_array($type, ['grid_banner', 'category_section', 'brand_section'], true)) {
+        if (in_array($type, ['grid_banner', 'category_section', 'brand_section', 'occasion_section', 'relationship_section'], true)) {
             $cfg['bg_image_aspect'] = $this->deviceAspects($cfg['bg_image_aspect'] ?? null);
         }
 
@@ -626,6 +629,10 @@ class HomeLayoutResolver
             $clean['categories'] = $this->resolveCategories($cfg, $channel);
         } elseif ($type === 'brand_section') {
             $clean['brands'] = $this->resolveBrands($cfg);
+        } elseif ($type === 'occasion_section') {
+            $clean['occasions'] = $this->resolveGiftingItems('occasions', $cfg['occasion_ids'] ?? []);
+        } elseif ($type === 'relationship_section') {
+            $clean['relationships'] = $this->resolveGiftingItems('relationships', $cfg['relationship_ids'] ?? []);
         } elseif (in_array($type, ['banner_slider', 'grid_banner'], true)) {
             $clean['items'] = $this->resolveItems($block['items'] ?? []);
         } elseif ($type === 'title_image') {
@@ -943,6 +950,24 @@ class HomeLayoutResolver
                 'id'        => $b->id,
                 'name'      => $b->name,
                 'image_url' => $b->image_url,
+            ])->all();
+    }
+
+    /** Active occasions / relationships, in the order the admin picked them. */
+    private function resolveGiftingItems(string $table, array $ids): array
+    {
+        $ids = array_values(array_filter(array_map('intval', $ids)));
+        if (empty($ids)) {
+            return [];
+        }
+        return DB::table($table)->whereIn('id', $ids)->where('status', 1)
+            ->orderByRaw('FIELD(id,' . implode(',', $ids) . ')')
+            ->get()
+            ->map(fn ($r) => [
+                'id'        => (int) $r->id,
+                'name'      => $r->name,
+                'slug'      => $r->slug,
+                'image_url' => $r->image ? asset('storage/' . ltrim($r->image, '/')) : '',
             ])->all();
     }
 

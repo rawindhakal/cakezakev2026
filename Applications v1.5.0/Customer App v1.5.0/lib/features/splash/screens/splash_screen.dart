@@ -15,7 +15,6 @@ import 'package:customer/utils/extensions/context_extensions.dart';
 import 'package:customer/utils/extensions/size_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:customer/commons/widgets/app_svg_icon.dart';
 import 'package:customer/commons/widgets/app_scaffold.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -184,10 +183,16 @@ class _SplashScreenState extends State<SplashScreen>
               children: [
                 Align(
                   alignment: Alignment.center,
-                  child: AppSvgIcon(
-                    AssetsConstants.splashLogo,
-                    size: context.screenWidth * 0.40,
-                  ),
+                  child: Container(
+      width: (context.screenWidth * 0.42),
+      height: (context.screenWidth * 0.42),
+      padding: EdgeInsets.all((context.screenWidth * 0.42) * 0.12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular((context.screenWidth * 0.42) * 0.24),
+      ),
+      child: Image.asset(AssetsConstants.splashLogoPng, fit: BoxFit.contain),
+    ),
                 ),
                 Align(
                   alignment: const AlignmentDirectional(0, 0.75),

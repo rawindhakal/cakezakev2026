@@ -1,4 +1,3 @@
-import 'package:customer/features/gifting/gift_shop_strip.dart';
 import 'package:customer/commons/widgets/demo_data_disclaimer.dart';
 import 'package:customer/core/constants/assets_constants.dart';
 import 'package:customer/core/constants/theme_constants.dart';
@@ -859,7 +858,6 @@ class _HomeScreenState extends State<HomeScreen>
             })(),
           ),
         ),
-        const SliverToBoxAdapter(child: GiftShopStrip()),
         BlocBuilder<HomeLayoutCubit, HomeLayoutState>(
           bloc: _activeCubit,
           builder: (context, layoutState) {

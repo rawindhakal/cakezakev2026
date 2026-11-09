@@ -381,6 +381,16 @@ class Blocks {
           .map((v) => Categories.fromJson(v as Map<String, dynamic>))
           .toList();
     }
+    // Occasion / relationship showcases ship as their own lists but render
+    // through the category tile layout, so they share the Categories shape.
+    for (final key in const ['occasions', 'relationships']) {
+      final raw = json[key];
+      if (raw is List && categories == null) {
+        categories = raw
+            .map((v) => Categories.fromJson(v as Map<String, dynamic>))
+            .toList();
+      }
+    }
     final rawProducts = json['products'];
     if (rawProducts is List) {
       products = rawProducts

@@ -124,7 +124,7 @@
                         </div>
 
                         <!-- category section -->
-                        <div v-else-if="block.type === 'category_section'" :style="productWrapStyle(block)">
+                        <div v-else-if="['category_section', 'occasion_section', 'relationship_section'].includes(block.type)" :style="productWrapStyle(block)">
                             <div v-if="block.config.variant !== 'default' && titleText(block)" class="hb-prev-sec-title"
                                 :style="block.config.text_color ? { color: block.config.text_color } : {}">{{ titleText(block) }}</div>
                             <div class="hb-prev-cats"
@@ -306,6 +306,7 @@
 
 <script>
 import { pickText, IMAGE_ASPECT_DEFAULTS, resolveImageUrl } from '../../homeBuilderHelpers.js';
+import { loadGiftingOptions } from '../../giftingOptions.js';
 import {
     Signal, ChevronDown, User, Search, Mic, Smartphone, Tablet, Monitor,
     Image as ImageIcon, Images, Package, Info, Pencil, ArrowLeft,
@@ -379,11 +380,13 @@ export default {
     },
     emits: ['update:platform', 'tab-click', 'edit-section'],
     created() {
+        loadGiftingOptions().then((g) => { this.gifting = g; });
         // Plain property on purpose — reactive state here would re-render on write.
         this._shuffleCache = {};
     },
     data() {
         return {
+            gifting: { occasions: [], relationships: [] },
             platforms: [
                 { value: 'app', icon: 'Smartphone' },
                 { value: 'tablet', icon: 'Tablet' },
@@ -827,6 +830,13 @@ export default {
             return String(v).replace(':', ' / ');
         },
         blockCategories(block) {
+            if (block.type === 'occasion_section' || block.type === 'relationship_section') {
+                const isOcc = block.type === 'occasion_section';
+                const list = isOcc ? this.gifting.occasions : this.gifting.relationships;
+                return ((isOcc ? block.config.occasion_ids : block.config.relationship_ids) || [])
+                    .map(id => list.find(x => Number(x.id) === Number(id)))
+                    .filter(Boolean);
+            }
             const ids = block.config.category_ids || [];
             return ids
                 .map(id => this.allCategories.find(c => c.id === id))

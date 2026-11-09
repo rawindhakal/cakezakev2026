@@ -34,6 +34,8 @@ const SectionSkeletonBody = ({ type }: { type?: string }) => {
       );
 
     case "category_section":
+    case "occasion_section":
+    case "relationship_section":
       return (
         <>
           <div className="flex items-center justify-between mb-4">

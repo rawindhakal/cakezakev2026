@@ -8,7 +8,7 @@
                 <div class="w-dots"><i class="on"></i><i></i><i></i></div>
             </template>
 
-            <template v-else-if="type === 'category_section'">
+            <template v-else-if="type === 'category_section' || type === 'occasion_section' || type === 'relationship_section'">
                 <div class="w-row">
                     <div class="w-item" v-for="i in 4" :key="i">
                         <div class="w-circle"></div><div class="w-line short"></div>
@@ -78,7 +78,7 @@
 
 <script>
 import {
-    Images, LayoutGrid, Package, PanelTop, Tags, Grid3x3, Image as ImageIcon, Heading,
+    Images, LayoutGrid, Package, PanelTop, Tags, Grid3x3, Image as ImageIcon, Heading, PartyPopper, Heart,
 } from 'lucide-vue-next';
 
 // One line each, in plain words: what the client gets, not what the field is called.
@@ -88,6 +88,8 @@ const HINTS = {
     product_slider: 'product_slider_hint',
     product_tabs: 'product_tabs_hint',
     brand_section: 'brand_section_hint',
+    occasion_section: 'occasion_section_hint',
+    relationship_section: 'relationship_section_hint',
     grid_banner: 'grid_banner_hint',
     title_image: 'title_image_hint',
     text_section: 'text_section_hint',
@@ -95,7 +97,7 @@ const HINTS = {
 
 export default {
     name: 'SectionTypeCard',
-    components: { Images, LayoutGrid, Package, PanelTop, Tags, Grid3x3, ImageIcon, Heading },
+    components: { Images, LayoutGrid, Package, PanelTop, Tags, Grid3x3, ImageIcon, Heading, PartyPopper, Heart },
     props: {
         type: { type: String, required: true },
         icon: { type: String, default: 'Images' },

@@ -35,7 +35,20 @@ const CategorySection = ({ block, borderRadius, device = "web" }: CategorySectio
   const router = useRouter();
   const { run: runNavClick } = useNavClick();
 
-  const categories = block?.categories || [];
+  // The same showcase renders occasions and relationships: they are picked in the
+  // builder like categories but link to a gift filter instead of a category page.
+  const giftKind: "occasion" | "relationship" | null =
+    block?.type === "occasion_section"
+      ? "occasion"
+      : block?.type === "relationship_section"
+        ? "relationship"
+        : null;
+  const categories =
+    (giftKind === "occasion"
+      ? block?.occasions
+      : giftKind === "relationship"
+        ? block?.relationships
+        : block?.categories) || [];
   if (categories.length === 0) return null;
 
   const layout = String(block?.layout || "grid");
@@ -129,8 +142,21 @@ const CategorySection = ({ block, borderRadius, device = "web" }: CategorySectio
     router.push(qs ? `${dest}?${qs}` : dest);
   };
 
+  const navigateToGift = (item: any) => {
+    const title =
+      giftKind === "relationship" ? `Gifts for ${item.name}` : item.name;
+    router.push(
+      zoneHref(
+        `/products?${giftKind}=${encodeURIComponent(item.slug)}&title=${encodeURIComponent(title)}`,
+      ),
+    );
+  };
+
   const handleCategoryClick = (category: any) =>
-    runNavClick(() => navigateToCategory(category), category?.id);
+    runNavClick(
+      () => (giftKind ? navigateToGift(category) : navigateToCategory(category)),
+      category?.id,
+    );
 
   const renderChip = (category: any, { inSlide = false }: { inSlide?: boolean } = {}) => {
     const chipWidthClass =

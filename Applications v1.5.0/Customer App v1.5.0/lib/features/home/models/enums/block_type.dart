@@ -7,6 +7,8 @@ enum BlockType {
   titleImage,
   textSection,
   productTabs,
+  occasionSection,
+  relationshipSection,
   unknown;
 
   static BlockType fromRaw(String? raw) {
@@ -27,6 +29,10 @@ enum BlockType {
         return BlockType.textSection;
       case 'product_tabs':
         return BlockType.productTabs;
+      case 'occasion_section':
+        return BlockType.occasionSection;
+      case 'relationship_section':
+        return BlockType.relationshipSection;
       default:
         return BlockType.unknown;
     }

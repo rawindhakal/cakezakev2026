@@ -10,6 +10,7 @@ class AssetsConstants {
       '$pathPng/delivery_boy_tracking_icon.png';
   static const String logo = '$path/logo';
   static const String splashLogo = '$logo/splase_logo.svg';
+  static const String splashLogoPng = 'assets/logo/splash_logo.png';
   static const String placeholder = '$logo/place_holder.svg';
   static const String noInternateFound = '$path/no_internate_found.svg';
   static const String noMaintenanceFound = '$path/no_maintenance_found.svg';

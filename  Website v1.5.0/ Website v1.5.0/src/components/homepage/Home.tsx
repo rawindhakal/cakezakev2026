@@ -4,7 +4,6 @@ import HomeOfferModal from '../homepageoffermodal/HomeOfferModal'
 import Loader from '../loader/Loader'
 import HomeLayout from '../homelayout/HomeLayout'
 import useIsHydrated from '@/hooks/useIsHydrated'
-import GiftShop from '../gifting/GiftShop'
 
 interface HomePageProps {
     initialHomeLayout?: any
@@ -32,7 +31,6 @@ const HomePage = ({ initialHomeLayout = null, heading = null }: HomePageProps) =
                 {/* Full screen loader */}
                 {showSkeleton ? <Loader screen="full" /> :
                     <>
-                        <GiftShop />
                         <HomeLayout initialHomeLayout={initialHomeLayout} />
                         {/* Offer modal for hydrated clients */}
                         {hydrated && setting?.setting && setting?.setting?.popup_enabled === "1" &&

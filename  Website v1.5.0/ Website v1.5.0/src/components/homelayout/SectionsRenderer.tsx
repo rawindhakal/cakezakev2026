@@ -104,6 +104,8 @@ const renderBlock = (
         />
       );
     case "category_section":
+    case "occasion_section":
+    case "relationship_section":
       return (
         <CategorySection
           block={block}

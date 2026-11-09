@@ -16,10 +16,16 @@ class SplashVisual extends StatelessWidget {
       children: [
         Align(
           alignment: Alignment.center,
-          child: SizedBox.square(
-            dimension: context.screenWidth * 0.40,
-            child: AppSvgIcon(AssetsConstants.splashLogo),
-          ),
+          child: Container(
+      width: (context.screenWidth * 0.42),
+      height: (context.screenWidth * 0.42),
+      padding: EdgeInsets.all((context.screenWidth * 0.42) * 0.12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular((context.screenWidth * 0.42) * 0.24),
+      ),
+      child: Image.asset(AssetsConstants.splashLogoPng, fit: BoxFit.contain),
+    ),
         ),
         Align(
           alignment: const AlignmentDirectional(0, 0.75),

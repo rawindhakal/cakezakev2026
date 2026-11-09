@@ -24,6 +24,8 @@ export const SECTION_TYPES = [
   { value: 'product_slider', label: 'Product Slider', icon: 'Package' },
   { value: 'product_tabs', label: 'Tabbed Products', icon: 'PanelTop' },
   { value: 'brand_section', label: 'Top Brands', icon: 'Tags' },
+  { value: 'occasion_section', label: 'Occasion Showcase', icon: 'PartyPopper' },
+  { value: 'relationship_section', label: 'Relationship Showcase', icon: 'Heart' },
   { value: 'grid_banner', label: 'Grid Banner', icon: 'Grid3x3' },
   { value: 'title_image', label: 'Title Image', icon: 'ImageIcon' },
   { value: 'text_section', label: 'Heading / Text', icon: 'Heading' },
@@ -105,6 +107,8 @@ export function newBlockConfig() {
     slider_category_ids: [],        // product_slider data_source=category (multi)
     shuffle_products: false,        // product_slider: random order on every request
     brand_ids: [],                  // brand_section + product_slider data_source=brand
+    occasion_ids: [],               // occasion_section (ids from the gifting occasions list)
+    relationship_ids: [],           // relationship_section (ids from the gifting relationships list)
     manual_product_ids: [],         // product_slider data_source=manual
     // Optional scope on an ordering-only data source ("Trending, but only in Food").
     // Own keys, not the data-source lists above: switching a slider from By Category
@@ -179,6 +183,7 @@ export function newBlockConfig() {
  */
 const TITLED_BLOCK_TYPES = [
   'grid_banner', 'category_section', 'product_slider', 'product_tabs', 'brand_section',
+  'occasion_section', 'relationship_section',
 ];
 
 /**
@@ -203,6 +208,7 @@ export function blockHasSubtitle(block) {
 function defaultLayout(type) {
   if (type === 'category_section') return 'horizontal';
   if (type === 'brand_section') return 'horizontal';
+  if (type === 'occasion_section' || type === 'relationship_section') return 'horizontal';
   if (type === 'product_slider') return 'horizontal';
   if (type === 'product_tabs') return 'horizontal';
   return 'horizontal';
@@ -826,6 +832,44 @@ export const BUILTIN_TEMPLATES = [
         b.config.section_title = titleMap(defaultLangId, 'Top Brands');
         b.config.brand_gap = { app: 12, web: 12, tablet: 12 };
         b.config.show_name = true;
+        return b;
+      })()],
+    }),
+  },
+  {
+    id: 'tpl-occasion-showcase',
+    name: 'Occasion Showcase',
+    description: 'Shop by occasion — birthday, anniversary, Valentine\'s and more.',
+    icon: 'PartyPopper',
+    section_type: 'occasion_section',
+    build: (defaultLangId) => ({
+      ...newSection('occasion_section'),
+      margin_bottom: 8, border_radius: 12,
+      blocks: [(() => {
+        const b = newBlock('occasion_section');
+        b.layout = 'circular';
+        b.config.variant = 'with_title';
+        b.config.section_title = titleMap(defaultLangId, 'Shop by Occasion');
+        b.config.category_gap = { app: 12, web: 16, tablet: 14 };
+        return b;
+      })()],
+    }),
+  },
+  {
+    id: 'tpl-relationship-showcase',
+    name: 'Relationship Showcase',
+    description: 'Shop by who it\'s for — mom, dad, partner, friends.',
+    icon: 'Heart',
+    section_type: 'relationship_section',
+    build: (defaultLangId) => ({
+      ...newSection('relationship_section'),
+      margin_bottom: 8, border_radius: 12,
+      blocks: [(() => {
+        const b = newBlock('relationship_section');
+        b.layout = 'circular';
+        b.config.variant = 'with_title';
+        b.config.section_title = titleMap(defaultLangId, 'Gifts for Your Loved Ones');
+        b.config.category_gap = { app: 12, web: 16, tablet: 14 };
         return b;
       })()],
     }),

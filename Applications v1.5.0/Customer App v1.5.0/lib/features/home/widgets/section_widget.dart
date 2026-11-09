@@ -15,7 +15,12 @@ import 'package:customer/features/home/widgets/title_image.dart';
 import 'package:customer/features/products/models/product_list_scope.dart';
 import 'package:customer/features/products/models/product_model.dart';
 import 'package:customer/utils/extensions/string_extensions.dart';
+import 'package:customer/core/constants/navigation_service.dart';
+import 'package:customer/features/gifting/gift_store.dart';
+import 'package:customer/features/products/cubit/product_cubit.dart';
+import 'package:customer/features/products/screens/product_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SectionWidget extends StatelessWidget {
   final Sections section;
@@ -77,6 +82,32 @@ class SectionWidget extends StatelessWidget {
     return content;
   }
 
+  // Occasion / relationship tile -> product list filtered by that gift filter,
+  // the same hand-off the old fixed gift strip used.
+  Future<void> _openGift(
+    BuildContext context,
+    String filterKey,
+    Categories item,
+  ) async {
+    final slug = item.slug;
+    if (slug == null || slug.isEmpty) return;
+    final store = GiftStore.instance;
+    store.activeFilter
+      ..clear()
+      ..[filterKey] = slug;
+    final title = filterKey == 'relationship'
+        ? 'Gifts for ${item.name ?? ''}'
+        : (item.name ?? '');
+    await AppNavigator.push(
+      context,
+      BlocProvider(
+        create: (_) => ProductCubit(),
+        child: ProductScreen(title: title),
+      ),
+    );
+    store.activeFilter.clear();
+  }
+
   int _gridColumns(BuildContext context, Blocks block, {int fallback = 2}) {
     final configColumns = block.config?.columns?.resolve(_isTablet(context));
     if (configColumns != null && configColumns > 0) return configColumns;
@@ -99,6 +130,31 @@ class SectionWidget extends StatelessWidget {
             sectionBorderRadius: _cornersToBorderRadius(
               section.borderRadiusCorners,
             ),
+          );
+        }
+
+      case BlockType.occasionSection:
+      case BlockType.relationshipSection:
+        if (block.categories?.isNotEmpty == true) {
+          final filterKey =
+              BlockType.fromRaw(block.type) == BlockType.occasionSection
+              ? 'occasion'
+              : 'relationship';
+          return CategoryBlock(
+            categories: block.categories!,
+            columns: _gridColumns(context, block, fallback: 4),
+            gap: (block.config?.chipGap?.resolve(isTablet) ?? 0).toDouble(),
+            borderRadius: (block.config?.chipRadius?.resolve(isTablet) ?? 0)
+                .toDouble(),
+            layout: SectionLayout.fromRaw(block.layout),
+            sectionTitle: block.config?.sectionTitle,
+            variant: ProductVariant.fromRaw(block.config?.variant),
+            backgroundImageUrl: block.config?.backgroundImageUrl,
+            backgroundColor: block.config?.backgroundColor,
+            textColor: block.config?.textColor,
+            itemTextColor: block.config?.itemTextColor,
+            bgImageAspect: block.config?.bgImageAspect?.resolve(isTablet),
+            onTap: (item) => _openGift(context, filterKey, item),
           );
         }
 
