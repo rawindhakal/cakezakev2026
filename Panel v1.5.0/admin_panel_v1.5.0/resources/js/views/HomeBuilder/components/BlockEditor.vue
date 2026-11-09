@@ -298,6 +298,18 @@
                     @update:model-value="cfg.slider_category_ids = $event"
                     :options="categoryOptions" :placeholder="__('select_categories')" />
             </div>
+            <div class="mb-3" v-if="cfg.data_source === 'occasion'">
+                <label class="hb-lbl">{{ __('select_occasions') }}</label>
+                <AppSelect class="form-select form-select-sm" multiple :model-value="cfg.occasion_ids"
+                    @update:model-value="cfg.occasion_ids = $event"
+                    :options="gifting.occasions" :placeholder="__('select_occasions')" />
+            </div>
+            <div class="mb-3" v-if="cfg.data_source === 'relationship'">
+                <label class="hb-lbl">{{ __('select_relationships') }}</label>
+                <AppSelect class="form-select form-select-sm" multiple :model-value="cfg.relationship_ids"
+                    @update:model-value="cfg.relationship_ids = $event"
+                    :options="gifting.relationships" :placeholder="__('select_relationships')" />
+            </div>
             <div class="mb-3" v-if="cfg.data_source === 'brand'">
                 <label class="hb-lbl">{{ __('brands') }}</label>
                 <AppSelect class="form-select form-select-sm" multiple :model-value="cfg.brand_ids"
@@ -830,6 +842,8 @@ export default {
                 { id: 'buy_again', name: (__('buy_again')) },
                 { id: 'category', name: (__('by_category')) },
                 { id: 'brand', name: (__('by_brand')) },
+                { id: 'occasion', name: (__('by_occasion')) },
+                { id: 'relationship', name: (__('by_relationship')) },
             ];
         },
         // Fixed option set — no search box needed.
@@ -854,7 +868,7 @@ export default {
         // manual/category/brand already choose products; the rest only order them,
         // and only those can be scoped.
         isDynamicSource() {
-            return !['manual', 'category', 'brand'].includes(this.cfg.data_source);
+            return !['manual', 'category', 'brand', 'occasion', 'relationship'].includes(this.cfg.data_source);
         },
         // Fixed option set — no search box needed.
         filterTypeOptions() {

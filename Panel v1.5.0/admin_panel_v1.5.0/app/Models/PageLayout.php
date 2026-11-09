@@ -26,6 +26,7 @@ class PageLayout extends Model
     protected $casts = [
         'branch_id'       => 'integer',
         'title'          => 'array',
+        'seo'            => 'array',
         'draft_json'     => 'array',
         'published_json' => 'array',
         'is_active'      => 'boolean',

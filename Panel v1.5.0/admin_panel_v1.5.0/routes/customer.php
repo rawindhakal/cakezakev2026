@@ -47,6 +47,13 @@ Route::group(['middleware' => ['auth.customer', 'conditional']], function () {
 
     Route::get('categories/get_seo', [BasicApiController::class, 'getSeoThings']);
     Route::get('page_builder', [CustomerHomeLayoutApiController::class, 'getPage']);
+    // Published page slugs, for the storefront sitemap.
+    Route::get('page_slugs', function () {
+        return \App\Helpers\CommonHelper::responseWithData(
+            \App\Models\PageLayout::servable()->orderBy('id')->get(['slug', 'updated_at'])
+                ->map(fn ($p) => ['slug' => $p->slug, 'updated_at' => optional($p->updated_at)->toDateString()])->all()
+        );
+    });
     Route::get('countries', [CountryApiController::class, 'active']);
     Route::get('cart/guest_cart', [CartApiController::class, 'getGuestCart']);
 

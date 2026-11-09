@@ -194,6 +194,43 @@
                                 <small class="text-muted">{{ __('page_title_color_hint') }}</small>
                             </div>
                         </div>
+
+                        <!-- SEO: what search engines and link previews show for this page -->
+                        <div class="border rounded p-3 mb-3">
+                            <h6 class="fw-bold mb-2">{{ __('seo_settings') }}</h6>
+                            <div class="mb-2">
+                                <label class="form-label small text-muted mb-1">{{ __('meta_title') }} <span class="float-end">{{ (seo.meta_title || '').length }}/70</span></label>
+                                <input type="text" class="form-control form-control-sm" maxlength="70" v-model="seo.meta_title">
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label small text-muted mb-1">{{ __('meta_description') }} <span class="float-end">{{ (seo.meta_description || '').length }}/180</span></label>
+                                <textarea class="form-control form-control-sm" rows="3" maxlength="180" v-model="seo.meta_description"></textarea>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label small text-muted mb-1">{{ __('meta_keywords') }}</label>
+                                <input type="text" class="form-control form-control-sm" v-model="seo.keywords">
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label small text-muted mb-1">H1</label>
+                                <input type="text" class="form-control form-control-sm" maxlength="120" v-model="seo.h1">
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label small text-muted mb-1">{{ __('page_intro_text') }}</label>
+                                <textarea class="form-control form-control-sm" rows="5" maxlength="2500" v-model="seo.intro"></textarea>
+                                <small class="text-muted">{{ __('page_intro_hint') }}</small>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label small text-muted mb-1">{{ __('og_image') }} (path or URL, 1200x630)</label>
+                                <input type="text" class="form-control form-control-sm" v-model="seo.og_image" placeholder="home_builder/...">
+                            </div>
+                            <label class="form-label small text-muted mb-1">FAQ</label>
+                            <div v-for="(f, i) in seo.faqs" :key="i" class="border rounded p-2 mb-2">
+                                <input type="text" class="form-control form-control-sm mb-1" v-model="f.q" placeholder="Question">
+                                <textarea class="form-control form-control-sm mb-1" rows="2" v-model="f.a" placeholder="Answer"></textarea>
+                                <button type="button" class="btn btn-sm btn-outline-danger" @click="seo.faqs.splice(i, 1)">{{ __('remove') }}</button>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-primary" :disabled="seo.faqs.length >= 12" @click="seo.faqs.push({ q: '', a: '' })">+ FAQ</button>
+                        </div>
                         <div class="form-check form-switch hb-switch-row">
                             <label class="form-check-label small text-muted" for="pb-active">{{ __('active') }}</label>
                             <input class="form-check-input" type="checkbox" role="switch" id="pb-active"
@@ -294,6 +331,7 @@ export default {
             slug: '',
             title: {},                 // {langId: text}
             headerColor: '#FFFFFF',
+            seo: { meta_title: '', meta_description: '', keywords: '', h1: '', intro: '', og_image: '', kind: '', faqs: [] },
             titleColor: '',
             isActive: true,
             status: 'draft',
@@ -416,6 +454,7 @@ export default {
                 this.title = { ...(this.page.title || {}) };
                 this.headerColor = this.page.header_color || '#FFFFFF';
                 this.titleColor = this.page.title_color || '';
+                this.seo = { meta_title: '', meta_description: '', keywords: '', h1: '', intro: '', og_image: '', kind: '', ...(this.page.seo || {}), faqs: [...((this.page.seo || {}).faqs || [])] };
                 this.isActive = !!this.page.is_active;
                 this.status = this.page.status;
                 // Default to editing the published snapshot when one exists.
@@ -543,6 +582,7 @@ export default {
                 title: this.title || {},
                 header_color: this.headerColor || '#FFFFFF',
                 title_color: this.titleColor || '',
+                seo: this.seo,
                 is_active: this.isActive ? 1 : 0,
             };
             payload[source === 'published' ? 'published_json' : 'draft_json'] = { sections: this.draftConfig.sections };

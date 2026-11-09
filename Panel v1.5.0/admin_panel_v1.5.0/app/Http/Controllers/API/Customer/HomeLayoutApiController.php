@@ -216,6 +216,7 @@ class HomeLayoutApiController extends Controller
                 'title'    => $resolver->flattenText($page->title),
                 'header_color' => $page->header_color ?: '#FFFFFF',
                 'title_color'  => $page->title_color ?: null,
+                'seo'      => self::pageSeo($page),
                 'sections' => $result['sections'],
             ],
             'total_sections' => $result['total_sections'],
@@ -224,6 +225,21 @@ class HomeLayoutApiController extends Controller
             'zone_id'        => $zone ? (int) $zone->id : null,
             'layout_mode'    => $channel,
         ]);
+    }
+
+    /** The page's SEO block with the OG image made absolute; null when none was written. */
+    private static function pageSeo(PageLayout $page): ?array
+    {
+        $seo = is_array($page->seo) ? $page->seo : null;
+        if (!$seo) {
+            return null;
+        }
+        if (!empty($seo['og_image'])) {
+            $seo['og_image'] = preg_match('#^https?://#', $seo['og_image'])
+                ? $seo['og_image']
+                : asset('storage/' . ltrim($seo['og_image'], '/'));
+        }
+        return $seo;
     }
 
     /**

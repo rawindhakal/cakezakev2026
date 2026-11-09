@@ -3,6 +3,7 @@ import { cache } from "react";
 import { cookies, headers } from "next/headers";
 import Custom404 from "@/components/notfound/Custom404";
 import PageBuilderView from "@/components/pagebuilder/PageBuilderView";
+import PageSeoContent from "@/components/pagebuilder/PageSeoContent";
 import QuerySeed from "@/app/QuerySeed";
 import { pageBuilderKey } from "@/utils/queryKeys";
 import { PAGE_BUILDER_SECTION_LIMIT } from "@/constants/homeLayout";
@@ -24,6 +25,8 @@ type PageBuilderResult =
       title: string;
       description: string | null;
       keywords: string | null;
+      ogImage: string | null;
+      seo: any;
       favicon: string | null;
       schemaMarkup: string | null;
       langCodes: string[];
@@ -103,31 +106,60 @@ const loadPageData = cache(
         return { notFound: true };
       }
 
-      // Payload has no SEO fields — derive from title/name, then env defaults.
-      const title = page?.title || page?.name || "";
+      // SEO written in the admin wins; otherwise derive from title/name, then env defaults.
+      const seo = page?.seo || null;
+      const title = seo?.meta_title || page?.title || page?.name || "";
       const description =
-        page?.name && page?.title && page.name !== page.title
+        seo?.meta_description ||
+        (page?.name && page?.title && page.name !== page.title
           ? `${page.title} — ${page.name}`
-          : process.env.NEXT_PUBLIC_META_DESCRIPTION || null;
+          : process.env.NEXT_PUBLIC_META_DESCRIPTION || null);
 
-      // Minimal WebPage JSON-LD.
+      // JSON-LD graph: WebPage + BreadcrumbList (+ FAQPage when FAQs exist).
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+      const faqs = Array.isArray(seo?.faqs) ? seo.faqs.filter((f: any) => f?.q && f?.a) : [];
       const schemaMarkup = baseUrl
         ? JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "WebPage",
-            "@id": `${baseUrl}/page/${slug}#webpage`,
-            url: `${baseUrl}/page/${slug}`,
-            name: title || page?.name || slug,
-            ...(description ? { description } : {}),
-            isPartOf: {
-              "@type": "WebSite",
-              "@id": `${baseUrl}/#website`,
-              url: baseUrl,
-              ...(process.env.NEXT_PUBLIC_META_TITLE
-                ? { name: process.env.NEXT_PUBLIC_META_TITLE }
-                : {}),
-            },
+            "@graph": [
+              {
+                "@type": "CollectionPage",
+                "@id": `${baseUrl}/page/${slug}#webpage`,
+                url: `${baseUrl}/page/${slug}`,
+                name: title || page?.name || slug,
+                ...(description ? { description } : {}),
+                ...(seo?.og_image ? { primaryImageOfPage: { "@type": "ImageObject", url: seo.og_image } } : {}),
+                breadcrumb: { "@id": `${baseUrl}/page/${slug}#breadcrumb` },
+                isPartOf: {
+                  "@type": "WebSite",
+                  "@id": `${baseUrl}/#website`,
+                  url: baseUrl,
+                  ...(process.env.NEXT_PUBLIC_META_TITLE
+                    ? { name: process.env.NEXT_PUBLIC_META_TITLE }
+                    : {}),
+                },
+              },
+              {
+                "@type": "BreadcrumbList",
+                "@id": `${baseUrl}/page/${slug}#breadcrumb`,
+                itemListElement: [
+                  { "@type": "ListItem", position: 1, name: "Home", item: baseUrl },
+                  { "@type": "ListItem", position: 2, name: page?.title || page?.name || slug, item: `${baseUrl}/page/${slug}` },
+                ],
+              },
+              ...(faqs.length
+                ? [
+                    {
+                      "@type": "FAQPage",
+                      mainEntity: faqs.map((f: any) => ({
+                        "@type": "Question",
+                        name: f.q,
+                        acceptedAnswer: { "@type": "Answer", text: f.a },
+                      })),
+                    },
+                  ]
+                : []),
+            ],
           })
         : null;
 
@@ -135,7 +167,9 @@ const loadPageData = cache(
         notFound: false,
         title,
         description,
-        keywords: process.env.NEXT_PUBLIC_META_KEYWORDS || null,
+        keywords: seo?.keywords || process.env.NEXT_PUBLIC_META_KEYWORDS || null,
+        ogImage: seo?.og_image || null,
+        seo,
         favicon,
         schemaMarkup,
         langCodes,
@@ -174,6 +208,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     title: result.title,
     description: result.description,
     keywords: result.keywords,
+    ogImage: result.ogImage,
     pageName: "/page/",
     ogUrl: pageUrl,
     canonicalUrl: pageUrl,
@@ -195,6 +230,7 @@ export default async function PageBuilderRoute({ params }: { params: Params }) {
   return (
     <div>
       <LanguageCodesSeed codes={result.langCodes} />
+      <h1 className="sr-only">{result.seo?.h1 || result.title}</h1>
       {result.schemaMarkup && (
         <script
           type="application/ld+json"
@@ -219,6 +255,7 @@ export default async function PageBuilderRoute({ params }: { params: Params }) {
       >
         <PageBuilderView slug={slug} initialPage={result.initialPage} />
       </QuerySeed>
+      <PageSeoContent h1={result.seo?.h1} intro={result.seo?.intro} faqs={result.seo?.faqs} />
     </div>
   );
 }

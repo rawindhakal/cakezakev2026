@@ -78,6 +78,7 @@ class PageLayoutApiController extends Controller
             'published_json' => 'nullable|array',
             'header_color'   => ['nullable', 'string', self::HEX_COLOR],
             'title_color'    => ['nullable', 'string', self::HEX_COLOR],
+            'seo'            => 'nullable|array',
         ]);
         if ($validator->fails()) {
             return CommonHelper::responseError($validator->errors()->first());
@@ -119,6 +120,9 @@ class PageLayoutApiController extends Controller
             if ($request->has('title_color') && trim((string) $request->input('title_color')) === '') {
                 $page->title_color = null;
             }
+            if ($request->has('seo')) {
+                $page->seo = self::cleanSeo($request->input('seo'));
+            }
             // Uploaded image URLs are stored as storage-relative paths, same as home layouts.
             foreach ($this->jsonFields as $field) {
                 if ($request->has($field)) {
@@ -135,6 +139,33 @@ class PageLayoutApiController extends Controller
 
             return CommonHelper::responseSuccessWithData('page_saved_successfully', $page->fresh());
         });
+    }
+
+    /** Whitelist and trim the SEO block so the page head and JSON-LD stay predictable. */
+    public static function cleanSeo($raw): array
+    {
+        $raw = is_array($raw) ? $raw : [];
+        $str = fn ($k, $max) => mb_substr(trim(strip_tags((string) ($raw[$k] ?? ''))), 0, $max);
+        $faqs = [];
+        foreach ((array) ($raw['faqs'] ?? []) as $f) {
+            $q = mb_substr(trim(strip_tags((string) ($f['q'] ?? ''))), 0, 200);
+            $a = mb_substr(trim(strip_tags((string) ($f['a'] ?? ''))), 0, 1000);
+            if ($q !== '' && $a !== '') {
+                $faqs[] = ['q' => $q, 'a' => $a];
+            }
+        }
+        $og = trim((string) ($raw['og_image'] ?? ''));
+        $og = preg_replace('#^https?://[^/]+/storage/#', '', $og);
+        return [
+            'meta_title'       => $str('meta_title', 70),
+            'meta_description' => $str('meta_description', 180),
+            'keywords'         => $str('keywords', 300),
+            'h1'               => $str('h1', 120),
+            'intro'            => $str('intro', 2500),
+            'og_image'         => $og,
+            'kind'             => $str('kind', 30),
+            'faqs'             => array_slice($faqs, 0, 12),
+        ];
     }
 
     public function publish(Request $request)

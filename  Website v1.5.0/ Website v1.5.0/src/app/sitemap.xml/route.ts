@@ -108,10 +108,18 @@ const buildSitemap = async (): Promise<string> => {
   }
 
   // Blog + category detail: per language, zone-less.
-  const [blogSlugs, categorySlugs] = await Promise.all([
+  const [blogSlugs, categorySlugs, pageSlugs] = await Promise.all([
     fetchSlugs(apiEndPoints.blogs),
     fetchSlugs(apiEndPoints.getCategory),
+    fetchSlugs("page_slugs"),
   ]);
+  // Page Builder landing pages (occasions, relationships, seasons, delivery areas).
+  for (const slug of pageSlugs) {
+    for (const lang of languages) {
+      const loc = canonicalUrl({ lang, zone: null, path: `/page/${slug}`, defaultCode });
+      addEntry(seen, loc, { changefreq: "weekly", priority: "0.8" });
+    }
+  }
   for (const slug of blogSlugs) {
     for (const lang of languages) {
       const loc = canonicalUrl({ lang, zone: null, path: `/blog/${slug}`, defaultCode });

@@ -779,7 +779,7 @@ class HomeLayoutResolver
                 ->where('pvss.is_listed', 1);
         });
 
-        $explicitSources = ['manual', 'category', 'brand'];
+        $explicitSources = ['manual', 'category', 'brand', 'occasion', 'relationship'];
         if (!in_array($source, $explicitSources, true)) {
             if ($this->activeCategoryId) {
                 $query->whereIn('category_id', self::categorySubtreeIds($this->activeCategoryId));
@@ -812,6 +812,21 @@ class HomeLayoutResolver
                 return $empty;
             }
             $query->whereIn('brand_id', $brandIds)->orderByDesc('id');
+        } elseif ($source === 'occasion' || $source === 'relationship') {
+            // Products tagged with any of the picked occasions / relationships
+            // (products.occasions / products.relationships hold slugs).
+            $table = $source === 'occasion' ? 'occasions' : 'relationships';
+            $ids = array_values(array_filter(array_map('intval', $cfg[$source . '_ids'] ?? [])));
+            $slugs = empty($ids) ? [] : DB::table($table)->whereIn('id', $ids)->pluck('slug')->all();
+            if (empty($slugs)) {
+                return $empty;
+            }
+            $column = $source === 'occasion' ? 'occasions' : 'relationships';
+            $query->where(function ($q) use ($column, $slugs) {
+                foreach ($slugs as $slug) {
+                    $q->orWhereJsonContains($column, $slug);
+                }
+            })->orderByDesc('id');
         } elseif ($source === 'new_arrivals') {
             $query->orderByDesc('id');
         } elseif ($source === 'best_rated') {
