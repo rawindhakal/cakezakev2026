@@ -1,5 +1,5 @@
 name: customer
-description: "Shop everything you need with CakeZake. Discover products across multiple categories, explore deals and offers, add items to your cart, place orders securely, track deliveries in real time, manage your wishlist, and enjoy a fast and convenient shopping experience."
+description: "Send cakes, flowers and thoughtful gifts anywhere in Nepal with CakeZake. Shop by occasion or relationship, add a personal message, schedule delivery for the exact day and time, and track your surprise to the door."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev

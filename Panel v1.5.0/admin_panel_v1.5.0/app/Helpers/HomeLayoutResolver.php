@@ -967,7 +967,7 @@ class HomeLayoutResolver
                 'id'        => (int) $r->id,
                 'name'      => $r->name,
                 'slug'      => $r->slug,
-                'image_url' => $r->image ? asset('storage/' . ltrim($r->image, '/')) : '',
+                'image_url' => $r->image ? asset('storage/' . ltrim($r->image, '/')) : asset('images/gift-placeholder.svg'),
             ])->all();
     }
 
